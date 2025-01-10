@@ -1,23 +1,24 @@
 {
-  "name": "finanzmanager",
+  "name": "svelte-app",
   "version": "1.0.0",
-  "description": "Informatik Leistungskurs Softwareprojekt",
-  "homepage": "https://github.com/cooukiez/finanzmanager#readme",
-  "bugs": {
-    "url": "https://github.com/cooukiez/finanzmanager/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cooukiez/finanzmanager.git"
-  },
-  "license": "ISC",
-  "author": "Hugo, Silas & Ludwig",
-  "type": "commonjs",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public --no-clear"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-terser": "^0.4.0",
+    "rollup": "^3.29.5",
+    "rollup-plugin-css-only": "^4.3.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.1.2",
+    "svelte": "^5.17.3"
+  },
+  "dependencies": {
+    "sirv-cli": "^2.0.0"
   }
 }
