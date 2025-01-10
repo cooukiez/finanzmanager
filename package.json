@@ -1,0 +1,23 @@
+{
+  "name": "finanzmanager",
+  "version": "1.0.0",
+  "description": "Informatik Leistungskurs Softwareprojekt",
+  "homepage": "https://github.com/cooukiez/finanzmanager#readme",
+  "bugs": {
+    "url": "https://github.com/cooukiez/finanzmanager/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cooukiez/finanzmanager.git"
+  },
+  "license": "ISC",
+  "author": "Hugo, Silas & Ludwig",
+  "type": "commonjs",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
