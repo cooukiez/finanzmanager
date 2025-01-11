@@ -1,4 +1,5 @@
 node_modules
+db/diagnostic.data
 
 # Output
 .output
