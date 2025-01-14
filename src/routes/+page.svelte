@@ -1,2 +1,12 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+  export let users: { id: string; name: string; email: string }[];  // Define the 'users' prop passed from server-side load
+</script>
+
+<main>
+  <h1>All Users</h1>
+  <ul>
+    {#each users as user}
+      <li>{user.name} - {user.email}</li>
+    {/each}
+  </ul>
+</main>
