@@ -1,53 +1,29 @@
-import { MongoClient, Db, Collection } from 'mongodb';
+const { MongoClient, ServerApiVersion } = require("mongodb");
 
-// Define types for your data
-export interface Post {
-  _id?: string; // MongoDB assigns this automatically
-  title: string;
-  content: string;
-  createdAt: Date;
-}
+// Replace the placeholder with your Atlas connection string
+const uri = "";
 
-// MongoDB connection URI
-const uri = 'your-mongodb-connection-string'; // Use an environment variable for production
-const client = new MongoClient(uri);
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri,  {
+      serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+      }
+    }
+);
 
-let db: Db;
-let postsCollection: Collection<Post>;
-
-/**
- * Initialize the MongoDB client and collections.
- */
-async function connectToDatabase(): Promise<Db> {
-  if (!db) {
+async function run() {
+  try {
+    // Connect the client to the server (optional starting in v4.7)
     await client.connect();
-    db = client.db('svelte_app'); // Replace with your database name
-    postsCollection = db.collection<Post>('posts');
+
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
   }
-  return db;
 }
-
-/**
- * Get all posts.
- */
-export async function getPosts(): Promise<Post[]> {
-  await connectToDatabase();
-  const posts = await postsCollection.find().toArray();
-  return posts.map((post) => ({
-    ...post,
-    _id: post._id?.toString(), // Convert ObjectId to string for the frontend
-  }));
-}
-
-/**
- * Add a new post.
- */
-export async function addPost(title: string, content: string): Promise<Post> {
-  await connectToDatabase();
-  const result = await postsCollection.insertOne({
-    title,
-    content,
-    createdAt: new Date(),
-  });
-  return { _id: result.insertedId.toString(), title, content, createdAt: new Date() };
-}
+run().catch(console.dir);
