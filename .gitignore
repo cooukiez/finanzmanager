@@ -2,6 +2,8 @@ node_modules
 db/diagnostic.data/*
 db/journal/*
 
+.idea
+
 # Output
 .output
 .vercel

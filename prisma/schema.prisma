@@ -14,14 +14,27 @@ model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
-  posts Post[]
+  accounts Account[]
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Account {
+  id    Int     @id @default(autoincrement())
+  owner User   @relation(fields: [ownerId], references: [id])
+  ownerId  Int
+  balance Float @default(0)
+  assocGr AccountsGrouped[]
 }
+
+model AccountsGrouped {
+  id    Int     @id @default(autoincrement())
+  account Account @relation(fields: [accountId], references: [id])
+  accountId Int
+  group Group @relation(fields: [groupId], references: [id])
+  groupId Int
+}
+
+model Group {
+  id    Int     @id @default(autoincrement())
+  accounts AccountsGrouped[]
+}
+
