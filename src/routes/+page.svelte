@@ -1,5 +1,14 @@
 <script lang="ts">
-  export let users: { id: string; name: string; email: string }[];  // Define the 'users' prop passed from server-side load
+  type User = { id: string; name: string; email: string }; // Define the user type
+  let users: User[] = [];
+
+  async function getNames() {
+    const response = await fetch('/api/users'); // Fetch from the API route
+    users = await response.json(); // Parse the JSON response
+  }
+
+  // Automatically fetch user data when the page loads
+  getNames();
 </script>
 
 <main>
