@@ -9,7 +9,7 @@ datasource db {
 
 model User {
   id       String    @id @unique
-  email    String
+  email    String    // @unique - Todo: change back later
   name     String?
   password String    @default("1234")
   accounts Account[]

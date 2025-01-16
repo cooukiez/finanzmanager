@@ -4,7 +4,10 @@
 
 <div class="w3-card w3-margin w3-padding">
 	<h1>Login</h1>
-	<foerm class="w3-container" method="post" use:enhance>
+	
+	<!-- Todo: add form validation -->
+
+	<form class="w3-container" method="post" use:enhance>
 			<div class="w3-margin-bottom">
 					Email <input class="w3-input w3-border" type="email" name="email">
 			</div>
