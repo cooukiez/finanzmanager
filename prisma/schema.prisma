@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,30 +8,38 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id       String    @id @unique
+  email    String
+  name     String?
+  password String    @default("1234")
   accounts Account[]
+  sessions Session[]
+}
+
+model Session {
+  id        String   @id @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  expiresAt DateTime
 }
 
 model Account {
-  id    Int     @id @default(autoincrement())
-  owner User   @relation(fields: [ownerId], references: [id])
-  ownerId  Int
-  balance Float @default(0)
+  id      String            @id @unique
+  owner   User              @relation(fields: [ownerId], references: [id])
+  ownerId String
+  balance Float             @default(0)
   assocGr AccountsGrouped[]
 }
 
-model AccountsGrouped {
-  id    Int     @id @default(autoincrement())
-  account Account @relation(fields: [accountId], references: [id])
-  accountId Int
-  group Group @relation(fields: [groupId], references: [id])
-  groupId Int
-}
-
 model Group {
-  id    Int     @id @default(autoincrement())
+  id       String            @id @unique
   accounts AccountsGrouped[]
 }
 
+model AccountsGrouped {
+  id        String  @id @unique
+  account   Account @relation(fields: [accountId], references: [id])
+  accountId String
+  group     Group   @relation(fields: [groupId], references: [id])
+  groupId   String
+}
