@@ -1,7 +1,10 @@
 import { prisma } from '$lib/server/prisma';
 import { lucia } from '$lib/server/auth';
-import { fail, redirect, type Actions } from "@sveltejs/kit";
+
 import { Argon2id } from "oslo/password";
+
+import { fail, redirect, type Actions } from "@sveltejs/kit";
+import type { PageServerLoad } from './$types';
 
 export const actions: Actions = {
 	default: async ({ request, cookies }) => {
