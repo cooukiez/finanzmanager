@@ -1,21 +1,23 @@
 // src/lib/auth.ts
 import { prisma } from "$lib/server/prisma";
+
 import { Lucia } from "lucia";
-import { dev } from "$app/environment";
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
+
+import { dev } from "$app/environment";
 
 const adapter = new PrismaAdapter(prisma.session, prisma.user);
 
 export const lucia = new Lucia(adapter, {
     sessionCookie: {
         attributes: {
-            // set to `true` when using HTTPS
             secure: !dev
         }
     },
     getUserAttributes: (attributes) => {
         return {
-            email: attributes.email
+            email: attributes.email,
+            name: attributes.name
         }
     }
 });
@@ -28,5 +30,6 @@ declare module "lucia" {
 }
 
 interface DatabaseUserAttributes {
-    email: string
+    email: string;
+    name: string
 }

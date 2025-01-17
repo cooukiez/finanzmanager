@@ -8,8 +8,9 @@
 <div>
 	<h1>Register</h1>
 	<form method="post" use:enhance>
-		<div>Email <input type="email" name="email" /></div>
-		<div>Password <input type="password" name="password" /></div>
+		<div>Email <input type="email" name="email" required /></div>
+		<div>Username <input name="username" required /></div>
+		<div>Password <input type="password" name="password" required /></div>
 		<button>Register</button>
 		<p>{form?.message ?? ""}</p>
 	</form>

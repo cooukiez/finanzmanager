@@ -5,8 +5,9 @@
 	export let data: PageData;
 </script>
 
-<h1>Hi, {data.user.email}!</h1>
+<h1>Hi, {data.user.name}!</h1>
 <p>Your user ID is {data.user.id}.</p>
-<form method="post" use:enhance>
+
+<!-- <form method="post" use:enhance>
 	<button>Sign out</button>
-</form>
+</form> -->

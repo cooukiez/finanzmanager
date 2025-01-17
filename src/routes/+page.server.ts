@@ -8,24 +8,28 @@ export const load: PageServerLoad = async (event) => {
 		return redirect(302, "/login");
 	}
 
+	if (event.locals.user.email == "admin@finanzmanager.de") {
+		return redirect(302, "/management")
+	}
+
 	return {
 		user: event.locals.user
 	};
 };
 
-export const actions: Actions = {
-	default: async (event) => {
-		if (!event.locals.session) {
-			return fail(401);
-		}
+// export const actions: Actions = {
+// 	default: async (event) => {
+// 		if (!event.locals.session) {
+// 			return fail(401);
+// 		}
 
-		await lucia.invalidateSession(event.locals.session.id);
-		const sessionCookie = lucia.createBlankSessionCookie();
-		event.cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: ".",
-			...sessionCookie.attributes
-		});
-		
-		return redirect(302, "/login");
-	}
-};
+// 		await lucia.invalidateSession(event.locals.session.id);
+// 		const sessionCookie = lucia.createBlankSessionCookie();
+// 		event.cookies.set(sessionCookie.name, sessionCookie.value, {
+// 			path: ".",
+// 			...sessionCookie.attributes
+// 		});
+
+// 		return redirect(302, "/login");
+// 	}
+// };

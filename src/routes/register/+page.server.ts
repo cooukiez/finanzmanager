@@ -17,7 +17,7 @@ export const load: PageServerLoad = async (event) => {
 
 export const actions = {
 	default: async ({ request, cookies }) => {
-		const { email, password } = Object.fromEntries(await request.formData()) as Record<string, string>
+		const { email, username, password } = Object.fromEntries(await request.formData()) as Record<string, string>
 
 		// check if already exisits in database
 		const existingUser = await prisma.user.findUnique({
@@ -40,12 +40,13 @@ export const actions = {
 			data: {
 				id: userId,
 				email: email,
+				name: username,
 				password: hashedPassword
 			}
 		})
 		
 		// create session
-		const session = await lucia.createSession(String(user.id), {});
+		const session = await lucia.createSession(user.id, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);
 		cookies.set(sessionCookie.name, sessionCookie.value, {
 			path: ".",
