@@ -4,14 +4,38 @@ import { lucia } from '$lib/server/auth';
 import { generateId } from 'lucia';
 import { Argon2id } from "oslo/password";
 
-import { redirect } from '@sveltejs/kit';
+import { fail, redirect } from "@sveltejs/kit";
+import type { Actions, PageServerLoad } from "./$types";
+
+export const load: PageServerLoad = async (event) => {
+	// if session exists, redirect to root page
+	if (event.locals.user) {
+		return redirect(302, "/");
+	}
+	return {};
+};
 
 export const actions = {
 	default: async ({ request, cookies }) => {
-		const data = await request.formData();
-		const { email, password } = Object.fromEntries(data) as Record<string, string>
+		const { email, password } = Object.fromEntries(await request.formData()) as Record<string, string>
+
+		// check if already exisits in database
+		const existingUser = await prisma.user.findUnique({
+			where: {
+				email: email
+			}
+		});
+
+		if (existingUser) {
+			return fail(400, { message: "Email already used" })
+		}
+
+		// generate user id
 		const userId = generateId(15)
+		// hash password
 		const hashedPassword = await new Argon2id().hash(password)
+
+		// create user in database
 		const user = await prisma.user.create({
 			data: {
 				id: userId,
@@ -19,12 +43,16 @@ export const actions = {
 				password: hashedPassword
 			}
 		})
+		
+		// create session
 		const session = await lucia.createSession(String(user.id), {});
 		const sessionCookie = lucia.createSessionCookie(session.id);
 		cookies.set(sessionCookie.name, sessionCookie.value, {
 			path: ".",
 			...sessionCookie.attributes
 		});
+
+		// redirect to root page
 		redirect(302, "/");
 	}
 };
