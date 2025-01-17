@@ -1,3 +1,11 @@
+<style>
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+</style>
+
 <script lang="ts">
 	import type { Snippet } from "svelte";
 	import type { LayoutData } from "./$types";
@@ -30,11 +38,3 @@
 </nav>
 
 {@render children()}
-
-<style>
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-</style>
