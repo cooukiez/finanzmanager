@@ -6,7 +6,7 @@ import { Argon2id } from "oslo/password";
 export const actions: Actions = {
 	default: async ({ request, cookies }) => {
 		const { email, password } = Object.fromEntries(await request.formData()) as Record<string, string>
-		// change to unique
+		// change to unique email
 		const user = await prisma.user.findFirst({
 			where: {
 				email: email
