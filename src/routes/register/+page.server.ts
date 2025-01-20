@@ -19,7 +19,7 @@ export const actions = {
 	default: async ({ request, cookies }) => {
 		const { email, username, password } = Object.fromEntries(await request.formData()) as Record<string, string>
 
-		// check if already exisits in database
+		// check if already exsits in database
 		const existingUser = await prisma.user.findUnique({
 			where: {
 				email: email
