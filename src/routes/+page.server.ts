@@ -8,8 +8,8 @@ export const load: PageServerLoad = async (event) => {
 		return redirect(302, "/login");
 	}
 
-	if (event.locals.user.email == "admin@finanzmanager.de") {
-		return redirect(302, "/management")
+	if (event.locals.user.role == "admin") {
+		return redirect(302, "/admin")
 	}
 
 	return {
