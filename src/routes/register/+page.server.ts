@@ -1,11 +1,11 @@
-import { prisma } from '$lib/server/prisma';
-import { lucia } from '$lib/server/auth';
+import {prisma} from '$lib/server/prisma';
+import {lucia} from '$lib/server/auth';
 
-import { generateId } from 'lucia';
-import { Argon2id } from "oslo/password";
+import {generateId} from 'lucia';
+import {Argon2id} from "oslo/password";
 
-import { fail, redirect } from "@sveltejs/kit";
-import type { Actions, PageServerLoad } from "./$types";
+import {fail, redirect} from "@sveltejs/kit";
+import type {PageServerLoad} from "./$types";
 
 export const load: PageServerLoad = async (event) => {
 	// if session exists, redirect to root page
@@ -16,8 +16,8 @@ export const load: PageServerLoad = async (event) => {
 };
 
 export const actions = {
-	default: async ({ request, cookies }) => {
-		const { email, username, password } = Object.fromEntries(await request.formData()) as Record<string, string>
+	default: async ({request, cookies}) => {
+		const {email, username, password} = Object.fromEntries(await request.formData()) as Record<string, string>
 
 		// check if already exists in database
 		const existingUserEmail = await prisma.user.findUnique({
@@ -27,7 +27,7 @@ export const actions = {
 		});
 
 		if (existingUserEmail) {
-			return fail(400, { message: "Email already used" })
+			return fail(400, {message: "Email already used"})
 		}
 
 		const existingUserName = await prisma.user.findUnique({
@@ -37,7 +37,7 @@ export const actions = {
 		});
 
 		if (existingUserName) {
-			return fail(400, { message: "Username already used" })
+			return fail(400, {message: "Username already used"})
 		}
 
 		// generate user id
@@ -48,19 +48,15 @@ export const actions = {
 		// create user in database
 		const user = await prisma.user.create({
 			data: {
-				id: userId,
-				email: email,
-				name: username,
-				password: hashedPassword
+				id: userId, email: email, name: username, password: hashedPassword
 			}
 		})
-		
+
 		// create session
 		const session = await lucia.createSession(user.id, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);
 		cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: ".",
-			...sessionCookie.attributes
+			path: ".", ...sessionCookie.attributes
 		});
 
 		// redirect to root page

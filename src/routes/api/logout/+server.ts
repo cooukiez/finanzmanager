@@ -1,12 +1,12 @@
 // src/routes/api/logout/+server.ts
-import { lucia } from "$lib/server/auth";
+import {lucia} from "$lib/server/auth";
 
-import { fail, json, redirect } from "@sveltejs/kit";
-import type { RequestEvent } from "./$types";
+import {fail, json} from "@sveltejs/kit";
+import type {RequestEvent} from "./$types";
 
 export const POST = async (event: RequestEvent) => {
 	if (!event.locals.session) {
-		return fail(401, { message: 'Not authenticated' });
+		return fail(401, {message: 'Not authenticated'});
 	}
 
 	await lucia.invalidateSession(event.locals.session.id);
@@ -16,5 +16,5 @@ export const POST = async (event: RequestEvent) => {
 		...sessionCookie.attributes
 	});
 
-	return json({ success: true });
+	return json({success: true});
 };
