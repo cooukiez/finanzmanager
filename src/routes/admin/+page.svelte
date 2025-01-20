@@ -15,24 +15,6 @@
 		}
 	});
 
-	const deleteUser = async (userId: number) => {
-		const confirmDelete = confirm("Are you sure you want to delete this user?");
-		if (confirmDelete) {
-			try {
-				const response = await fetch(`/api/delete_user/${userId}`, {
-					method: "DELETE",
-				});
-				if (response.ok) {
-					users = users.filter((user) => user.id !== userId);
-				} else {
-					console.error("Failed to delete user:", await response.text());
-				}
-			} catch (error) {
-				console.error("Error deleting user:", error);
-			}
-		}
-	};
-
 	const updateUser = async (userId: number, updatedName: string) => {
 		try {
 			const response = await fetch(`/api/update_user/${userId}`, {
@@ -70,7 +52,10 @@
 					<!-- on:input={(e) => updateUser(user.id, e.target.value)} -->
 				</strong>
 				(<i>{user.email}</i>)
-				<button on:click={() => deleteUser(user.id)}>Delete</button>
+				<form method="POST" action="?/delete_user">
+					<input type="hidden" name="email" value={user.email} />
+					<button type="submit">Delete User</button>
+				</form>
 			</li>
 		{/each}
 	</ul>
