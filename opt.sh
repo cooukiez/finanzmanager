@@ -40,11 +40,11 @@ if [ "$GENERATE_PRISMA" = true ]; then
 fi
 
 if [ "$MIGRATE_PRISMA" = true ]; then
-  npx prisma migrate dev --name init
+  	npx prisma migrate dev --name init
 fi
 
 if [ "$RESET_PRISMA" = true ]; then
-  npx prisma migrate reset
+  	npx prisma migrate reset
 fi
 
 if [ "$RUN_SVELTE" = true ]; then
