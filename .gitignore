@@ -1,6 +1,9 @@
 node_modules
-db/diagnostic.data/*
-db/journal/*
+
+# ignore db
+db/diagnostic.data
+db/journal
+prisma/migrations
 
 .idea
 

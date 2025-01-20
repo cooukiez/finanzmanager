@@ -15,6 +15,8 @@ model User {
   password String    @default("1234")
   accounts Account[]
   sessions Session[]
+  debts    Debt[]    @relation("Debtor")
+  credits  Debt[]    @relation("Believer")
 }
 
 model Session {
@@ -25,15 +27,24 @@ model Session {
 }
 
 model Account {
-  id      String            @id @unique
-  owner   User              @relation(fields: [ownerId], references: [id])
-  ownerId String
-  balance Float             @default(0)
-  assocGr AccountsGrouped[]
+  id           String            @id @unique
+  owner        User              @relation(fields: [ownerId], references: [id])
+  ownerId      String
+  transactions Transaction[]
+  assocGr      AccountsGrouped[]
+}
+
+model Transaction {
+  id        String  @id @unique
+  account   Account @relation(fields: [accountId], references: [id])
+  accountId String
+  amount    Float   @default(0)
+  type      String
 }
 
 model Group {
   id       String            @id @unique
+  name     String
   accounts AccountsGrouped[]
 }
 
@@ -43,4 +54,12 @@ model AccountsGrouped {
   accountId String
   group     Group   @relation(fields: [groupId], references: [id])
   groupId   String
+}
+
+model Debt {
+  id         String @id @unique
+  debtor     User   @relation("Debtor", fields: [debtorId], references: [id])
+  debtorId   String
+  believer   User   @relation("Believer", fields: [believerId], references: [id])
+  believerId String
 }
