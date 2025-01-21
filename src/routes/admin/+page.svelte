@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	let users: any[] = [];
+ 	let editingID: null;
 
 	onMount(async () => {
 		try {
@@ -15,28 +16,6 @@
 		}
 	});
 
-	const updateUser = async (userId: number, updatedName: string) => {
-		try {
-			const response = await fetch(`/api/update_user/${userId}`, {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ name: updatedName }),
-			});
-			if (response.ok) {
-				const updatedUser = await response.json();
-				const index = users.findIndex((user) => user.id === userId);
-				if (index !== -1) {
-					users[index] = updatedUser;
-				}
-			} else {
-				console.error("Failed to update user:", await response.text());
-			}
-		} catch (error) {
-			console.error("Error updating user:", error);
-		}
-	};
 </script>
 
 <h1>Management</h1>
@@ -45,15 +24,24 @@
 	<ul>
 		{#each users as user}
 			<li>
-				[{user.id}]
-				<strong>
-					<input type="text" value={user.name} />
-
-					<!-- on:input={(e) => updateUser(user.id, e.target.value)} -->
-				</strong>
-				(<i>{user.email}</i>)
-				<form method="POST" action="?/delete_user">
-					<input type="hidden" name="email" value={user.email} />
+				<form method="POST" action="?/update_user" on:submit={editingID = null}>
+<!-- 				{#if editingID === user.id}  -->
+						<i>[{user.id}]</i>
+						<input type="text" name="newname" value={user.name}/>
+						<input type="text" name="newemail" value={user.email}>
+						<input type="text" name="newrole" value={user.role}/>
+						<input type="hidden" name="id" value={user.id}/>
+						<button type="submit">Done</button>
+<!--				{:else}
+						<i>[{user.id}]</i>
+						<i>[{user.name}]</i>
+						<i>[{user.email}]</i>
+						<i>[{user.role}]</i>
+						<button on:click={() => {editingID = user.id}}>Edit User</button>
+					{/if}	-->
+				</form>
+				<form name="deleteform" method="POST" action="?/delete_user">
+					<input type="hidden" name="id" value={user.id} />
 					<button type="submit">Delete User</button>
 				</form>
 			</li>
