@@ -24,25 +24,21 @@
 	<ul>
 		{#each users as user}
 			<li>
-				<form method="POST" action="?/update_user" on:submit={editingID = null}>
-<!-- 				{#if editingID === user.id}  -->
-						<i>[{user.id}]</i>
+				<form method="POST" >
+					<i>[{user.id}]</i>
+<!--	 				{#if editingID === user.id} -->
 						<input type="text" name="newname" value={user.name}/>
 						<input type="text" name="newemail" value={user.email}>
 						<input type="text" name="newrole" value={user.role}/>
-						<input type="hidden" name="id" value={user.id}/>
-						<button type="submit">Done</button>
-<!--				{:else}
-						<i>[{user.id}]</i>
+<!--					{:else}
 						<i>[{user.name}]</i>
 						<i>[{user.email}]</i>
 						<i>[{user.role}]</i>
-						<button on:click={() => {editingID = user.id}}>Edit User</button>
-					{/if}	-->
-				</form>
-				<form name="deleteform" method="POST" action="?/delete_user">
-					<input type="hidden" name="id" value={user.id} />
-					<button type="submit">Delete User</button>
+						<button on:click={editingID = user.id}>Update</button>
+					{/if}  -->
+					<input type="hidden" name="id" value={user.id}/>
+					<button formaction="?/delete_user" type="submit">Delete User</button>
+					<button on:click={editingID = null} formaction="?/update_user" type="submit">Done</button>
 				</form>
 			</li>
 		{/each}
