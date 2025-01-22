@@ -34,6 +34,8 @@
     {#if data.session}
         <a href="/home">Home</a>
         <button onclick={handleLogout}>Logout</button>
+    {:else}
+        <a href="/">Home</a>
     {/if}
 </nav>
 
