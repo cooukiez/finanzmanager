@@ -20,7 +20,7 @@ export const actions = {
 		const {email, username, password} = Object.fromEntries(await request.formData()) as Record<string, string>
 
 		if (await checkExistingUser(username, email)) {
-			return fail(400, {error:true, message: "Username or Email already used"})
+			return fail(400, {error: true, message: "Username or Email already used"})
 		}
 
 		// generate user id

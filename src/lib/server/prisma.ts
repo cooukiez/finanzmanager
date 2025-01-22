@@ -1,6 +1,7 @@
 // src/lib/prisma.ts
 import {PrismaClient} from '@prisma/client';
 import 'dotenv/config';
+
 import {generateId} from "lucia";
 import {Argon2id} from "oslo/password";
 
@@ -25,7 +26,7 @@ export const updateUser = async (userId: string, name: string) => {
 	});
 }
 
-export const createUser = async (name: string, email: string, role: string, password:string) => {
+export const createUser = async (name: string, email: string, role: string, password: string) => {
 	const userId = generateId(15)
 	const hashedPassword = await new Argon2id().hash(password)
 	return prisma.user.create({
@@ -39,12 +40,12 @@ export const createUser = async (name: string, email: string, role: string, pass
 	});
 }
 
-export const checkExistingUser = async (name:string, email: string) => {
+export const checkExistingUser = async (name: string, email: string) => {
 	const user = await prisma.user.findFirst({
 		where: {
 			OR: [
-				{ name: name },
-				{ email: email },
+				{name: name},
+				{email: email},
 			],
 		},
 	});

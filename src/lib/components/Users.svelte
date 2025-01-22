@@ -1,5 +1,6 @@
 <script lang="ts">
     import {enhance} from '$app/forms';
+
     export let users;
 </script>
 
@@ -7,12 +8,12 @@
     <ul>
         {#each users as user}
             <form
-                    method="POST"
-                    use:enhance={() => {
-                        return ({ update }) => update({ reset: false });
-                    }}
+                method="POST"
+                use:enhance={() => {
+                    return ({ update }) => update({ reset: false });
+                }}
             >
-                <input type="text" name="newname" value={user.name} />
+                <input type="text" name="newname" value={user.name}/>
                 <input type="text" name="newemail" value={user.email}/>
                 <input type="text" name="newrole" value={user.role}/>
 

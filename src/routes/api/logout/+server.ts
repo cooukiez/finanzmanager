@@ -5,16 +5,16 @@ import {fail, json} from "@sveltejs/kit";
 import type {RequestEvent} from "./$types";
 
 export const POST = async (event: RequestEvent) => {
-	if (!event.locals.session) {
-		return fail(401, {message: 'Not authenticated'});
-	}
+    if (!event.locals.session) {
+        return fail(401, {message: 'Not authenticated'});
+    }
 
-	await lucia.invalidateSession(event.locals.session.id);
-	const sessionCookie = lucia.createBlankSessionCookie();
-	event.cookies.set(sessionCookie.name, sessionCookie.value, {
-		path: '/',
-		...sessionCookie.attributes
-	});
+    await lucia.invalidateSession(event.locals.session.id);
+    const sessionCookie = lucia.createBlankSessionCookie();
+    event.cookies.set(sessionCookie.name, sessionCookie.value, {
+        path: '/',
+        ...sessionCookie.attributes
+    });
 
-	return json({success: true});
+    return json({success: true});
 };
