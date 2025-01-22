@@ -3,8 +3,18 @@
     import type {Snippet} from "svelte";
     import type {LayoutData} from "./$types";
 
-    import { Navbar, NavBrand, NavLi, NavUl, NavHamburger, Dropdown, DropdownItem, DropdownDivider } from 'flowbite-svelte';
-    import { ChevronDownOutline } from 'flowbite-svelte-icons';
+    import {
+        Avatar,
+        Dropdown,
+        DropdownDivider,
+        DropdownHeader,
+        DropdownItem,
+        Navbar,
+        NavBrand,
+        NavLi,
+        NavUl
+    } from 'flowbite-svelte';
+    import {ChevronDownOutline} from 'flowbite-svelte-icons';
 
     let {data, children}: { data: LayoutData; children: Snippet } = $props();
 
@@ -30,28 +40,51 @@
 
 <Navbar>
     <NavBrand href="/">
-        <img src="favicon.png" class="me-3 h-6 sm:h-9" alt="finanzmanager"/>
-        <span>Finanzmanager</span>
+        {#if data.user}
+            <span>Finanzmanager</span>
+        {:else}
+            <img src="favicon.png" class="me-3 h-6 sm:h-9" alt="finanzmanager"/>
+            <span>Finanzmanager</span>
+        {/if}
+
     </NavBrand>
     <NavUl>
         {#if data.user}
             {#if data.user.role === "admin"}
-                <a href="/admin">Home</a>
+                <NavLi href="/">Dashboard</NavLi>
             {:else}
                 <NavLi class="cursor-pointer">
-                    Dropdown<ChevronDownOutline class="w-6 h-6 ms-2 text-primary-800 dark:text-white inline" />
+                    Accounts
+                    <ChevronDownOutline class="inline"/>
                 </NavLi>
                 <Dropdown class="w-44 z-20">
-                    <DropdownItem href="/">Dashboard</DropdownItem>
-                    <DropdownItem href="/docs/components/navbar">Settings</DropdownItem>
-                    <DropdownItem href="/">Earnings</DropdownItem>
-                    <DropdownDivider/>
-                    <DropdownItem href="/">Sign out</DropdownItem>
+                    <DropdownItem href="/">Create new Account</DropdownItem>
+                </Dropdown>
+
+                <NavLi class="cursor-pointer">
+                    Groups
+                    <ChevronDownOutline class="inline"/>
+                </NavLi>
+                <Dropdown class="w-44 z-20">
+                    <DropdownItem href="/">Join new Group</DropdownItem>
                 </Dropdown>
             {/if}
-            <button onclick="{handleLogout}">Logout</button>
+
+            <div class="flex items-center md:order-2">
+                <Avatar id="avatar-menu"/>
+            </div>
+            <Dropdown placement="bottom" triggeredBy="#avatar-menu">
+                <DropdownHeader>
+                    <span class="block truncate text-sm">{data.user.name}</span>
+                    <span class="block truncate text-sm">{data.user.email}</span>
+                </DropdownHeader>
+                <DropdownItem>Profile</DropdownItem>
+                <DropdownItem>Settings</DropdownItem>
+                <DropdownDivider/>
+                <DropdownItem onclick={handleLogout}>Sign out</DropdownItem>
+            </Dropdown>
         {:else}
-            <a href="/">Home</a>
+            <NavLi href="/">Home</NavLi>
         {/if}
     </NavUl>
 </Navbar>
