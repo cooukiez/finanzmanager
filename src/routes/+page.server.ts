@@ -7,6 +7,10 @@ export const load: PageServerLoad = async (event) => {
 		return redirect(302, "/login");
 	}
 
+	if (event.locals.user.role == "user") {
+		return redirect(302, "/home");
+	}
+
 	if (event.locals.user.role == "admin") {
 		return redirect(302, "/admin")
 	}
