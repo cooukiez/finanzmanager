@@ -1,0 +1,13 @@
+/*@import "tailwindcss/base";*/
+/*@import "tailwindcss/components";*/
+/*@import "tailwindcss/utilities";*/
+
+/* insert classes here */
+/* ToDo: use tailwind-css */
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+

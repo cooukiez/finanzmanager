@@ -1,12 +1,5 @@
-<style>
-    nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-</style>
-
 <script lang="ts">
+    import "../app.css";
     import type {Snippet} from "svelte";
     import type {LayoutData} from "./$types";
 
@@ -28,15 +21,25 @@
             console.error("An error occurred during logout:", error);
         }
     }
+
 </script>
+
 
 <nav>
     {#if data.session}
         <a href="/home">Home</a>
-        <button onclick={handleLogout}>Logout</button>
+
+        <button onclick="{handleLogout}">Logout</button>
     {:else}
         <a href="/">Home</a>
     {/if}
 </nav>
 
 {@render children()}
+<style>
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+</style>
