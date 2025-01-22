@@ -38,55 +38,58 @@
 </script>
 
 
-<Navbar>
+<Navbar class="">
     <NavBrand href="/">
         {#if data.user}
             <span>Finanzmanager</span>
         {:else}
             <img src="favicon.png" class="me-3 h-6 sm:h-9" alt="finanzmanager"/>
-            <span>Finanzmanager</span>
+            <span class="self-center whitespace-nowrap">Finanzmanager</span>
         {/if}
 
     </NavBrand>
-    <NavUl>
-        {#if data.user}
+
+    {#if data.user}
+        <div class="flex items-center md:order-2">
+            <Avatar class="w-8 h-8" id="avatar-menu"/>
+        </div>
+        <Dropdown placement="bottom" triggeredBy="#avatar-menu">
+            <DropdownHeader>
+                <span class="block truncate text-sm">{data.user.name}</span>
+                <span class="block truncate text-sm">{data.user.email}</span>
+            </DropdownHeader>
+            <DropdownItem>Profile</DropdownItem>
+            <DropdownItem>Settings</DropdownItem>
+            <DropdownDivider/>
+            <DropdownItem onclick={handleLogout}>Sign out</DropdownItem>
+        </Dropdown>
+
+        <NavUl>
             {#if data.user.role === "admin"}
                 <NavLi href="/">Dashboard</NavLi>
             {:else}
-                <NavLi class="cursor-pointer">
+                <NavLi class="cursor-pointer justify-center items-center flex">
                     Accounts
                     <ChevronDownOutline class="inline"/>
                 </NavLi>
-                <Dropdown class="w-44 z-20">
+                <Dropdown  placement="bottom" class="w-44 z-20 shadow-lg">
                     <DropdownItem href="/">Create new Account</DropdownItem>
                 </Dropdown>
 
-                <NavLi class="cursor-pointer">
+                <NavLi class="cursor-pointer justify-center items-center flex">
                     Groups
                     <ChevronDownOutline class="inline"/>
                 </NavLi>
-                <Dropdown class="w-44 z-20">
+                <Dropdown  placement="bottom" class="w-44 z-20 shadow-lg">
                     <DropdownItem href="/">Join new Group</DropdownItem>
                 </Dropdown>
             {/if}
-
-            <div class="flex items-center md:order-2">
-                <Avatar id="avatar-menu"/>
-            </div>
-            <Dropdown placement="bottom" triggeredBy="#avatar-menu">
-                <DropdownHeader>
-                    <span class="block truncate text-sm">{data.user.name}</span>
-                    <span class="block truncate text-sm">{data.user.email}</span>
-                </DropdownHeader>
-                <DropdownItem>Profile</DropdownItem>
-                <DropdownItem>Settings</DropdownItem>
-                <DropdownDivider/>
-                <DropdownItem onclick={handleLogout}>Sign out</DropdownItem>
-            </Dropdown>
-        {:else}
+        </NavUl>
+    {:else}
+        <NavUl>
             <NavLi href="/">Home</NavLi>
-        {/if}
-    </NavUl>
+        </NavUl>
+    {/if}
 </Navbar>
 
 {@render children()}

@@ -12,3 +12,14 @@ button:hover {
     background-color: #848484;
 }
 */
+
+.dropdown {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
