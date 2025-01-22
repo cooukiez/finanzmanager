@@ -1,4 +1,4 @@
-import {prisma} from "$lib/server/prisma"
+import {prisma} from "$lib/server/prisma/user"
 import {fail} from "@sveltejs/kit";
 
 export async function GET() {

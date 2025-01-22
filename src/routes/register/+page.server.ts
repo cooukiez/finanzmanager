@@ -1,4 +1,4 @@
-import {checkExistingUser, prisma} from '$lib/server/prisma';
+import {checkExistingUser, prisma} from '$lib/server/prisma/user';
 import {lucia} from '$lib/server/auth';
 
 import {generateId} from 'lucia';

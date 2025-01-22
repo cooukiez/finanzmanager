@@ -1,4 +1,4 @@
-// src/lib/prisma.ts
+// src/lib/user.ts
 import {PrismaClient} from '@prisma/client';
 import 'dotenv/config';
 
@@ -15,13 +15,15 @@ export const deleteUser = async (userId: string) => {
 	});
 };
 
-export const updateUser = async (userId: string, name: string) => {
+export const updateUser = async (userId: string, name: string, email: string, role: string) => {
 	return prisma.user.update({
 		where: {
 			id: userId,
 		},
 		data: {
-			name,
+			name: name,
+			email: email,
+			role: role,
 		},
 	});
 }

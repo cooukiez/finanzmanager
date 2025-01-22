@@ -1,5 +1,5 @@
 // src/lib/auth.ts
-import {prisma} from "$lib/server/prisma";
+import {prisma} from "$lib/server/prisma/user";
 
 import {Lucia} from "lucia";
 import {PrismaAdapter} from "@lucia-auth/adapter-prisma";

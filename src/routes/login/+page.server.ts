@@ -1,4 +1,4 @@
-import {prisma} from '$lib/server/prisma';
+import {prisma} from '$lib/server/prisma/user';
 import {lucia} from '$lib/server/auth';
 
 import {Argon2id} from "oslo/password";

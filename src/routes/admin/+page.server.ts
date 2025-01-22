@@ -1,4 +1,4 @@
-import {checkExistingUser, createUser, prisma} from '$lib/server/prisma';
+import {checkExistingUser, createUser, deleteUser, prisma, updateUser} from '$lib/server/prisma/user';
 
 import {fail} from '@sveltejs/kit';
 import type {Actions, PageServerLoad} from './$types';
@@ -46,7 +46,7 @@ export const actions = {
         const id = formData.get('id') as string;
 
         try {
-            await prisma.user.delete({where: {id}});
+            await deleteUser(id)
             return {
                 success: true,
             }
@@ -65,14 +65,7 @@ export const actions = {
             newrole: string
         };
         try {
-            await prisma.user.update({
-                where: {id},
-                data: {
-                    name: newname,
-                    email: newemail,
-                    role: newrole,
-                }
-            });
+            await updateUser(id, newname, newemail, newrole);
             return {
                 success: true,
                 id,
