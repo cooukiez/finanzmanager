@@ -1,11 +1,6 @@
 <script lang="ts">
-    import {applyAction, enhance} from '$app/forms';
+    import {enhance} from '$app/forms';
     export let users;
-    for (const user of users) {
-        console.log(user.name);
-        console.log(user.email);
-        console.log(user.role);
-    }
 </script>
 
 {#if users.length > 0}
@@ -16,16 +11,10 @@
             return ({ update }) => update({ reset: false });
             }}
             >
-                <!--                     {#if editingID === user.id} -->
                 <input type="text" name="newname" value={user.name} />
                 <input type="text" name="newemail" value={user.email}/>
                 <input type="text" name="newrole" value={user.role}/>
-                <!--                    {:else}
-                                        <i>[{user.name}]</i>
-                                        <i>[{user.email}]</i>
-                                        <i>[{user.role}]</i>
-                                        <button on:click={editingID = user.id}>Update</button>
-                                    {/if}  -->
+
                 <input type="hidden" name="id" value={user.id}/>
                 <button formaction="?/delete" type="submit">Delete</button>
                 <button formaction="?/update" type="submit">Update</button>

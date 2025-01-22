@@ -27,13 +27,13 @@ export const actions: Actions = {
 
 		// check if user exists
 		if (!user) {
-			return fail(400, {message: "Incorrect username or password"})
+			return fail(400, {error:true, message: "Incorrect username or password"})
 		}
 
 		// check password
 		const validPassword = await new Argon2id().verify(user.password, password);
 		if (!validPassword) {
-			return fail(400, {message: "Incorrect username or password"})
+			return fail(400, {error:true, message: "Incorrect username or password"})
 		}
 
 		// create session

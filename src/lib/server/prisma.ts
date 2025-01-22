@@ -38,3 +38,15 @@ export const createUser = async (name: string, email: string, role: string, pass
 		},
 	});
 }
+
+export const checkExistingUser = async (name:string, email: string) => {
+	const user = await prisma.user.findFirst({
+		where: {
+			OR: [
+				{ name: name },
+				{ email: email },
+			],
+		},
+	});
+	return (user !== null);
+}

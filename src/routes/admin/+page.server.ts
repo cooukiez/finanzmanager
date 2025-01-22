@@ -1,5 +1,5 @@
 import type {Actions, PageServerLoad} from './$types';
-import {createUser, prisma} from '$lib/server/prisma';
+import {checkExistingUser, createUser, prisma} from '$lib/server/prisma';
 import {error, fail, json} from '@sveltejs/kit';
 
 export const load: PageServerLoad = async () => {
@@ -24,16 +24,7 @@ export const actions = {
         const role = formData.get('role') as string;
         const password = formData.get('password') as string;
 
-        const user = await prisma.user.findFirst({
-            where: {
-                OR: [
-                    { name: name },
-                    { email: email },
-                ],
-            },
-        });
-
-        if (user) {
+        if (await checkExistingUser(name, email)) {
             return fail(400, {
                 error: true,
                 message: 'User Already Exists',
