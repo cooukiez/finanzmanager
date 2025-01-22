@@ -1,4 +1,4 @@
-import {prisma} from '$lib/server/prisma';
+import {checkExistingUser, prisma} from '$lib/server/prisma';
 import {lucia} from '$lib/server/auth';
 
 import {generateId} from 'lucia';
@@ -19,25 +19,8 @@ export const actions = {
 	default: async ({request, cookies}) => {
 		const {email, username, password} = Object.fromEntries(await request.formData()) as Record<string, string>
 
-		// check if already exists in database
-		const existingUserEmail = await prisma.user.findUnique({
-			where: {
-				email: email
-			}
-		});
-
-		if (existingUserEmail) {
-			return fail(400, {message: "Email already used"})
-		}
-
-		const existingUserName = await prisma.user.findUnique({
-			where: {
-				name: username
-			}
-		});
-
-		if (existingUserName) {
-			return fail(400, {message: "Username already used"})
+		if (await checkExistingUser(username, email)) {
+			return fail(400, {error:true, message: "Username or Email already used"})
 		}
 
 		// generate user id

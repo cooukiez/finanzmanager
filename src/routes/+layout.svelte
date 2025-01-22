@@ -1,9 +1,9 @@
 <style>
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+	nav {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
 </style>
 
 <script lang="ts">
