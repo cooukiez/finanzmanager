@@ -31,7 +31,7 @@
 </script>
 
 <nav>
-    <a href="/">Home</a>
+    <a href="/home">Home</a>
     {#if data.session}
         <button onclick={handleLogout}>Logout</button>
     {/if}

@@ -45,6 +45,6 @@ export const actions: Actions = {
 		})
 
 		// redirect to root page
-		redirect(302, "/")
+		redirect(302, "/home")
 	}
 };
