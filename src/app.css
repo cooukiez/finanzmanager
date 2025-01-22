@@ -2,9 +2,12 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+button {
+    border: #848484 solid 1px;
+    padding: 5px;
+}
+
+button:hover {
+    background-color: #848484;
 }
 

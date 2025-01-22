@@ -22,6 +22,7 @@
 		"cors": "^2.8.5",
 		"express": "^4.21.2",
 		"flowbite-svelte": "^0.47.4",
+		"flowbite-svelte-icons": "^2.0.2",
 		"lucia": "^3.2.2",
 		"prisma": "^6.2.1",
 		"svelte": "^5.0.0",
