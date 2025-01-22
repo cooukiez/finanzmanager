@@ -46,7 +46,7 @@ export const actions = {
         const id = formData.get('id') as string;
 
         try {
-            await prisma.user.deleteMany({where: {id}});
+            await prisma.user.delete({ where: { id } });
             return {
                 success: true,
             }
