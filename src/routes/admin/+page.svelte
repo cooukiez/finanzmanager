@@ -30,46 +30,39 @@
 		}}
     >
         <div>
-            <label for="name">
-                <span>Name</span>
-            </label>
-
             <input
                     name="name"
+                    placeholder="Username"
                     type="text"
                     value={form?.name ?? ''}
+                    required
             />
         </div>
         <div>
-            <label for="email">
-                <span>Email</span>
-            </label>
             <input
+                    placeholder="Email"
                     name="email"
                     type="email"
                     value={form?.email ?? ''}
+                    required
             />
         </div>
         <div>
-            <label for="role">
-                <span>Role</span>
-            </label>
-
             <input
+                    placeholder="Role"
                     name="role"
                     type="text"
                     value={form?.role?? ''}
+                    required
             />
         </div>
         <div>
-            <label for="password">
-                <span>Password</span>
-            </label>
-
             <input
+                    placeholder="Password"
                     name="password"
                     type="text"
                     value={form?.password ?? ''}
+                    required
             />
         </div>
         <button>Add</button>

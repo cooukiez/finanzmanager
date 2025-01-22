@@ -9,8 +9,8 @@
 <div>
     <h1>Login</h1>
     <form method="post" use:enhance>
-        <div>Email <input name="email" type="email"/></div>
-        <div>Password <input name="password" type="password"/></div>
+        <div><input placeholder="Email" name="email" type="email"/></div>
+        <div><input placeholder="Password" name="password" type="password"/></div>
         <button>Login</button>
         {#if form?.error}
             <Alert message={form?.message}/>
