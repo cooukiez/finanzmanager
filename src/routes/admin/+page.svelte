@@ -1,21 +1,24 @@
 <script lang="ts">
 	import { enhance, applyAction } from '$app/forms';
+
 	import Alert from '$lib/components/Alert.svelte';
-	import type { PageData, ActionData } from './$types';
 	import Users from "$lib/components/Users.svelte";
+
+	import type { PageData, ActionData } from './$types';
 
 	let { data, form }: { data: PageData, form: ActionData } = $props();
 </script>
 
 <div class="w-full">
 	<div class="flex justify-between items-center w-full">
-		<h2 class="text-center text-3xl font-bold tracking-tight text-gray-900">Contact Manager</h2>
+		<h2 class="text-center text-3xl font-bold tracking-tight text-gray-900">Admin View</h2>
 	</div>
 	<form
 			method="POST"
 			action="?/create"
 			class="w-full flex flex-col"
-			use:enhance={({ formElement, formData, action }) => {
+
+			use:enhance={({ formElement }) => {
 			return async ({ result, update }) => {
 				if (result.type === 'success') {
 					formElement.reset();

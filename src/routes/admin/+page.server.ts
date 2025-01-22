@@ -1,6 +1,7 @@
-import type {Actions, PageServerLoad} from './$types';
 import {checkExistingUser, createUser, prisma} from '$lib/server/prisma';
-import {error, fail, json} from '@sveltejs/kit';
+
+import {fail} from '@sveltejs/kit';
+import type {Actions, PageServerLoad} from './$types';
 
 export const load: PageServerLoad = async () => {
     let users
@@ -16,7 +17,7 @@ export const load: PageServerLoad = async () => {
 }
 
 export const actions = {
-    create: async ({ request }) => {
+    create: async ({request}) => {
         const formData = await request.formData();
 
         const name = formData.get('name') as string;
@@ -34,18 +35,18 @@ export const actions = {
                 password
             })
         }
-            await createUser(name, email, role, password);
-            return {
-                success: true,
-            }
+        await createUser(name, email, role, password);
+        return {
+            success: true,
+        }
     },
 
-    delete: async ({ request }) => {
+    delete: async ({request}) => {
         const formData = await request.formData();
         const id = formData.get('id') as string;
 
         try {
-            await prisma.user.deleteMany({ where: { id } });
+            await prisma.user.deleteMany({where: {id}});
             return {
                 success: true,
             }
@@ -57,7 +58,12 @@ export const actions = {
     },
 
     update: async ({request}) => {
-        const {id, newname, newemail, newrole} = Object.fromEntries(await request.formData()) as { id:string, newname: string, newemail: string, newrole: string };
+        const {id, newname, newemail, newrole} = Object.fromEntries(await request.formData()) as {
+            id: string,
+            newname: string,
+            newemail: string,
+            newrole: string
+        };
         try {
             await prisma.user.update({
                 where: {id},
@@ -76,9 +82,8 @@ export const actions = {
             };
         } catch (error) {
             console.error("Error updating user:", error);
-            return fail(500, { message: "Failed to update user" });
+            return fail(500, {message: "Failed to update user"});
         }
     },
-
 
 } satisfies Actions;

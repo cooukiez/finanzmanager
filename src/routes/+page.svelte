@@ -7,7 +7,3 @@
 
 <h1>Hi, {data.user.name}!</h1>
 <p>Your user ID is {data.user.id}.</p>
-
-<!-- <form method="post" use:enhance>
-	<button>Sign out</button>
-</form> -->

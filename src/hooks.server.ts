@@ -41,7 +41,7 @@ const authorization: Handle = async ({event, resolve}) => {
 			event.url.pathname.startsWith("/register")) &&
 		event.locals.user
 	) {
-		return redirect(303, "/");
+		redirect(303, "/");
 	}
 
 	if (
@@ -50,14 +50,14 @@ const authorization: Handle = async ({event, resolve}) => {
 		!event.url.pathname.startsWith("/register") &&
 		!event.locals.user
 	) {
-		return redirect(303, "/");
+		redirect(303, "/");
 	}
 
 	if (
 		event.url.pathname.startsWith("/admin") &&
 		event.locals.user?.role !== "admin"
 	) {
-		return redirect(303, "/");
+		redirect(303, "/");
 	}
 
 	return resolve(event);

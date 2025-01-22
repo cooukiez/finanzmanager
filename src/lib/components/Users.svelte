@@ -6,10 +6,11 @@
 {#if users.length > 0}
     <ul>
         {#each users as user}
-            <form method="POST"
-                  use:enhance={() => {
-            return ({ update }) => update({ reset: false });
-            }}
+            <form
+                    method="POST"
+                    use:enhance={() => {
+                        return ({ update }) => update({ reset: false });
+                    }}
             >
                 <input type="text" name="newname" value={user.name} />
                 <input type="text" name="newemail" value={user.email}/>
