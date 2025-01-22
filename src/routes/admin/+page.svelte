@@ -31,7 +31,7 @@
 	>
 		<div>
 			<label for="name">
-				<span">Name</span>
+				<span>Name</span>
 			</label>
 
 			<input
