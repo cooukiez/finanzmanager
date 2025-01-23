@@ -61,7 +61,7 @@
                     <ChevronDownOutline class="inline"/>
                 </NavLi>
                 <Dropdown placement="bottom" class="w-44 z-20 shadow-lg">
-                    <DropdownItem href="/" class="w-full">Create new Account</DropdownItem>
+                    <DropdownItem href="/" class="w-full">Add new Account</DropdownItem>
                 </Dropdown>
 
                 <NavLi class="cursor-pointer justify-center items-center flex">
