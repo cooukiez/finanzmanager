@@ -37,20 +37,19 @@
 
 </script>
 
-<div class="relative">
-    <Navbar class="relative top-0 w-full items-center z-20 border-b p-0" fluid={true}>
+    <Navbar class="sticky top-0 z-20 border-b p-0" fluid={true}>
         <NavBrand href="/">
             {#if data.user}
-                <img src="favicon.png" class="p-1 me-3 sm:h-9" alt="finanzmanager"/>
+                <img src="favicon.png" class="p-1 me-3 h-9" alt="finanzmanager"/>
                 <span class="self-center whitespace-nowrap">Finanzmanager</span>
             {:else}
-                <img src="favicon.png" class="p-1 me-3 sm:h-9" alt="finanzmanager"/>
+                <img src="favicon.png" class="p-1 me-3 h-9" alt="finanzmanager"/>
                 <span class="self-center whitespace-nowrap">Finanzmanager</span>
             {/if}
         </NavBrand>
 
         {#if data.user}
-            <NavUl ulClass="flex flex-col p-2 mt-2 h-12 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium">
+            <NavUl ulClass="flex flex-col md:flex-row p-2 mt-2 h-14 md:space-x-6 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium">
                 {#if data.user.role === "admin"}
                     <NavLi href="/">Dashboard</NavLi>
                 {:else}
@@ -59,7 +58,7 @@
                         <ChevronDownOutline class="inline"/>
                     </NavLi>
                     <Dropdown placement="bottom" class="w-44 z-20 shadow-lg">
-                        <DropdownItem href="/">Create new Account</DropdownItem>
+                        <DropdownItem href="/" class="w-full">Create new Account</DropdownItem>
                     </Dropdown>
 
                     <NavLi class="cursor-pointer justify-center items-center flex">
@@ -67,31 +66,35 @@
                         <ChevronDownOutline class="inline"/>
                     </NavLi>
                     <Dropdown placement="bottom" class="w-44 z-20 shadow-lg">
-                        <DropdownItem href="/">Join new Group</DropdownItem>
+                        <DropdownItem href="/" class="w-full">Join new Group</DropdownItem>
                     </Dropdown>
                 {/if}
 
-                <div class="flex items-center">
+                <div class="cursor-pointer justify-center items-center flex">
                     <Avatar class="w-7 h-7" id="avatar-menu"/>
                 </div>
-                <Dropdown placement="bottom" triggeredBy="#avatar-menu">
-                    <DropdownHeader>
-                        <span class="block truncate text-sm">{data.user.name}</span>
-                        <span class="block truncate text-sm">{data.user.email}</span>
-                    </DropdownHeader>
-                    <DropdownItem>Profile</DropdownItem>
-                    <DropdownItem>Settings</DropdownItem>
-                    <DropdownDivider/>
-                    <DropdownItem onclick={handleLogout}>Sign out</DropdownItem>
-                </Dropdown>
+                <div>
+                    <Dropdown placement="bottom" triggeredBy="#avatar-menu">
+                        <DropdownHeader>
+                            <span class="block truncate text-sm">{data.user.name}</span>
+                            <span class="block truncate text-sm">{data.user.email}</span>
+                        </DropdownHeader>
+                        <DropdownItem>Profile</DropdownItem>
+                        <DropdownItem>Settings</DropdownItem>
+                        <DropdownItem href="/lorem" class="w-full">Lorem ipsum</DropdownItem>
+                        <DropdownDivider/>
+                        <DropdownItem onclick={handleLogout}>Sign out</DropdownItem>
+                    </Dropdown>
+                </div>
+
             </NavUl>
         {:else}
-            <NavUl ulClass="flex p-2 mt-2 h-12 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium">
+            <NavUl ulClass="flex p-2 mt-2 h-14 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium">
                 <NavLi href="/">Home</NavLi>
             </NavUl>
         {/if}
     </Navbar>
-    <div class="">
+    <div class="overflow-scroll h-full">
         {@render children()}
     </div>
 </div>
