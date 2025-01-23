@@ -38,19 +38,19 @@
 </script>
 
 <div class="relative">
-    <Navbar class="fixed w-full z-20 top-0 border-b block py-1">
+    <Navbar class="relative top-0 w-full items-center z-20 border-b p-0" fluid={true}>
         <NavBrand href="/">
             {#if data.user}
-                <img src="favicon.png" class="me-3 h-6 sm:h-9" alt="finanzmanager"/>
+                <img src="favicon.png" class="p-1 me-3 sm:h-9" alt="finanzmanager"/>
                 <span class="self-center whitespace-nowrap">Finanzmanager</span>
             {:else}
-                <img src="favicon.png" class="me-3 h-6 sm:h-9" alt="finanzmanager"/>
+                <img src="favicon.png" class="p-1 me-3 sm:h-9" alt="finanzmanager"/>
                 <span class="self-center whitespace-nowrap">Finanzmanager</span>
             {/if}
         </NavBrand>
 
         {#if data.user}
-            <NavUl>
+            <NavUl ulClass="flex flex-col p-2 mt-2 h-12 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium">
                 {#if data.user.role === "admin"}
                     <NavLi href="/">Dashboard</NavLi>
                 {:else}
@@ -71,8 +71,8 @@
                     </Dropdown>
                 {/if}
 
-                <div class="flex items-center md:order-2">
-                    <Avatar class="w-8 h-8" id="avatar-menu"/>
+                <div class="flex items-center">
+                    <Avatar class="w-7 h-7" id="avatar-menu"/>
                 </div>
                 <Dropdown placement="bottom" triggeredBy="#avatar-menu">
                     <DropdownHeader>
@@ -86,12 +86,12 @@
                 </Dropdown>
             </NavUl>
         {:else}
-            <NavUl>
+            <NavUl ulClass="flex p-2 mt-2 h-12 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium">
                 <NavLi href="/">Home</NavLi>
             </NavUl>
         {/if}
     </Navbar>
-    <div style="height:300px;" class="overflow-scroll pb-16">
+    <div class="">
         {@render children()}
     </div>
 </div>
