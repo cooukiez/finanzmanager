@@ -4,7 +4,7 @@
     import type {LayoutData} from "./$types";
 
     import {
-        Avatar,
+        Avatar, Button,
         Dropdown,
         DropdownDivider,
         DropdownHeader,
@@ -14,7 +14,7 @@
         NavLi,
         NavUl
     } from 'flowbite-svelte';
-    import {ChevronDownOutline} from 'flowbite-svelte-icons';
+    import {ChevronDownOutline, BarsFromLeftOutline} from 'flowbite-svelte-icons';
 
     let {data, children}: { data: LayoutData; children: Snippet } = $props();
 
@@ -40,16 +40,19 @@
 <Navbar class="sticky top-0 z-20 border-b p-0" fluid={true}>
     <NavBrand href="/">
         {#if data.user}
-            <img src="favicon.png" class="p-1 me-3 h-9" alt="finanzmanager"/>
-            <span class="self-center whitespace-nowrap">Finanzmanager</span>
+            <div class="cursor-pointer justify-center items-center flex">
+                <BarsFromLeftOutline class="w-9 h-9 p-1 me-3"/>
+            </div>
         {:else}
-            <img src="favicon.png" class="p-1 me-3 h-9" alt="finanzmanager"/>
-            <span class="self-center whitespace-nowrap">Finanzmanager</span>
+            <div class="cursor-pointer justify-center items-center flex">
+                <img src="favicon.png" class="w-9 h-9 p-1 me-3" alt="finanzmanager"/>
+                <span class="self-center whitespace-nowrap">Finanzmanager</span>
+            </div>
         {/if}
     </NavBrand>
 
     {#if data.user}
-        <NavUl ulClass="flex flex-col md:flex-row p-2 mt-2 h-14 md:space-x-8 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium">
+        <NavUl ulClass="flex flex-col md:flex-row p-2 mt-2 h-12 md:space-x-8 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium">
             {#if data.user.role === "admin"}
                 <NavLi href="/">Dashboard</NavLi>
             {:else}
@@ -89,7 +92,7 @@
 
         </NavUl>
     {:else}
-        <NavUl ulClass="flex flex-col md:flex-row p-2 mt-2 h-14 md:space-x-8 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium">
+        <NavUl ulClass="flex flex-col md:flex-row p-2 mt-2 h-12 md:space-x-8 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium">
             <NavLi href="/">Home</NavLi>
         </NavUl>
     {/if}
