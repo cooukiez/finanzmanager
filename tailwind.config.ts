@@ -27,3 +27,7 @@ export default {
 
   plugins: [flowbitePlugin]
 } as Config;
+
+const config = {
+  darkMode: 'class'
+};

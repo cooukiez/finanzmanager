@@ -2,6 +2,7 @@
     import "../app.css";
     import type {Snippet} from "svelte";
     import type {LayoutData} from "./$types";
+    import { DarkMode } from 'flowbite-svelte';
 
     import {
         Avatar,
@@ -39,6 +40,7 @@
 
 
 <Navbar>
+    <DarkMode />
     <NavBrand href="/">
         {#if data.user}
             <span>Finanzmanager</span>
@@ -79,7 +81,7 @@
                     <span class="block truncate text-sm">{data.user.email}</span>
                 </DropdownHeader>
                 <DropdownItem>Profile</DropdownItem>
-                <DropdownItem>Settings</DropdownItem>
+                <DropdownItem href="/settings">Settings</DropdownItem>
                 <DropdownDivider/>
                 <DropdownItem onclick={handleLogout}>Sign out</DropdownItem>
             </Dropdown>

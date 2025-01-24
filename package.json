@@ -36,6 +36,8 @@
 		"@lucia-auth/adapter-prisma": "^4.0.1",
 		"@prisma/client": "^5.0.0",
 		"dotenv": "^16.4.7",
-		"oslo": "^1.2.1"
+		"flowbite-svelte-blocks": "^1.1.4",
+		"oslo": "^1.2.1",
+		"tailwind-merge": "^2.6.0"
 	}
 }
