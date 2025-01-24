@@ -66,8 +66,7 @@
             <div class={navLiClass}>
                 <BarsFromLeftOutline class="w-9 h-9 py-1 me-3" onclick={toggleSidebar}/>
             </div>
-        </NavUl>
-        <NavUl ulClass={navUlClass}>
+
             {#if data.user.role === "admin"}
                 <NavLi href="/">Dashboard</NavLi>
             {:else}
@@ -87,7 +86,8 @@
                     <DropdownItem href="/" class="w-full">Join new Group</DropdownItem>
                 </Dropdown>
             {/if}
-
+        </NavUl>
+        <NavUl ulClass={navUlClass}>
             <div class={navLiClass}>
                 <Avatar class="w-7 h-7" id="avatar-menu"/>
             </div>
