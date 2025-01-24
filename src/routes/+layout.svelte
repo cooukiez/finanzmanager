@@ -51,12 +51,11 @@
 </script>
 
 <Navbar class="sticky top-0 z-20 border-b p-0" fluid={true}>
-
     {#if !data.user}
         <NavBrand href="/">
             <div class={navLiClass}>
                 <img src="favicon.png" class="w-9 h-9 p-1 me-3" alt="finanzmanager"/>
-                <span class="self-center whitespace-nowrap">Finanzmanager</span>
+                <span class="self-center whitespace-nowrap text-gray-900 dark:text-white">Finanzmanager</span>
             </div>
         </NavBrand>
     {/if}

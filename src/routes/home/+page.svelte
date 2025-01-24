@@ -23,8 +23,7 @@
             type: 'pie'
         },
         stroke: {
-            colors: ['white'],
-            lineCap: ''
+            show: false,
         },
         plotOptions: {
             pie: {
