@@ -4,7 +4,7 @@
     import type {LayoutData} from "./$types";
 
     import {
-        Avatar, Button,
+        Avatar,
         Dropdown,
         DropdownDivider,
         DropdownHeader,
@@ -12,9 +12,13 @@
         Navbar,
         NavBrand,
         NavLi,
-        NavUl
+        NavUl,
+        Sidebar,
+        SidebarGroup,
+        SidebarItem,
+        SidebarWrapper
     } from 'flowbite-svelte';
-    import {ChevronDownOutline, BarsFromLeftOutline} from 'flowbite-svelte-icons';
+    import {AngleLeftOutline, BarsFromLeftOutline, ChartPieSolid, ChevronDownOutline} from 'flowbite-svelte-icons';
 
     let {data, children}: { data: LayoutData; children: Snippet } = $props();
 
@@ -35,49 +39,60 @@
         }
     }
 
+    let navUlClass = "flex flex-col md:flex-row p-2 mt-2 h-12 md:space-x-8 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium";
+    let navLiClass = "cursor-pointer justify-center items-center flex";
+    let dropdownClass = "w-44 z-20 py-2 shadow-lg";
+
+    let {showSidebar} = $state({showSidebar: false});
+
+    function toggleSidebar() {
+        showSidebar = !showSidebar;
+    }
 </script>
 
 <Navbar class="sticky top-0 z-20 border-b p-0" fluid={true}>
-    <NavBrand href="/">
-        {#if data.user}
-            <div class="cursor-pointer justify-center items-center flex">
-                <BarsFromLeftOutline class="w-9 h-9 p-1 me-3"/>
-            </div>
-        {:else}
-            <div class="cursor-pointer justify-center items-center flex">
+
+    {#if !data.user}
+        <NavBrand href="/">
+            <div class={navLiClass}>
                 <img src="favicon.png" class="w-9 h-9 p-1 me-3" alt="finanzmanager"/>
                 <span class="self-center whitespace-nowrap">Finanzmanager</span>
             </div>
-        {/if}
-    </NavBrand>
+        </NavBrand>
+    {/if}
 
     {#if data.user}
-        <NavUl ulClass="flex flex-col md:flex-row p-2 mt-2 h-12 md:space-x-8 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium">
+        <NavUl ulClass={navUlClass + "p-0"}>
+            <div class={navLiClass}>
+                <BarsFromLeftOutline class="w-9 h-9 py-1 me-3" onclick={toggleSidebar}/>
+            </div>
+        </NavUl>
+        <NavUl ulClass={navUlClass}>
             {#if data.user.role === "admin"}
                 <NavLi href="/">Dashboard</NavLi>
             {:else}
-                <NavLi class="cursor-pointer justify-center items-center flex">
+                <NavLi class={navLiClass}>
                     Accounts
                     <ChevronDownOutline class="inline"/>
                 </NavLi>
-                <Dropdown placement="bottom" class="w-44 z-20 shadow-lg">
+                <Dropdown placement="bottom" class={dropdownClass}>
                     <DropdownItem href="/" class="w-full">Create new Account</DropdownItem>
                 </Dropdown>
 
-                <NavLi class="cursor-pointer justify-center items-center flex">
+                <NavLi class={navLiClass}>
                     Groups
                     <ChevronDownOutline class="inline"/>
                 </NavLi>
-                <Dropdown placement="bottom" class="w-44 z-20 shadow-lg">
+                <Dropdown placement="bottom" class={dropdownClass}>
                     <DropdownItem href="/" class="w-full">Join new Group</DropdownItem>
                 </Dropdown>
             {/if}
 
-            <div class="cursor-pointer justify-center items-center flex">
+            <div class={navLiClass}>
                 <Avatar class="w-7 h-7" id="avatar-menu"/>
             </div>
             <div>
-                <Dropdown placement="bottom" triggeredBy="#avatar-menu">
+                <Dropdown placement="bottom" triggeredBy="#avatar-menu" class={dropdownClass}>
                     <DropdownHeader>
                         <span class="block truncate text-sm">{data.user.name}</span>
                         <span class="block truncate text-sm">{data.user.email}</span>
@@ -92,10 +107,31 @@
 
         </NavUl>
     {:else}
-        <NavUl ulClass="flex flex-col md:flex-row p-2 mt-2 h-12 md:space-x-8 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium">
+        <NavUl ulClass={navUlClass}>
             <NavLi href="/">Home</NavLi>
         </NavUl>
     {/if}
 </Navbar>
+
+{#if data.user && showSidebar}
+    <Sidebar id="sidebar" class="absolute top-0 h-full z-20">
+        <SidebarWrapper class="h-full">
+            <SidebarGroup>
+                <SidebarItem label="Back" onclick={toggleSidebar}>
+                    <svelte:fragment slot="icon">
+                        <AngleLeftOutline/>
+                    </svelte:fragment>
+                </SidebarItem>
+            </SidebarGroup>
+            <SidebarGroup border>
+                <SidebarItem label="Dashboard" class="">
+                    <svelte:fragment slot="icon">
+                        <ChartPieSolid/>
+                    </svelte:fragment>
+                </SidebarItem>
+            </SidebarGroup>
+        </SidebarWrapper>
+    </Sidebar>
+{/if}
 
 {@render children()}
