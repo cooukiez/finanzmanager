@@ -6,7 +6,4 @@ export default defineConfig({
 	build: {
 		sourcemap: true,
 	},
-	optimizeDeps: {
-		include: ['flowbite-svelte', 'flowbite-svelte-icons'],
-	},
 });
