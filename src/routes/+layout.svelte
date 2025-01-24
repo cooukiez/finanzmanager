@@ -22,6 +22,12 @@
 
     let {data, children}: { data: LayoutData; children: Snippet } = $props();
 
+    let {showSidebar} = $state({showSidebar: false});
+
+    function toggleSidebar() {
+        showSidebar = !showSidebar;
+    }
+
     async function handleLogout() {
         try {
             const response = await fetch("/api/logout", {
@@ -42,12 +48,6 @@
     let navUlClass = "flex flex-col md:flex-row p-2 mt-2 h-12 md:space-x-8 rtl:space-x-reverse md:mt-0 md:text-sm md:font-medium";
     let navLiClass = "cursor-pointer justify-center items-center flex";
     let dropdownClass = "w-44 z-20 py-2 shadow-lg";
-
-    let {showSidebar} = $state({showSidebar: false});
-
-    function toggleSidebar() {
-        showSidebar = !showSidebar;
-    }
 </script>
 
 <Navbar class="sticky top-0 z-20 border-b p-0" fluid={true}>
