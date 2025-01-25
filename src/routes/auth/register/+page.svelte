@@ -1,6 +1,6 @@
 <script lang="ts">
     import {enhance} from "$app/forms";
-    import type {ActionData} from "./$types";
+    import type {ActionData} from "../../../../.svelte-kit/types/src/routes";
 
     export let form: ActionData;
 </script>
@@ -18,5 +18,5 @@
         <p>{form?.message ?? ""}</p>
     </form>
 
-    <a href="/login">Login with existing account instead</a>
+    <a href="/auth/login">Login with existing account instead</a>
 </div>

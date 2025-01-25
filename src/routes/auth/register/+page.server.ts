@@ -5,7 +5,7 @@ import {generateId} from 'lucia';
 import {Argon2id} from "oslo/password";
 
 import {fail, redirect} from "@sveltejs/kit";
-import type {PageServerLoad} from "./$types";
+import type {PageServerLoad} from "../../../../.svelte-kit/types/src/routes";
 
 export const load: PageServerLoad = async (event) => {
 	// if session exists, redirect to root page

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import {enhance} from "$app/forms";
-	import Alert from "$lib/components/Alert.svelte";
-	import type {ActionData} from "./$types";
+    import {enhance} from "$app/forms";
+    import Alert from "$lib/components/Alert.svelte";
+    import type {ActionData} from "../../../../.svelte-kit/types/src/routes";
 
-	export let form: ActionData;
+    export let form: ActionData;
 </script>
 
 <div>
@@ -17,5 +17,5 @@
         {/if}
     </form>
 
-    <a href="/register">Create an account instead</a>
+    <a href="/auth/register">Create an account instead</a>
 </div>

@@ -1,16 +1,17 @@
 import type {IndexedRoute} from "$lib";
+import {adminDashboard, loremPage} from "$lib/config/routes";
 
 export const adminRoutes: IndexedRoute[] = [
     {
         name: "Dashboard",
-        href: "/admin",
+        href: adminDashboard,
         label: "",
         index: 0,
     },
     {
         name: "Lorem",
-        href: "/lorem",
+        href: loremPage,
         label: "",
-        index: 0,
+        index: 1,
     },
 ];

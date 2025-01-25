@@ -3,12 +3,15 @@
     import type {Snippet} from "svelte";
     import type {LayoutData} from "./$types";
 
+    import {cn} from "$lib/utils";
+
     import {ModeWatcher} from "mode-watcher";
 
     // noinspection ES6UnusedImports
     import * as Sidebar from "$lib/components/ui/sidebar/index.js";
     // noinspection ES6UnusedImports
     import {Separator} from "$lib/components/ui/separator/index.js";
+    import {Button} from "$lib/components/ui/button";
 
     import AppSidebar from "$lib/components/navigation/Sidebar.svelte";
     import NavLinks from "$lib/components/navigation/navlinks/NavLinks.svelte";
@@ -16,6 +19,9 @@
 
     import {userRoutes} from "$lib/config/user";
     import {adminRoutes} from "$lib/config/admin";
+    import {homepageRoutes} from "$lib/config/homepage";
+
+    import {publicHomepage, registerPage} from "$lib/config/routes";
 
     let {data, children}: { data: LayoutData; children: Snippet } = $props();
 
@@ -56,5 +62,15 @@
         </div>
     {/if}
 {:else}
+    <div class={cn(navClass, "h-10")}>
+        <a class="flex flex-row items-baseline gap-2 cursor-pointer hover:text-muted-foreground transition-colors"
+           href={publicHomepage}>
+            <p class="text-lg">Finanzmanager</p>
+            <p class="text-sm">v0.1</p>
+        </a>
+
+        <NavLinks variant="minimal" routes={homepageRoutes}/>
+        <Button href={registerPage}>Create an Account</Button>
+    </div>
     {@render children?.()}
 {/if}
