@@ -1,4 +1,6 @@
-export const routes = [
+import type {IndexedRoute} from "$lib";
+
+export const userRoutes: IndexedRoute[] = [
     {
         name: "Home",
         href: "/home",
@@ -14,7 +16,7 @@ export const routes = [
     {
         name: "Accounts",
         href: "/accounts",
-        label: "new",
+        label: "",
         index: 1,
     },
     {

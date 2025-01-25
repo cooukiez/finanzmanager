@@ -1,20 +1,16 @@
 <script lang="ts">
-    import Calendar from "lucide-svelte/icons/calendar";
-    import House from "lucide-svelte/icons/house";
-    import Inbox from "lucide-svelte/icons/inbox";
-    import Search from "lucide-svelte/icons/search";
     // noinspection ES6UnusedImports
-    import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+    import * as Sidebar from "$lib/components/ui/sidebar";
+    import {useSidebar} from "$lib/components/ui/sidebar";
     // noinspection ES6UnusedImports
-    import * as Collapsible from "$lib/components/ui/collapsible/index.js";
+    import * as Collapsible from "$lib/components/ui/collapsible";
     // noinspection ES6UnusedImports
-    import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
-    import {ChevronDown, Layers, Menu} from "lucide-svelte";
-    import {useSidebar} from "$lib/components/ui/sidebar/index.js";
+    import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
+
+    import {Calendar, ChevronDown, House, Inbox, Menu, Search} from "lucide-svelte";
 
     const sidebar = useSidebar();
 
-    // Menu items.
     const items = [
         {
             title: "Home",

@@ -3,25 +3,9 @@
     import * as Avatar from "$lib/components/ui/avatar/index.js";
     // noinspection ES6UnusedImports
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
-    import {Button} from "$lib/components/ui/button";
 
-    async function handleLogout() {
-        try {
-            const response = await fetch("/api/logout", {
-                method: "POST",
-            });
-
-            if (response.ok) {
-                // redirect user to root page
-                window.location.href = "/";
-            } else {
-                console.error("Logout failed:", await response.json());
-                return false;
-            }
-        } catch (error) {
-            console.error("An error occurred during logout:", error);
-        }
-    }
+    import {Moon, Sun} from "lucide-svelte";
+    import {handleLogout} from "$lib/client/auth";
 </script>
 
 <DropdownMenu.Root>
@@ -44,6 +28,21 @@
                     Settings
                     <DropdownMenu.Shortcut>⌘S</DropdownMenu.Shortcut>
                 </DropdownMenu.Item>
+                <DropdownMenu.Sub>
+                    <DropdownMenu.SubTrigger>Theme</DropdownMenu.SubTrigger>
+                    <DropdownMenu.SubContent>
+                        <DropdownMenu.Item>
+                            <Sun/>
+                            Light
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item>
+                            <Moon/>
+                            Dark
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Separator/>
+                        <DropdownMenu.Item>System</DropdownMenu.Item>
+                    </DropdownMenu.SubContent>
+                </DropdownMenu.Sub>
             </DropdownMenu.Group>
             <DropdownMenu.Separator/>
             <DropdownMenu.Item>GitHub</DropdownMenu.Item>
