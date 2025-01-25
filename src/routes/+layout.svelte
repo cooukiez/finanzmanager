@@ -21,7 +21,7 @@
     import {adminRoutes} from "$lib/config/admin";
     import {homepageRoutes} from "$lib/config/homepage";
 
-    import {publicHomepage, registerPage} from "$lib/config/routes";
+    import {loginPage, publicHomepage, registerPage} from "$lib/config/routes";
 
     let {data, children}: { data: LayoutData; children: Snippet } = $props();
 
@@ -63,14 +63,18 @@
     {/if}
 {:else}
     <div class={cn(navClass, "h-10")}>
-        <a class="flex flex-row items-baseline gap-2 cursor-pointer hover:text-muted-foreground transition-colors"
+        <a class="flex flex-row items-baseline gap-2 cursor-pointer hover:text-muted-foreground"
            href={publicHomepage}>
-            <p class="text-lg">Finanzmanager</p>
-            <p class="text-sm">v0.1</p>
+            <p class="text-lg transition-colors">Finanzmanager</p>
+            <p class="text-sm transition-colors">v0.1</p>
         </a>
 
         <NavLinks variant="minimal" routes={homepageRoutes}/>
-        <Button href={registerPage}>Create an Account</Button>
+        <div class="flex flex-row items-baseline">
+            <a href={loginPage} class="hover:text-muted-foreground transition-colors text-sm font-bold">Login</a>
+            <p class="mx-3 ml-2" style="font-size: 0.9rem">or</p>
+            <Button href={registerPage}>Create an Account</Button>
+        </div>
     </div>
     {@render children?.()}
 {/if}
