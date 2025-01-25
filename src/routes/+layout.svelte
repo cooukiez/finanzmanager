@@ -1,46 +1,55 @@
 <script lang="ts">
     import "../app.css";
-
     import type {Snippet} from "svelte";
     import type {LayoutData} from "./$types";
 
-    import ExampleNav from "$lib/components/ui/nav/ExampleNav.svelte";
     import {ModeWatcher} from "mode-watcher";
 
-    import {Button} from "$lib/components/ui/button";
+    // noinspection ES6UnusedImports
+    import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+
+    // noinspection ES6UnusedImports
+    import {Separator} from "$lib/components/ui/separator/index.js";
+
+    import AppSidebar from "$lib/components/Sidebar.svelte";
+    import NavLinks from "$lib/components/navbar/NavLinks.svelte";
+    import Profile from "$lib/components/navbar/Profile.svelte";
 
     let {data, children}: { data: LayoutData; children: Snippet } = $props();
-
-    let {showSidebar} = $state({showSidebar: false});
-
-    function toggleSidebar() {
-        showSidebar = !showSidebar;
-    }
-
-    async function handleLogout() {
-        try {
-            const response = await fetch("/api/logout", {
-                method: "POST",
-            });
-
-            if (response.ok) {
-                // redirect user to root page
-                window.location.href = "/";
-            } else {
-                console.error("Logout failed:", await response.json());
-            }
-        } catch (error) {
-            console.error("An error occurred during logout:", error);
-        }
-    }
 </script>
 
-<ModeWatcher/>
+{#if data.user}
+    {#if data.user.role === "user"}
+        <ModeWatcher/>
+        <Sidebar.Provider>
+            <AppSidebar/>
+            <main class="w-full">
+                <div class="mx-4 my-2 flex flex-row items-center justify-between gap-4">
+                    <div class="flex flex-row">
+                        <NavLinks/>
+                    </div>
 
-<ExampleNav/>
+                    <Profile/>
+                </div>
+                <Separator orientation="horizontal"/>
+                <div>
+                    {@render children?.()}
+                </div>
+            </main>
+        </Sidebar.Provider>
+    {:else}
+        <div class="mx-4 my-2 flex flex-row items-center justify-between gap-4">
+            <div class="flex flex-row">
+                <NavLinks/>
+            </div>
 
-<div class="h-24"></div>
-
-<Button variant="outline">Click me</Button>
-
-{@render children()}
+            <Profile/>
+        </div>
+        <Separator orientation="horizontal"/>
+        <div>
+            {@render children?.()}
+        </div>
+    {/if}
+{:else}
+    {@render children?.()}
+{/if}
