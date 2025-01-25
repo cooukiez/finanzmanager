@@ -1,10 +1,14 @@
 import {fontFamily} from "tailwindcss/defaultTheme";
 import type {Config} from "tailwindcss";
+// @ts-ignore
 import tailwindcssAnimate from "tailwindcss-animate";
 
 const config: Config = {
 	darkMode: ["class"],
-	content: ["./src/**/*.{html,js,svelte,ts}"],
+	content: [
+		"./src/**/*.{html,js,svelte,ts}",
+		"./node_modules/layerchart/**/*.{svelte,js}"
+	],
 	safelist: ["dark"],
 	theme: {
 		container: {
@@ -48,6 +52,13 @@ const config: Config = {
 				card: {
 					DEFAULT: "hsl(var(--card) / <alpha-value>)",
 					foreground: "hsl(var(--card-foreground) / <alpha-value>)"
+				},
+				surface: {
+					content: "hsl(var(--card-foreground) / <alpha-value>)",
+					100: "hsl(var(--background) / <alpha-value>)",
+					200: "hsl(var(---muted) / <alpha-value>)",
+					// not sure what color maps here (should be darker than 200).  Could add a new color to `app.css`
+					300: "hsl(var(--background) / <alpha-value>)"
 				},
 				sidebar: {
 					DEFAULT: "hsl(var(--sidebar-background))",

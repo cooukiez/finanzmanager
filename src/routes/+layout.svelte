@@ -43,7 +43,7 @@
                     <Profile/>
                 </div>
                 <Separator orientation="horizontal"/>
-                <div>
+                <div class="p-2">
                     {@render children?.()}
                 </div>
             </main>

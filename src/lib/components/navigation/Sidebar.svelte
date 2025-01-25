@@ -8,28 +8,29 @@
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
 
     import {Calendar, ChevronDown, House, Inbox, Menu, Search} from "lucide-svelte";
+    import {loremPage, userAccounts, userGroups, userHomepage} from "$lib/config/routes";
 
     const sidebar = useSidebar();
 
     const items = [
         {
             title: "Home",
-            url: "/home",
+            url: userHomepage,
             icon: House,
         },
         {
             title: "Lorem",
-            url: "/lorem",
+            url: loremPage,
             icon: Inbox,
         },
         {
             title: "Accounts",
-            url: "/accounts",
+            url: userAccounts,
             icon: Calendar,
         },
         {
             title: "Groups",
-            url: "/groups",
+            url: userGroups,
             icon: Search,
         },
     ];
