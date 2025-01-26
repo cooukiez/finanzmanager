@@ -10,7 +10,7 @@ import type {Actions, PageServerLoad} from "./$types";
 
 import {loginFormSchema} from "../schema";
 
-export const load: PageServerLoad = async (event) => {
+export const load: PageServerLoad = async () => {
     return {
         form: await superValidate(zod(loginFormSchema)),
     };

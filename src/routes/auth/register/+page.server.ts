@@ -11,7 +11,7 @@ import type {PageServerLoad} from "./$types";
 
 import {registerFormSchema} from "../schema";
 
-export const load: PageServerLoad = async (event) => {
+export const load: PageServerLoad = async () => {
     return {
         form: await superValidate(zod(registerFormSchema)),
     };
