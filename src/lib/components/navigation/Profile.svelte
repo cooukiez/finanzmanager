@@ -61,7 +61,7 @@
                 <a href="https://github.com/cooukiez/finanzmanager">
                     <DropdownMenu.Item>Github</DropdownMenu.Item>
                 </a>
-                <a href="https://github.com/cooukiez/finanzmanager/projects?query=is:open">
+                <a href="https://github.com/users/cooukiez/projects/4">
                     <DropdownMenu.Item>Project on Github</DropdownMenu.Item>
                 </a>
                 <DropdownMenu.Sub>
