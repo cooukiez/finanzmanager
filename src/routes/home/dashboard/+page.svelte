@@ -1,59 +1,91 @@
 <script lang="ts">
-    import type {PageData} from "../../../../.svelte-kit/types/src/routes";
-
     // noinspection ES6UnusedImports
     import * as Card from "$lib/components/ui/card";
-    import {PieChart} from "layerchart";
+    import {PieChart, Text} from "layerchart";
 
     import {longData} from "layerchart/utils/genData";
-    import {group} from "d3-array";
+    import {group, sum} from "d3-array";
+    import {format} from '@layerstack/utils';
 
-    export let pageData: PageData;
+    // export let pageData: PageData;
 
     const dataByYear = group(longData, (d) => d.year);
-    const data = dataByYear.get(2019) ?? [];
-    $: dataWithColor =
-        data?.map((d, i) => {
-            return {
-                ...d,
-                color: [
-                    'hsl(var(--color-danger))',
-                    'hsl(var(--color-warning))',
-                    'hsl(var(--color-success))',
-                    'hsl(var(--color-info))',
-                ][i],
-            };
-        }) ?? [];
+    // const data = dataByYear.get(2019) ?? [];
 
-    const exerciseData = [
-        {key: 'move', value: 400, maxValue: 1000, color: '#ef4444'},
-        {key: 'exercise', value: 20, maxValue: 30, color: '#a3e635'},
-        {key: 'stand', value: 10, maxValue: 12, color: '#22d3ee'},
-    ];
-
-    let renderContext: 'svg' | 'canvas' = 'svg';
+    const datenLol = [
+        {
+            year: 1,
+            basket: 1,
+            fruit: "apfel",
+            value: 5,
+        },
+        {
+            year: 1,
+            basket: 1,
+            fruit: "kiwi",
+            value: 7,
+        },
+        {
+            year: 1,
+            basket: 1,
+            fruit: "kohl",
+            value: 4,
+        },
+        {
+            year: 1,
+            basket: 1,
+            fruit: "birne",
+            value: 17,
+        },
+    ]
 </script>
 
-<Card.Root class="mb-2">
-    <Card.Header>
-        <Card.Title>Hi.</Card.Title>
-        <Card.Description></Card.Description>
-    </Card.Header>
-    <Card.Content>
-        <div class="h-[300px] p-4 border rounded">
-            <PieChart {data} key="fruit" value="value"/>
-        </div>
-        data
+<div class="flex flex-row w-full gap-2">
+    <Card.Root class="w-full">
+        <Card.Header>
+            <Card.Title>Dein Konto</Card.Title>
+            <Card.Description>Hier siehst du eine Analyse der Ausgaben deines Kontos</Card.Description>
+        </Card.Header>
+        <Card.Content>
+            <div class="h-[300px] p-4 rounded">
+                <PieChart
+                        cRange={["hsl(var(--g1))", "hsl(var(--g2))", "hsl(var(--g3))", "hsl(var(--g4))", "hsl(var(--g5))"]}
+                        cornerRadius={5}
+                        data={datenLol}
+                        innerRadius={-30}
+                        key="fruit"
+                        padAngle={0.02}
+                        value="value"
+                >
+                    <svelte:fragment slot="aboveMarks">
+                        <Text
+                                class="text-4xl"
+                                dy={4}
+                                textAnchor="middle"
+                                value={format(sum(datenLol, (d) => d.value)*1.32123) + " €"}
+                                verticalAnchor="middle"
+                        />
+                        <Text
+                                class="text-sm fill-surface-content/50"
+                                dy={26}
+                                textAnchor="middle"
+                                value="total"
+                                verticalAnchor="middle"
+                        />
+                    </svelte:fragment>
+                </PieChart>
+            </div>
+        </Card.Content>
+    </Card.Root>
 
-    </Card.Content>
-</Card.Root>
+    <Card.Root class="w-full">
+        <Card.Header>
+            <Card.Title>Schulden</Card.Title>
+            <Card.Description>Deine Schulden</Card.Description>
+        </Card.Header>
+        <Card.Content>
 
-<Card.Root>
-    <Card.Header>
-        <Card.Title>Konto</Card.Title>
-        <Card.Description>Dein Konto</Card.Description>
-    </Card.Header>
-    <Card.Content>
+        </Card.Content>
 
-    </Card.Content>
-</Card.Root>
+    </Card.Root>
+</div>

@@ -1,7 +1,7 @@
 import {checkExistingUser, createUser, deleteUser, prisma, updateUser} from '$lib/server/prisma/user';
 
 import {fail} from '@sveltejs/kit';
-import type {Actions, PageServerLoad} from '../../../../.svelte-kit/types/src/routes';
+import type {Actions, PageServerLoad} from './$types';
 
 export const load: PageServerLoad = async () => {
     let users

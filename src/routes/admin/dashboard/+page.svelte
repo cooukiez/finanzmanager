@@ -4,7 +4,7 @@
     import Alert from '$lib/components/Alert.svelte';
     import Users from "$lib/components/Users.svelte";
 
-    import type {ActionData, PageData} from '../../../../.svelte-kit/types/src/routes';
+    import type {ActionData, PageData} from './$types';
 
     let {data, form}: { data: PageData, form: ActionData } = $props();
 </script>
