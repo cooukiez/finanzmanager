@@ -22,12 +22,12 @@
     import {homepageRoutes} from "$lib/config/homepage";
 
     import {loginPage, publicHomepage, registerPage} from "$lib/config/routes";
+    import ThemeSwitcher from "$lib/components/navigation/ThemeSwitcher.svelte";
 
     let {data, children}: { data: LayoutData; children: Snippet } = $props();
 
     let navContainerClass = "top-0 sticky bg-background bg-opacity-75 backdrop-blur z-20";
-    let navContainerClassNoBlur = "top-0 sticky bg-background";
-    let navClass = "flex flex-row items-center justify-between px-4 py-2 gap-4 h-12";
+    let navClass = "flex flex-row items-center justify-between px-2 py-2 gap-4 h-12";
     let navItemClass = "flex flex-row items-center";
 </script>
 
@@ -78,6 +78,7 @@
             </a>
 
             <NavLinks variant="minimal" routes={homepageRoutes}/>
+
             <div class="flex flex-row items-baseline">
                 <a href={loginPage} class="hover:text-muted-foreground transition-colors text-sm font-bold">Login</a>
                 <p class="mx-3 ml-2" style="font-size: 0.9rem">or</p>
@@ -85,7 +86,10 @@
             </div>
         </div>
     </div>
-    <div>
+    <div class="h-full">
         {@render children?.()}
+    </div>
+    <div class="fixed bottom-4 right-4 z-20">
+        <ThemeSwitcher/>
     </div>
 {/if}
