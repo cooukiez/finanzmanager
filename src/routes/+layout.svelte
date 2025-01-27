@@ -31,7 +31,7 @@
     let {data, children}: { data: LayoutData; children: Snippet } = $props();
 
     let navContainerClass = "top-0 sticky bg-background bg-opacity-75 backdrop-blur z-20";
-    let navClass = "flex flex-row items-center justify-between px-2 py-2 gap-4 h-12";
+    let navClass = "flex flex-row items-center justify-between px-4 py-2 gap-4 h-12";
     let navItemClass = "flex flex-row items-center";
 
     function not_implemented() {
@@ -87,10 +87,13 @@
             <div class="w-screen h-screen">
                 <div class={navContainerClass}>
                     <div class={cn(navClass)}>
-                        <a class="flex flex-row items-baseline gap-2 cursor-pointer hover:text-muted-foreground"
+                        <a class="flex flex-row items-center gap-2 cursor-pointer"
                            href={publicHomepage}>
-                            <p class="text-lg transition-colors">Finanzmanager</p>
-                            <p class="text-sm transition-colors">v0.1</p>
+                            <img src="/favicon.png" alt="" class="w-7 h-7"/>
+                            <div class="flex flex-row items-baseline gap-2 hover:text-muted-foreground">
+                                <p class="text-lg transition-colors">Finanzmanager</p>
+                                <p class="text-sm transition-colors">v0.1</p>
+                            </div>
                         </a>
 
                         <NavLinks variant="minimal" routes={homepageRoutes}/>
