@@ -48,9 +48,9 @@
     <ContextMenu.Trigger>
         {#if data.user}
             {#if data.user.role === "user"}
-                <Sidebar.Provider>
+                <Sidebar.Provider open={false}>
                     <AppSidebar/>
-                    <main class="w-screen h-screen">
+                    <main class="w-screen">
                         <div class={navContainerClass}>
                             <div class={navClass}>
                                 <div class={navItemClass}>
@@ -67,7 +67,7 @@
                 </Sidebar.Provider>
             {/if}
             {#if data.user.role === "admin"}
-                <main class="w-screen h-screen">
+                <main class="w-screen">
                     <div class={navContainerClass}>
                         <div class={navClass}>
                             <div class={navItemClass}>
@@ -84,7 +84,7 @@
                 </main>
             {/if}
         {:else}
-            <div class="w-screen h-screen">
+            <div class="w-screen">
                 <div class={navContainerClass}>
                     <div class={cn(navClass)}>
                         <a class="flex flex-row items-center gap-2 cursor-pointer"
