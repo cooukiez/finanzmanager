@@ -1,1 +1,1 @@
-This is our public homepage
+This is our public homepage.

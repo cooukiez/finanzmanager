@@ -53,3 +53,11 @@ export const checkExistingUser = async (name: string, email: string) => {
 	});
 	return (user !== null);
 }
+
+export const findUserByName = async (name: string) => {
+	return prisma.user.findUnique({
+		where: {
+			name: name
+		}
+	});
+}
