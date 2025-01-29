@@ -4,9 +4,10 @@ INSTALL_DEPS=false
 GENERATE_PRISMA=false
 RESET_PRISMA=false
 MIGRATE_PRISMA=false
+SEED_PRISMA=false
 RUN_SVELTE=false
 
-while getopts "igrms" opt; do
+while getopts "igrmse" opt; do
   case $opt in
     i)
       INSTALL_DEPS=true
@@ -20,7 +21,10 @@ while getopts "igrms" opt; do
     m)
       MIGRATE_PRISMA=true
       ;;
-		s)
+    s)
+      SEED_PRISMA=true
+      ;;
+		e)
 			RUN_SVELTE=true
 			;;
 
@@ -45,6 +49,10 @@ fi
 
 if [ "$MIGRATE_PRISMA" = true ]; then
   	npx prisma migrate dev --name init
+fi
+
+if [ "$SEED_PRISMA" = true ]; then
+  	npx prisma db seed
 fi
 
 if [ "$RUN_SVELTE" = true ]; then

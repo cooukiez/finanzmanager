@@ -1,8 +1,5 @@
 <script lang="ts">
-    import {
-        Button,
-        buttonVariants
-    } from "$lib/components/ui/button/index.js";
+    import {Button, buttonVariants} from "$lib/components/ui/button/index.js";
 
     // noinspection ES6UnusedImports
     import * as Dialog from "$lib/components/ui/dialog/index.js";
@@ -11,8 +8,7 @@
     // noinspection ES6UnusedImports
     import * as Form from "$lib/components/ui/form/index.js";
 
-    import { Input } from "$lib/components/ui/input/index.js";
-    import { Label } from "$lib/components/ui/label/index.js";
+    import {Input} from "$lib/components/ui/input/index.js";
 
     import {type Infer, superForm, type SuperValidated} from "sveltekit-superforms";
     import {zodClient} from "sveltekit-superforms/adapters";
@@ -23,7 +19,7 @@
     let open = $state(false);
     const form = superForm(data.form, {
         validators: zodClient(accountCreateFormSchema),
-        onResult: ({ result }) => {
+        onResult: ({result}) => {
             // check if submission successful and close dialog
             if (result.type === 'success') {
                 open = false;
@@ -47,16 +43,15 @@
                     </Dialog.Description>
                 </Dialog.Header>
                 <form method="POST" use:enhance>
-
-                <Form.Field {form} name="name">
+                    <Form.Field {form} name="name">
                         <Form.Control>
-                            {#snippet children({ props })}
+                            {#snippet children({props})}
                                 <Form.Label>Account name</Form.Label>
-                                <Input {...props} bind:value={$formData.name} />
+                                <Input {...props} bind:value={$formData.name}/>
                             {/snippet}
                         </Form.Control>
-                        <Form.Description />
-                        <Form.FieldErrors />
+                        <Form.Description/>
+                        <Form.FieldErrors/>
                     </Form.Field>
                     <Dialog.Footer>
                         <Button type="submit">Create</Button>
