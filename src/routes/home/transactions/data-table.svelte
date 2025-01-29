@@ -1,23 +1,23 @@
 <script generics="TData, TValue" lang="ts">
-    import {type ColumnDef, getCoreRowModel} from "@tanstack/table-core";
-    import {createSvelteTable, FlexRender,} from "$lib/components/ui/data-table/index.js";
-    // noinspection ES6UnusedImports
-    import * as Table from "$lib/components/ui/table/index.js";
+  import { type ColumnDef, getCoreRowModel } from "@tanstack/table-core";
+  import { createSvelteTable, FlexRender } from "$lib/components/ui/data-table/index.js";
+  // noinspection ES6UnusedImports
+  import * as Table from "$lib/components/ui/table/index.js";
 
-    type DataTableProps<TData, TValue> = {
-        columns: ColumnDef<TData, TValue>[];
-        data: TData[];
-    };
+  type DataTableProps<TData, TValue> = {
+    columns: ColumnDef<TData, TValue>[];
+    data: TData[];
+  };
 
-    let {data, columns}: DataTableProps<TData, TValue> = $props();
+  let { data, columns }: DataTableProps<TData, TValue> = $props();
 
-    const table = createSvelteTable({
-        get data() {
-            return data;
-        },
-        columns,
-        getCoreRowModel: getCoreRowModel(),
-    });
+  const table = createSvelteTable({
+    get data() {
+      return data;
+    },
+    columns,
+    getCoreRowModel: getCoreRowModel()
+  });
 </script>
 
 <div class="rounded-md border">

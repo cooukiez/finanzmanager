@@ -1,31 +1,39 @@
 <script lang="ts" module>
-    import type {FormPath as _FormPath} from "sveltekit-superforms";
+  import type { FormPath as _FormPath } from "sveltekit-superforms";
 
-    type T = Record<string, unknown>;
-    type U = _FormPath<T>;
+  type T = Record<string, unknown>;
+  type U = _FormPath<T>;
 </script>
 
-<script generics="T extends Record<string, unknown>, U extends _FormPath<T>" lang="ts">
-    import * as FormPrimitive from "formsnap";
-    import {cn} from "$lib/utils.js";
-    import type {WithElementRef, WithoutChildren} from "bits-ui";
-    import type {HTMLAttributes} from "svelte/elements";
+<script
+  generics="T extends Record<string, unknown>, U extends _FormPath<T>"
+  lang="ts"
+>
+  import * as FormPrimitive from "formsnap";
+  import { cn } from "$lib/utils.js";
+  import type { WithElementRef, WithoutChildren } from "bits-ui";
+  import type { HTMLAttributes } from "svelte/elements";
 
-    let {
-        ref = $bindable(null),
-        class: className,
-        form,
-        name,
-        children: childrenProp,
-        ...restProps
-    }: FormPrimitive.FieldProps<T, U> &
-        WithoutChildren<WithElementRef<HTMLAttributes<HTMLDivElement>>> = $props();
+  let {
+    ref = $bindable(null),
+    class: className,
+    form,
+    name,
+    children: childrenProp,
+    ...restProps
+  }: FormPrimitive.FieldProps<T, U> &
+    WithoutChildren<WithElementRef<HTMLAttributes<HTMLDivElement>>> = $props();
 </script>
 
 <FormPrimitive.Field {form} {name}>
-    {#snippet children({constraints, errors, tainted, value})}
-        <div bind:this={ref} class={cn("space-y-2", className)} {...restProps}>
-            {@render childrenProp?.({constraints, errors, tainted, value: value as T[U]})}
-        </div>
-    {/snippet}
+  {#snippet children({ constraints, errors, tainted, value })}
+    <div bind:this={ref} class={cn("space-y-2", className)} {...restProps}>
+      {@render childrenProp?.({
+        constraints,
+        errors,
+        tainted,
+        value: value as T[U],
+      })}
+    </div>
+  {/snippet}
 </FormPrimitive.Field>

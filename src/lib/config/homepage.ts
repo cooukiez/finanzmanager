@@ -1,5 +1,5 @@
-import type {IndexedRoute} from "$lib";
-import {loremPage, publicHomepage} from "$lib/config/routes";
+import type { IndexedRoute } from "$lib";
+import { loremPage, publicHomepage } from "$lib/config/routes";
 
 export const homepageRoutes: IndexedRoute[] = [
   {

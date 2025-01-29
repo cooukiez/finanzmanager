@@ -30,8 +30,10 @@
 
   let { data, children }: { data: LayoutData; children: Snippet } = $props();
 
-  let navContainerClass = "top-0 sticky bg-background bg-opacity-75 backdrop-blur z-20";
-  let navClass = "flex flex-row items-center justify-between px-4 py-2 gap-4 h-12";
+  let navContainerClass =
+    "top-0 sticky bg-background bg-opacity-75 backdrop-blur z-20";
+  let navClass =
+    "flex flex-row items-center justify-between px-4 py-2 gap-4 h-12";
   let navItemClass = "flex flex-row items-center";
 
   function not_implemented() {
@@ -87,10 +89,14 @@
       <div class="w-screen">
         <div class={navContainerClass}>
           <div class={cn(navClass)}>
-            <a class="flex flex-row items-center gap-2 cursor-pointer"
-               href={publicHomepage}>
+            <a
+              class="flex flex-row items-center gap-2 cursor-pointer"
+              href={publicHomepage}
+            >
               <img src="/favicon.png" alt="" class="w-7 h-7" />
-              <div class="flex flex-row items-baseline gap-2 hover:text-muted-foreground">
+              <div
+                class="flex flex-row items-baseline gap-2 hover:text-muted-foreground"
+              >
                 <p class="text-lg transition-colors">Finanzmanager</p>
                 <p class="text-sm transition-colors">v0.1</p>
               </div>
@@ -99,7 +105,11 @@
             <NavLinks variant="minimal" routes={homepageRoutes} />
 
             <div class="flex flex-row items-baseline">
-              <a href={loginPage} class="hover:text-muted-foreground transition-colors text-sm font-bold">Login</a>
+              <a
+                href={loginPage}
+                class="hover:text-muted-foreground transition-colors text-sm font-bold"
+              >Login</a
+              >
               <p class="mx-3 ml-2" style="font-size: 0.9rem">or</p>
               <Button href={registerPage}>Create an Account</Button>
             </div>
@@ -134,9 +144,15 @@
           Save Page
           <ContextMenu.Shortcut>⇧⌘S</ContextMenu.Shortcut>
         </ContextMenu.Item>
-        <ContextMenu.Item onclick={not_implemented}>Inspect Element</ContextMenu.Item>
+        <ContextMenu.Item onclick={not_implemented}
+        >Inspect Element
+        </ContextMenu.Item
+        >
         <ContextMenu.Separator />
-        <ContextMenu.Item onclick={not_implemented}>Developer Tools</ContextMenu.Item>
+        <ContextMenu.Item onclick={not_implemented}
+        >Developer Tools
+        </ContextMenu.Item
+        >
       </ContextMenu.SubContent>
     </ContextMenu.Sub>
   </ContextMenu.Content>

@@ -1,11 +1,5 @@
-import type {IndexedRoute} from "$lib";
-import {
-  loremPage,
-  userAccounts,
-  userGroups,
-  userHomepage,
-  userTransactions,
-} from "$lib/config/routes";
+import type { IndexedRoute } from "$lib";
+import { loremPage, userAccounts, userGroups, userHomepage, userTransactions } from "$lib/config/routes";
 
 export const userRoutes: IndexedRoute[] = [
   {

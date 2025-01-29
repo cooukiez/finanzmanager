@@ -1,15 +1,15 @@
-import {checkExistingUser, prisma} from "$lib/server/prisma/user";
-import {lucia} from "$lib/server/auth";
+import { checkExistingUser, prisma } from "$lib/server/prisma/user";
+import { lucia } from "$lib/server/auth";
 
-import {generateId} from "lucia";
-import {setError, superValidate} from "sveltekit-superforms";
-import {zod} from "sveltekit-superforms/adapters";
-import {Argon2id} from "oslo/password";
+import { generateId } from "lucia";
+import { setError, superValidate } from "sveltekit-superforms";
+import { zod } from "sveltekit-superforms/adapters";
+import { Argon2id } from "oslo/password";
 
-import {fail, redirect} from "@sveltejs/kit";
-import type {PageServerLoad} from "./$types";
+import { fail, redirect } from "@sveltejs/kit";
+import type { PageServerLoad } from "./$types";
 
-import {registerFormSchema} from "../schema";
+import { registerFormSchema } from "../schema";
 
 export const load: PageServerLoad = async () => {
   return {

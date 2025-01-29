@@ -1,13 +1,7 @@
-import {
-  checkExistingUser,
-  createUser,
-  deleteUser,
-  prisma,
-  updateUser,
-} from "$lib/server/prisma/user";
+import { checkExistingUser, createUser, deleteUser, prisma, updateUser } from "$lib/server/prisma/user";
 
-import {fail} from "@sveltejs/kit";
-import type {Actions, PageServerLoad} from "./$types";
+import { fail } from "@sveltejs/kit";
+import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async () => {
   let users;
@@ -15,7 +9,7 @@ export const load: PageServerLoad = async () => {
     users = await prisma.user.findMany();
   } catch (err) {
     console.error(err);
-    throw fail(500, {message: "Failed fetch users"});
+    throw fail(500, { message: "Failed fetch users" });
   }
   return {
     users: users,
@@ -23,7 +17,7 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions = {
-  create: async ({request}) => {
+  create: async ({ request }) => {
     const formData = await request.formData();
 
     const name = formData.get("name") as string;
@@ -47,7 +41,7 @@ export const actions = {
     };
   },
 
-  delete: async ({request}) => {
+  delete: async ({ request }) => {
     const formData = await request.formData();
     const id = formData.get("id") as string;
 
@@ -58,13 +52,13 @@ export const actions = {
       };
     } catch (err) {
       console.error(err);
-      return fail(500, {message: "Failed to delete user"});
+      return fail(500, { message: "Failed to delete user" });
     }
   },
 
-  update: async ({request}) => {
-    const {id, newname, newemail, newrole} = Object.fromEntries(
-        await request.formData(),
+  update: async ({ request }) => {
+    const { id, newname, newemail, newrole } = Object.fromEntries(
+        await request.formData()
     ) as {
       id: string;
       newname: string;
@@ -82,7 +76,7 @@ export const actions = {
       };
     } catch (error) {
       console.error("Error updating user:", error);
-      return fail(500, {message: "Failed to update user"});
+      return fail(500, { message: "Failed to update user" });
     }
   },
 } satisfies Actions;

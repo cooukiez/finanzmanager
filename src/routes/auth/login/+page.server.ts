@@ -1,14 +1,14 @@
-import {prisma} from "$lib/server/prisma/user";
-import {lucia} from "$lib/server/auth";
+import { prisma } from "$lib/server/prisma/user";
+import { lucia } from "$lib/server/auth";
 
-import {setError, superValidate} from "sveltekit-superforms";
-import {zod} from "sveltekit-superforms/adapters";
-import {Argon2id} from "oslo/password";
+import { setError, superValidate } from "sveltekit-superforms";
+import { zod } from "sveltekit-superforms/adapters";
+import { Argon2id } from "oslo/password";
 
-import {fail, redirect} from "@sveltejs/kit";
-import type {Actions, PageServerLoad} from "./$types";
+import { fail, redirect } from "@sveltejs/kit";
+import type { Actions, PageServerLoad } from "./$types";
 
-import {loginFormSchema} from "../schema";
+import { loginFormSchema } from "../schema";
 
 export const load: PageServerLoad = async () => {
   return {
@@ -44,7 +44,7 @@ export const actions: Actions = {
     // check password
     const validPassword = await new Argon2id().verify(
         user.password,
-        form.data.password,
+        form.data.password
     );
     if (!validPassword) {
       setError(form, "username", "Incorrect username or password");

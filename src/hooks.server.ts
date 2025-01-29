@@ -1,9 +1,9 @@
 // src/hooks.server.ts
-import {lucia} from "$lib/server/auth";
-import {type Handle, redirect} from "@sveltejs/kit";
-import {sequence} from "@sveltejs/kit/hooks";
+import { lucia } from "$lib/server/auth";
+import { type Handle, redirect } from "@sveltejs/kit";
+import { sequence } from "@sveltejs/kit/hooks";
 
-export const authentication: Handle = async ({event, resolve}) => {
+export const authentication: Handle = async ({ event, resolve }) => {
   // get session id from cookies
   const sessionId = event.cookies.get(lucia.sessionCookieName);
   if (!sessionId) {
@@ -13,7 +13,7 @@ export const authentication: Handle = async ({event, resolve}) => {
     return resolve(event);
   }
 
-  const {session, user} = await lucia.validateSession(sessionId);
+  const { session, user } = await lucia.validateSession(sessionId);
   if (session && session.fresh) {
     const sessionCookie = lucia.createSessionCookie(session.id);
     event.cookies.set(sessionCookie.name, sessionCookie.value, {
@@ -35,7 +35,7 @@ export const authentication: Handle = async ({event, resolve}) => {
   return resolve(event);
 };
 
-const authorization: Handle = async ({event, resolve}) => {
+const authorization: Handle = async ({ event, resolve }) => {
   let onRoot = event.url.pathname === "/";
   let onPublicDomain =
       event.url.pathname.startsWith("/auth") ||

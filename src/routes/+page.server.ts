@@ -1,7 +1,7 @@
-import {redirect} from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit";
 
-import type {PageServerLoad} from "./$types";
-import {adminDashboard, loginPage, userHomepage} from "$lib/config/routes";
+import type { PageServerLoad } from "./$types";
+import { adminDashboard, loginPage, userHomepage } from "$lib/config/routes";
 
 export const load: PageServerLoad = async (event) => {
   if (!event.locals.user) {

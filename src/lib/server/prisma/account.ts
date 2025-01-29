@@ -1,6 +1,6 @@
-import {prisma} from "$lib/server/prisma/user";
-import type {Account} from "@prisma/client";
-import {generateId} from "lucia";
+import { prisma } from "$lib/server/prisma/user";
+import type { Account } from "@prisma/client";
+import { generateId } from "lucia";
 
 export const getUserAccounts = async (userId: string) => {
   return prisma.account.findMany({

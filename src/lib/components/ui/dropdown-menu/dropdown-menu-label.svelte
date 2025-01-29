@@ -1,23 +1,23 @@
 <script lang="ts">
-    import {cn} from "$lib/utils.js";
-    import {type WithElementRef} from "bits-ui";
-    import type {HTMLAttributes} from "svelte/elements";
+  import { cn } from "$lib/utils.js";
+  import { type WithElementRef } from "bits-ui";
+  import type { HTMLAttributes } from "svelte/elements";
 
-    let {
-        ref = $bindable(null),
-        class: className,
-        inset,
-        children,
-        ...restProps
-    }: WithElementRef<HTMLAttributes<HTMLDivElement>> & {
-        inset?: boolean;
-    } = $props();
+  let {
+    ref = $bindable(null),
+    class: className,
+    inset,
+    children,
+    ...restProps
+  }: WithElementRef<HTMLAttributes<HTMLDivElement>> & {
+    inset?: boolean;
+  } = $props();
 </script>
 
 <div
-        {...restProps}
-        class={cn("px-2 py-1.5 text-sm font-semibold", inset && "pl-8", className)}
-        bind:this={ref}
+  {...restProps}
+  class={cn("px-2 py-1.5 text-sm font-semibold", inset && "pl-8", className)}
+  bind:this={ref}
 >
-    {@render children?.()}
+  {@render children?.()}
 </div>

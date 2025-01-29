@@ -1,8 +1,5 @@
-import type {PageServerLoad} from "./$types";
-import {
-  expenditureSumSortedByType,
-  getUserAccounts,
-} from "$lib/server/prisma/account";
+import type { PageServerLoad } from "./$types";
+import { expenditureSumSortedByType, getUserAccounts } from "$lib/server/prisma/account";
 
 export const load: PageServerLoad = async (event) => {
   let accountData = [];
