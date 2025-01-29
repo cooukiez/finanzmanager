@@ -1,4 +1,4 @@
-import {Dialog as SheetPrimitive} from "bits-ui";
+import { Dialog as SheetPrimitive } from "bits-ui";
 
 import Overlay from "./sheet-overlay.svelte";
 import Content from "./sheet-content.svelte";
@@ -13,25 +13,25 @@ const Trigger = SheetPrimitive.Trigger;
 const Portal = SheetPrimitive.Portal;
 
 export {
-    Root,
-    Close,
-    Trigger,
-    Portal,
-    Overlay,
-    Content,
-    Header,
-    Footer,
-    Title,
-    Description,
-    //
-    Root as Sheet,
-    Close as SheetClose,
-    Trigger as SheetTrigger,
-    Portal as SheetPortal,
-    Overlay as SheetOverlay,
-    Content as SheetContent,
-    Header as SheetHeader,
-    Footer as SheetFooter,
-    Title as SheetTitle,
-    Description as SheetDescription,
+  Root,
+  Close,
+  Trigger,
+  Portal,
+  Overlay,
+  Content,
+  Header,
+  Footer,
+  Title,
+  Description,
+  //
+  Root as Sheet,
+  Close as SheetClose,
+  Trigger as SheetTrigger,
+  Portal as SheetPortal,
+  Overlay as SheetOverlay,
+  Content as SheetContent,
+  Header as SheetHeader,
+  Footer as SheetFooter,
+  Title as SheetTitle,
+  Description as SheetDescription,
 };
