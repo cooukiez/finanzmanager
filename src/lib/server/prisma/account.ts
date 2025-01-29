@@ -1,7 +1,6 @@
 import {prisma} from "$lib/server/prisma/user";
-import type {Account, User} from "@prisma/client";
+import type {Account} from "@prisma/client";
 import {generateId} from "lucia";
-import {Argon2id} from "oslo/password";
 
 export const getUserAccounts = async (userId: string) => {
     return prisma.account.findMany({
