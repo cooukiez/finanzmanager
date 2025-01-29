@@ -3,35 +3,66 @@
         Button,
         buttonVariants
     } from "$lib/components/ui/button/index.js";
+
     // noinspection ES6UnusedImports
     import * as Dialog from "$lib/components/ui/dialog/index.js";
+    // noinspection ES6UnusedImports
+    import * as Card from "$lib/components/ui/card/index.js";
+    // noinspection ES6UnusedImports
+    import * as Form from "$lib/components/ui/form/index.js";
+
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
+
+    import {type Infer, superForm, type SuperValidated} from "sveltekit-superforms";
+    import {zodClient} from "sveltekit-superforms/adapters";
+    import {accountCreateFormSchema, type AccountCreateFormSchema} from "./schema";
+
+    let {data}: { data: { form: SuperValidated<Infer<AccountCreateFormSchema>> } } = $props();
+
+    let open = $state(false);
+    const form = superForm(data.form, {
+        validators: zodClient(accountCreateFormSchema),
+        onResult: ({ result }) => {
+            // check if submission successful and close dialog
+            if (result.type === 'success') {
+                open = false;
+            }
+        }
+    });
+
+    const {form: formData, enhance} = form;
 </script>
 
-<Dialog.Root>
-    <Dialog.Trigger class={buttonVariants({ variant: "outline" })}
-    >Edit Profile</Dialog.Trigger
-    >
-    <Dialog.Content class="sm:max-w-[425px]">
-        <Dialog.Header>
-            <Dialog.Title>Edit profile</Dialog.Title>
-            <Dialog.Description>
-                Make changes to your profile here. Click save when you're done.
-            </Dialog.Description>
-        </Dialog.Header>
-        <div class="grid gap-4 py-4">
-            <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="name" class="text-right">Name</Label>
-                <Input id="name" value="Pedro Duarte" class="col-span-3" />
-            </div>
-            <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="username" class="text-right">Username</Label>
-                <Input id="username" value="@peduarte" class="col-span-3" />
-            </div>
-        </div>
-        <Dialog.Footer>
-            <Button type="submit">Save changes</Button>
-        </Dialog.Footer>
-    </Dialog.Content>
-</Dialog.Root>
+<Card.Root class="w-full">
+    <Card.Content class="flex flex-row justify-between items-center p-3 pl-5">
+        <span class="text-muted-foreground text-sm">You seem to be missing an account</span>
+        <Dialog.Root bind:open>
+            <Dialog.Trigger class={buttonVariants({ variant: "default" })}>Add Account</Dialog.Trigger>
+            <Dialog.Content class="sm:max-w-[425px]">
+                <Dialog.Header>
+                    <Dialog.Title>Add Account</Dialog.Title>
+                    <Dialog.Description>
+                        Add an account to manage your finances
+                    </Dialog.Description>
+                </Dialog.Header>
+                <form method="POST" use:enhance>
+
+                <Form.Field {form} name="name">
+                        <Form.Control>
+                            {#snippet children({ props })}
+                                <Form.Label>Account name</Form.Label>
+                                <Input {...props} bind:value={$formData.name} />
+                            {/snippet}
+                        </Form.Control>
+                        <Form.Description />
+                        <Form.FieldErrors />
+                    </Form.Field>
+                    <Dialog.Footer>
+                        <Button type="submit">Create</Button>
+                    </Dialog.Footer>
+                </form>
+            </Dialog.Content>
+        </Dialog.Root>
+    </Card.Content>
+</Card.Root>

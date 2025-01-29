@@ -1,5 +1,7 @@
 import {prisma} from "$lib/server/prisma/user";
-import type {Account} from "@prisma/client";
+import type {Account, User} from "@prisma/client";
+import {generateId} from "lucia";
+import {Argon2id} from "oslo/password";
 
 export const getUserAccounts = async (userId: string) => {
     return prisma.account.findMany({
@@ -45,4 +47,15 @@ export const expenditureSumSortedByType = async (account: Account) => {
         expenditureType: group.type,
         expenditureAmount: Math.abs(group._sum.amount ?? 0),
     }));
+}
+
+export const createAccount = async (name: string, userId: string) => {
+    const accountId = generateId(15)
+    return prisma.account.create({
+        data: {
+            id: accountId,
+            name: name,
+            ownerId: userId,
+        },
+    });
 }
