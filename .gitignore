@@ -3,6 +3,7 @@ node_modules
 # ignore db
 db/diagnostic.data
 db/journal
+db/database.db
 prisma/migrations
 
 .idea
