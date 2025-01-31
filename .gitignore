@@ -4,6 +4,7 @@ node_modules
 db/*
 prisma/migrations
 
+# IDE
 .idea
 
 # Output
