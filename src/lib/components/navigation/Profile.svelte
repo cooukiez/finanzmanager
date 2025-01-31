@@ -4,6 +4,7 @@
   // noinspection ES6UnusedImports
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
   import { handleLogout } from "$lib/client/auth";
+  import { userSettings } from "$lib/config/routes";
 </script>
 
 <DropdownMenu.Root>
@@ -24,10 +25,12 @@
           Profile
           <DropdownMenu.Shortcut>⇧⌘P</DropdownMenu.Shortcut>
         </DropdownMenu.Item>
+        <a href={userSettings}>
         <DropdownMenu.Item>
           Settings
           <DropdownMenu.Shortcut>⌘S</DropdownMenu.Shortcut>
         </DropdownMenu.Item>
+        </a>
       </DropdownMenu.Group>
       <DropdownMenu.Separator />
       <a href="https://github.com/cooukiez/finanzmanager">
