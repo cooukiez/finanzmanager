@@ -1,4 +1,6 @@
 <script lang="ts">
+    import * as Tabs from "$lib/components/ui/tabs";
+    import * as Card from "$lib/components/ui/card";
     import { Button } from "$lib/components/ui/button";
     import { Input } from "$lib/components/ui/input";
     import { Label } from "$lib/components/ui/label";
