@@ -10,3 +10,4 @@ export const userGroups = "/home/groups";
 export const userTransactions = "/home/transactions";
 
 export const adminDashboard = "/admin/dashboard";
+export const userSettings = "/home/settings";
