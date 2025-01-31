@@ -58,3 +58,21 @@ export const createAccount = async (name: string, userId: string) => {
     },
   });
 };
+
+export const createTransaction = async (accountId: string, amount: number, type: string) => {
+  const transactionId = generateId(15);
+  return prisma.transaction.create({
+    data: {
+      id: transactionId,
+      accountId: accountId,
+      amount: amount,
+      type: type,
+    },
+  })
+}
+
+export const createAccountWithInitialBalance = async (name: string, userId: string, balance: number) => {
+  let account = await createAccount(name, userId);
+  await createTransaction(account.id, balance, "initial");
+  return account;
+};

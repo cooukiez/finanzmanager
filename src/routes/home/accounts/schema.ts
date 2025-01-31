@@ -7,4 +7,8 @@ export const accountCreateFormSchema = z.object({
       .string()
       .min(3, { message: "Account name must contain at least 3 characters" })
       .max(50, { message: "Account name must be less than 50 characters" }),
+  balance: z
+      .number()
+      .safe({ message: "Account balance must be a number" })
+      .finite( { message: "Account balance must be a number" })
 });

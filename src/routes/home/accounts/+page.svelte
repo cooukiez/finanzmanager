@@ -61,6 +61,16 @@
             <Form.Description />
             <Form.FieldErrors />
           </Form.Field>
+          <Form.Field {form} name="balance">
+            <Form.Control>
+              {#snippet children({ props })}
+                <Form.Label>Balenciaga</Form.Label>
+                <Input {...props} bind:value={$formData.balance} type="number"/>
+              {/snippet}
+            </Form.Control>
+            <Form.Description />
+            <Form.FieldErrors />
+          </Form.Field>
           <Dialog.Footer>
             <Button type="submit">Create</Button>
           </Dialog.Footer>

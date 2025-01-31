@@ -5,7 +5,7 @@ import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 
 import { accountCreateFormSchema } from "./schema";
-import { createAccount } from "$lib/server/prisma/account";
+import {createAccount, createAccountWithInitialBalance} from "$lib/server/prisma/account";
 
 export const load: PageServerLoad = async () => {
   return {
@@ -21,7 +21,7 @@ export const actions: Actions = {
     }
 
     if (event.locals.user) {
-      await createAccount(form.data.name, event.locals.user.id);
+      await createAccountWithInitialBalance(form.data.name, event.locals.user.id, form.data.balance);
     } else {
       setError(form, "name", "Invalid user session");
       return fail(400, { form });
