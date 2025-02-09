@@ -38,8 +38,8 @@ export const authentication: Handle = async ({ event, resolve }) => {
 const authorization: Handle = async ({ event, resolve }) => {
   let onRoot = event.url.pathname === "/";
   let onPublicDomain =
-      event.url.pathname.startsWith("/auth") ||
-      event.url.pathname.startsWith("/public");
+    event.url.pathname.startsWith("/auth") ||
+    event.url.pathname.startsWith("/public");
   let onAdminPage = event.url.pathname.startsWith("/admin");
 
   if (onPublicDomain && event.locals.user) {

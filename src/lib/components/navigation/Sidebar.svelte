@@ -32,7 +32,7 @@
       title: "Groups",
       url: userGroups,
       icon: Search
-    }
+    },
   ];
 </script>
 
@@ -68,6 +68,7 @@
                   <Sidebar.MenuButton>
                     {#snippet child({ props })}
                       <a href={item.url} {...props}>
+                        <!--suppress HtmlUnknownTag -->
                         <item.icon />
                         <span>{item.title}</span>
                       </a>
