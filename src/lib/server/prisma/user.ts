@@ -16,10 +16,10 @@ export const deleteUser = async (userId: string) => {
 };
 
 export const updateUser = async (
-    userId: string,
-    name: string,
-    email: string,
-    role: string
+  userId: string,
+  name: string,
+  email: string,
+  role: string
 ) => {
   return prisma.user.update({
     where: {
@@ -34,10 +34,10 @@ export const updateUser = async (
 };
 
 export const createUser = async (
-    name: string,
-    email: string,
-    role: string,
-    password: string
+  name: string,
+  email: string,
+  role: string,
+  password: string
 ) => {
   const userId = generateId(15);
   const hashedPassword = await new Argon2id().hash(password);

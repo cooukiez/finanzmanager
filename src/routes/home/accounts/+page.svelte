@@ -27,7 +27,7 @@
       if (result.type === "success") {
         open = false;
       }
-    }
+    },
   });
 
   const { form: formData, enhance } = form;
@@ -41,8 +41,7 @@
     <Dialog.Root bind:open>
       <Dialog.Trigger class={buttonVariants({ variant: "default" })}
       >Add Account
-      </Dialog.Trigger
-      >
+      </Dialog.Trigger>
       <Dialog.Content class="sm:max-w-[425px]">
         <Dialog.Header>
           <Dialog.Title>Add Account</Dialog.Title>
@@ -65,7 +64,11 @@
             <Form.Control>
               {#snippet children({ props })}
                 <Form.Label>Balenciaga</Form.Label>
-                <Input {...props} bind:value={$formData.balance} type="number"/>
+                <Input
+                  {...props}
+                  bind:value={$formData.balance}
+                  type="number"
+                />
               {/snippet}
             </Form.Control>
             <Form.Description />

@@ -20,8 +20,7 @@
           <Card.Title>Dein Ausgaben</Card.Title>
           <Card.Description
           >Hier siehst du eine Analyse der Ausgaben deines Kontos
-          </Card.Description
-          >
+          </Card.Description>
         </Card.Header>
         <Card.Content>
           <div class=" w-[800px] h-[300px] p-4 rounded">

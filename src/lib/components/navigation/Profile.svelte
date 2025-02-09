@@ -26,10 +26,10 @@
           <DropdownMenu.Shortcut>⇧⌘P</DropdownMenu.Shortcut>
         </DropdownMenu.Item>
         <a href={userSettings}>
-        <DropdownMenu.Item>
-          Settings
-          <DropdownMenu.Shortcut>⌘S</DropdownMenu.Shortcut>
-        </DropdownMenu.Item>
+          <DropdownMenu.Item>
+            Settings
+            <DropdownMenu.Shortcut>⌘S</DropdownMenu.Shortcut>
+          </DropdownMenu.Item>
         </a>
       </DropdownMenu.Group>
       <DropdownMenu.Separator />

@@ -58,7 +58,7 @@ export const actions = {
 
   update: async ({ request }) => {
     const { id, newname, newemail, newrole } = Object.fromEntries(
-        await request.formData()
+      await request.formData()
     ) as {
       id: string;
       newname: string;

@@ -43,8 +43,8 @@ export const actions: Actions = {
 
     // check password
     const validPassword = await new Argon2id().verify(
-        user.password,
-        form.data.password
+      user.password,
+      form.data.password
     );
     if (!validPassword) {
       setError(form, "username", "Incorrect username or password");

@@ -146,13 +146,11 @@
         </ContextMenu.Item>
         <ContextMenu.Item onclick={not_implemented}
         >Inspect Element
-        </ContextMenu.Item
-        >
+        </ContextMenu.Item>
         <ContextMenu.Separator />
         <ContextMenu.Item onclick={not_implemented}
         >Developer Tools
-        </ContextMenu.Item
-        >
+        </ContextMenu.Item>
       </ContextMenu.SubContent>
     </ContextMenu.Sub>
   </ContextMenu.Content>
