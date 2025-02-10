@@ -1,5 +1,5 @@
 import type { PageServerLoad } from "./$types";
-import { expenditureSumSortedByType, getUserAccounts } from "$lib/server/prisma/account";
+import { expenditureSumSortedByType, getAccountBalance, getUserAccounts } from "$lib/server/prisma/account";
 
 export const load: PageServerLoad = async (event) => {
   let accountData = [];
@@ -8,7 +8,8 @@ export const load: PageServerLoad = async (event) => {
 
     for (const account of accounts) {
       let data = {
-        expenditures: await expenditureSumSortedByType(account)
+        expenditures: await expenditureSumSortedByType(account),
+        balance: await getAccountBalance(account),
       };
 
       accountData.push(data);

@@ -44,6 +44,7 @@ model Transaction {
   accountId String
   amount    Float   @default(0)
   type      String
+  date      DateTime @default(now())
 }
 
 model Group {

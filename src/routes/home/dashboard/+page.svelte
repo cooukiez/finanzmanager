@@ -6,6 +6,7 @@
 
   import type { PageData } from "./$types";
   import Expenditures from "./components/Expenditures.svelte";
+  import { DollarSign } from "lucide-svelte";
 
   let { data }: { data: PageData } = $props();
   let accountData = data.accountData;
@@ -15,7 +16,16 @@
   {#each accountData as account}
     <div class="flex flex-row w-full gap-2">
       <Expenditures accountExpenditures={account.expenditures} />
-
+      <Card.Root class="w-full">
+        <Card.Header
+          class="flex flex-row items-center justify-between space-y-0 pb-2"
+        >
+          <Card.Title>Balenciaga</Card.Title>
+        </Card.Header>
+        <Card.Content>
+          <div class="text-2xl font-bold">{account.balance}&euro;</div>
+        </Card.Content>
+      </Card.Root>
       <Card.Root class="w-full">
         <Card.Header>
           <Card.Title>Schulden</Card.Title>

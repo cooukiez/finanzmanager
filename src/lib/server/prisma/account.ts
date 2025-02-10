@@ -62,7 +62,7 @@ export const createAccount = async (name: string, userId: string) => {
 export const createTransaction = async (
   accountId: string,
   amount: number,
-  type: string
+  type: string,
 ) => {
   const transactionId = generateId(15);
   return prisma.transaction.create({
