@@ -7,11 +7,15 @@ export const load: PageServerLoad = async (event) => {
     let accounts = await getUserAccounts(event.locals.user.id);
 
     for (const account of accounts) {
-      accountData.push(await expenditureSumSortedByType(account));
+      let data = {
+        expenditures: await expenditureSumSortedByType(account)
+      };
+
+      accountData.push(data);
     }
   }
 
   return {
-    accountData: accountData,
+    accountData: accountData
   };
 };

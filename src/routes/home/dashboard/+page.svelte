@@ -25,7 +25,7 @@
         <Card.Content>
           <div class=" w-[800px] h-[300px] p-4 rounded">
             <PieChart
-              data={account}
+              data={account.expenditures}
               key="expenditureType"
               legend={{ placement: "top-left", orientation: "vertical" }}
               cRange={[
@@ -45,7 +45,7 @@
                   class="text-4xl"
                   dy={4}
                   textAnchor="middle"
-                  value={format(sum(account, (d) => d.expenditureAmount)) + "€"}
+                  value={format(sum(account.expenditures, (d) => d.expenditureAmount)) + "€"}
                   verticalAnchor="middle"
                 />
                 <Text
