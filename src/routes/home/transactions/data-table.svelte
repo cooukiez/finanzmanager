@@ -1,22 +1,41 @@
 <script generics="TData, TValue" lang="ts">
-  import { type ColumnDef, getCoreRowModel } from "@tanstack/table-core";
+  import { type ColumnDef, getCoreRowModel, type RowSelectionState } from "@tanstack/table-core";
   import { createSvelteTable, FlexRender } from "$lib/components/ui/data-table/index.js";
+
   // noinspection ES6UnusedImports
   import * as Table from "$lib/components/ui/table/index.js";
+
+  import { buttonVariants } from "$lib/components/ui/button/index.js";
+  // noinspection ES6UnusedImports
+  import * as Dialog from "$lib/components/ui/dialog/index.js";
 
   type DataTableProps<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
   };
 
-  let { data, columns }: DataTableProps<TData, TValue> = $props();
+  let { columns, data }: DataTableProps<TData, TValue> = $props();
+
+  let rowSelection = $state<RowSelectionState>({});
 
   const table = createSvelteTable({
     get data() {
       return data;
     },
     columns,
-    getCoreRowModel: getCoreRowModel()
+    getCoreRowModel: getCoreRowModel(),
+    onRowSelectionChange: (updater) => {
+      if (typeof updater === "function") {
+        rowSelection = updater(rowSelection);
+      } else {
+        rowSelection = updater;
+      }
+    },
+    state: {
+      get rowSelection() {
+        return rowSelection;
+      }
+    }
   });
 </script>
 
@@ -53,10 +72,21 @@
       {:else}
         <Table.Row>
           <Table.Cell colspan={columns.length} class="h-24 text-center">
-            No results.
+            No results
           </Table.Cell>
         </Table.Row>
       {/each}
     </Table.Body>
   </Table.Root>
+  <Dialog.Root>
+    <Dialog.Trigger class={buttonVariants({ variant: "ghost" }) + "w-full"}>Edit</Dialog.Trigger>
+    <Dialog.Content>
+      <Dialog.Header>
+        <Dialog.Title>Add Transaction</Dialog.Title>
+        <Dialog.Description>
+          Edit the current transaction
+        </Dialog.Description>
+      </Dialog.Header>
+    </Dialog.Content>
+  </Dialog.Root>
 </div>
