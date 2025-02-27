@@ -1,19 +1,17 @@
 <script lang="ts">
   import { Button, buttonVariants } from "$lib/components/ui/button/index.js";
-
-  // noinspection ES6UnusedImports
   import * as Dialog from "$lib/components/ui/dialog/index.js";
-  // noinspection ES6UnusedImports
   import * as Card from "$lib/components/ui/card/index.js";
-  // noinspection ES6UnusedImports
   import * as Form from "$lib/components/ui/form/index.js";
+  import * as Sheet from "$lib/components/ui/sheet/index.js";
+  import * as Popover from "$lib/components/ui/popover/index.js";
 
   import { Input } from "$lib/components/ui/input/index.js";
 
   import { type Infer, superForm, type SuperValidated } from "sveltekit-superforms";
   import { zodClient } from "sveltekit-superforms/adapters";
   import { accountCreateFormSchema, type AccountCreateFormSchema } from "./schema";
-  import { Bar } from "$lib/components/charts/index.js";
+  import AccountSelect from "./components/AccountSelect.svelte";
 
   let {
     data
@@ -30,12 +28,11 @@
       }
     },
     applyAction: true,
-    resetForm: false
+    resetForm: true
   });
 
   const {form: formData, enhance, reset} = form;
   let accountData = data?.accountData;
-  console.log(accountData)
 </script>
 
 {#if accountData.length === 0}
@@ -43,17 +40,11 @@
   <Card.Content class="flex flex-row justify-between items-center p-3 pl-5">
     <span class="text-muted-foreground text-sm"
     >You seem to be missing an account</span>
-    <Dialog.Root bind:open>
-      <Dialog.Trigger class={buttonVariants({ variant: "default" })}
+    <Popover.Root bind:open>
+      <Popover.Trigger class={buttonVariants({ variant: "default" })}
       >Add Account
-      </Dialog.Trigger>
-      <Dialog.Content class="sm:max-w-[425px]">
-        <Dialog.Header>
-          <Dialog.Title>Add Account</Dialog.Title>
-          <Dialog.Description>
-            Add an account to manage your finances
-          </Dialog.Description>
-        </Dialog.Header>
+      </Popover.Trigger>
+      <Popover.Content class="sm:max-w-[425px]">
         <form method="POST" use:enhance>
           <Form.Field {form} name="name">
             <Form.Control>
@@ -79,49 +70,33 @@
             <Form.Description />
             <Form.FieldErrors />
           </Form.Field>
-          <Dialog.Footer>
+          <Sheet.Footer>
             <Button type="submit">Create</Button>
-          </Dialog.Footer>
+          </Sheet.Footer>
         </form>
-      </Dialog.Content>
-    </Dialog.Root>
+      </Popover.Content>
+    </Popover.Root>
   </Card.Content>
 </Card.Root>
 
 {:else}
-<div class="flex flex-col gap-2">
-{#each accountData as account}
-    <div>
-      <Card.Root class="w-full">
-        <Card.Header
-          class="flex flex-row items-center justify-between space-y-0 pb-2"
-        >
-          <Card.Title>Balenciaga</Card.Title>
-        </Card.Header>
-        <Card.Content>
-          <div class="text-2xl font-bold">{account.balance}&euro;</div>
-        </Card.Content>
-        <Bar transactions = {account.transactions}/>
-      </Card.Root>
-    </div>
-  {/each}
-</div>
+<AccountSelect Accounts={accountData} />
 
 <Card.Root class="w-full">
   <Card.Content class="flex flex-row justify-between items-center p-3 pl-5">
     <span class="text-muted-foreground text-sm"
     >Add new Account</span>
-    <Dialog.Root bind:open>
-      <Dialog.Trigger class={buttonVariants({ variant: "default" })}
+    <Sheet.Root bind:open>
+      <Sheet.Trigger class={buttonVariants({ variant: "default" })}
       >Add Account
-      </Dialog.Trigger>
-      <Dialog.Content class="sm:max-w-[425px]">
-        <Dialog.Header>
-          <Dialog.Title>Add Account</Dialog.Title>
-          <Dialog.Description>
+      </Sheet.Trigger>
+      <Sheet.Content class="sm:max-w-[425px]">
+        <Sheet.Header>
+          <Sheet.Title>Add Account</Sheet.Title>
+          <Sheet.Description>
             Add a new account to manage your finances
-          </Dialog.Description>
-        </Dialog.Header>
+          </Sheet.Description>
+        </Sheet.Header>
         <form method="POST" use:enhance>
           <Form.Field {form} name="name">
             <Form.Control>
@@ -151,8 +126,9 @@
             <Button type="submit">Create</Button>
           </Dialog.Footer>
         </form>
-      </Dialog.Content>
-    </Dialog.Root>
+      </Sheet.Content>
+    </Sheet.Root>
   </Card.Content>
 </Card.Root>
 {/if}
+

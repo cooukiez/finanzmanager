@@ -19,7 +19,8 @@ export const load: PageServerLoad = async (event) => {
     for (const account of accounts) {
       let data = {
         balance: await getAccountBalance(account),
-        transactions: await getTransactions(account)
+        transactions: await getTransactions(account),
+        name: account.name,
       };
       accountData.push(data);
     }
