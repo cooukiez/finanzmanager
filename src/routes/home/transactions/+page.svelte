@@ -7,9 +7,6 @@
   console.log(data.transactions);
 </script>
 
-<div class="flex flex-col">
+<div>
   <DataTable columns={columns} data={data.transactions} />
-  <div>
-
-  </div>
 </div>

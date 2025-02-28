@@ -78,15 +78,19 @@
       {/each}
     </Table.Body>
   </Table.Root>
+  <div>
   <Dialog.Root>
-    <Dialog.Trigger class={buttonVariants({ variant: "ghost" }) + "w-full"}>Edit</Dialog.Trigger>
+    <Dialog.Trigger class={buttonVariants({ variant: "ghost" }) + "flex w-full rounded-t-none border-t"}>Add
+      Transaction
+    </Dialog.Trigger>
     <Dialog.Content>
       <Dialog.Header>
         <Dialog.Title>Add Transaction</Dialog.Title>
         <Dialog.Description>
-          Edit the current transaction
+          Add new Transaction to account
         </Dialog.Description>
       </Dialog.Header>
     </Dialog.Content>
   </Dialog.Root>
+  </div>
 </div>
