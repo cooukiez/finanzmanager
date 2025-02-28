@@ -63,7 +63,9 @@
               <Separator orientation="horizontal" />
             </div>
             <div class="w-full h-full p-2">
-              {@render children?.()}
+              500<br>
+              Internal Error
+              <!--{@render children?.()}-->
             </div>
           </main>
         </Sidebar.Provider>
