@@ -1,22 +1,27 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
+  // Define props
   let {
-    transactionType,
-    rowId
+    value,
+    fieldName,
+    rowId,
+    isNumber = false
   }: {
-    transactionType: string,
-    rowId: string
+    value: string | number,
+    fieldName: string,
+    rowId: string,
+    isNumber?: boolean
   } = $props();
 
   // Local state
   let editing = false;
-  let inputValue = transactionType;
+  let inputValue = isNumber ? Number(value) : String(value);
   let inputElement: HTMLInputElement;
 
   // Event dispatcher
   const dispatch = createEventDispatcher<{
-    change: { rowId: string, fieldName: string, value: string }
+    change: { rowId: string, fieldName: string, value: string | number }
   }>();
 
   // Enable editing
@@ -32,7 +37,9 @@
   // Save changes
   function saveChanges() {
     editing = false;
-    dispatch("change", { rowId, fieldName: "type", value: inputValue });
+    // Ensure numbers are stored as numbers
+    const finalValue = isNumber ? Number(inputValue) : inputValue;
+    dispatch("change", { rowId, fieldName, value: finalValue });
   }
 
   // Handle Enter key press
@@ -41,7 +48,7 @@
       saveChanges();
     } else if (event.key === "Escape") {
       // Reset value and cancel editing
-      inputValue = transactionType;
+      inputValue = isNumber ? Number(value) : String(value);
       editing = false;
     }
   }
@@ -54,18 +61,19 @@
 
 {#if editing}
   <input
-    type="text"
+    type={isNumber ? "number" : "text"}
     bind:value={inputValue}
     bind:this={inputElement}
     on:keydown={handleKeyDown}
     on:blur={handleBlur}
     class="w-full p-1 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+    step={isNumber ? "0.01" : undefined}
   />
 {:else}
   <div
     class="w-full cursor-pointer p-1 hover:bg-gray-100 rounded"
     on:click={startEditing}
   >
-    {transactionType}
+    {value}
   </div>
 {/if}

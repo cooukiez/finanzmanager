@@ -8,5 +8,5 @@
 </script>
 
 <div>
-  <DataTable columns={columns} data={data.transactions} />
+  <DataTable columns={columns} data={data.transactions} form={data.form} />
 </div>

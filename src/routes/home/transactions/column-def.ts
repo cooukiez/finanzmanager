@@ -6,7 +6,7 @@ import { Checkbox } from "$lib/components/ui/checkbox/index.js";
 import { createRawSnippet } from "svelte";
 
 import DataTableActions from "./data-table-actions.svelte";
-import DataTableTypeInput from "./data-table-type-input.svelte";
+import DataTableEditableCell from "./data-table-editable-cell.svelte";
 
 import type { TransactionType } from "./schema";
 
@@ -63,7 +63,11 @@ export const columns: ColumnDef<TransactionType>[] = [
     header: "Type",
     id: "type",
     cell: ({ row }) => {
-      return renderComponent(DataTableTypeInput, { transactionType: row.original.type });
+      return renderComponent(DataTableEditableCell, {
+        value: row.original.type,
+        fieldName: "type",
+        rowId: row.id
+      });
     }
   },
   {
