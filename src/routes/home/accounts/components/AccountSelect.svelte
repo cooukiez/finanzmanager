@@ -5,8 +5,11 @@
     import * as Command from "$lib/components/ui/command";
     import * as Popover from "$lib/components/ui/popover";
     import * as Card from "$lib/components/ui/card/index.js";
+    import * as Tabs from "$lib/components/ui/tabs/index.js";
+    import * as Table from "$lib/components/ui/table/index.js";
     import { Button } from "$lib/components/ui/button";
     import { cn } from "$lib/utils.js";
+    import AccountInfo from "./AccountInfo.svelte";
 
     interface Account {
         id: string;
@@ -96,18 +99,7 @@
 <div class="flex flex-col gap-2">
     {#each Accounts as account}
         {#if selectedValue === "All Accounts" || account.name === selectedValue}
-        <div>
-            <Card.Root class="w-full">
-                <Card.Header
-                        class="flex flex-row items-center justify-between space-y-0 pb-2"
-                >
-                    <Card.Title>{account.name}</Card.Title>
-                </Card.Header>
-                <Card.Content>
-                    <div class="text-2xl font-bold">{account.balance}&euro;</div>
-                </Card.Content>
-            </Card.Root>
-        </div>
+             <AccountInfo account={account} />
         {/if}
     {/each}
 </div>

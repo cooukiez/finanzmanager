@@ -8,7 +8,7 @@ import { accountCreateFormSchema } from "./schema";
 import {
   createAccountWithInitialBalance,
   expenditureSumSortedByType, getAccountBalance, getTransactions,
-  getUserAccounts
+  getUserAccounts, incomeSumSortedByType
 } from "$lib/server/prisma/account";
 
 export const load: PageServerLoad = async (event) => {
@@ -17,10 +17,13 @@ export const load: PageServerLoad = async (event) => {
     let accounts = await getUserAccounts(event.locals.user.id);
 
     for (const account of accounts) {
+      const transactions = await getTransactions(account);
       let data = {
         balance: await getAccountBalance(account),
-        transactions: await getTransactions(account),
+        transactions: transactions,
         name: account.name,
+        expenses: await expenditureSumSortedByType(account),
+        income: await incomeSumSortedByType(account),
       };
       accountData.push(data);
     }
@@ -32,7 +35,7 @@ export const load: PageServerLoad = async (event) => {
 };
 
 export const actions: Actions = {
-  create: async (event) => {
+  default: async (event) => {
     const form = await superValidate(event, zod(accountCreateFormSchema));
     if (!form.valid) {
       return fail(400, { form });
