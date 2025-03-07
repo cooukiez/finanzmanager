@@ -15,25 +15,13 @@
 <div class="flex flex-col gap-2">
   {#each accountData as account}
     <div class="flex flex-row w-full gap-2">
-      <Expenditures accountExpenditures={account.expenditures} />
+      <Expenditures accountExpenditures={account.expenditures} accountName={account.name}/>
       <Card.Root class="w-full">
         <Card.Header>
           <Card.Title>Schulden</Card.Title>
           <Card.Description>Deine Schulden</Card.Description>
         </Card.Header>
         <Card.Content></Card.Content>
-      </Card.Root>
-    </div>
-    <div>
-      <Card.Root class="w-full">
-        <Card.Header
-          class="flex flex-row items-center justify-between space-y-0 pb-2"
-        >
-          <Card.Title>Balenciaga</Card.Title>
-        </Card.Header>
-        <Card.Content>
-          <div class="text-2xl font-bold">{account.balance}&euro;</div>
-        </Card.Content>
       </Card.Root>
     </div>
   {/each}

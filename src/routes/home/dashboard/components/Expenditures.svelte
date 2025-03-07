@@ -1,4 +1,5 @@
-<script>
+<script lang="ts">
+  import { Label } from "$lib/components/ui/label/index.js";
   // noinspection ES6UnusedImports
   import * as Card from "$lib/components/ui/card";
   // noinspection ES6UnusedImports
@@ -8,11 +9,15 @@
   import { format } from "@layerstack/utils";
 
   export let accountExpenditures;
+  export let accountName;
 </script>
 
 <Card.Root class="w-full">
   <Card.Header>
-    <Card.Title>Dein Ausgaben</Card.Title>
+    <div>
+      <Label>{accountName}</Label>
+    </div>
+    <Card.Title>Deine Ausgaben für</Card.Title>
     <Card.Description
     >Hier siehst du eine Analyse der Ausgaben deines Kontos
     </Card.Description>

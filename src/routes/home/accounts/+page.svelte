@@ -15,120 +15,120 @@
 
   let {
     data
-  }: { data: { form: SuperValidated<Infer<AccountCreateFormSchema>>; accountData:any} } =
+  }: { data: { form: SuperValidated<Infer<AccountCreateFormSchema>>; accountData: any } } =
     $props();
 
   let open = $state(false);
+  let accounts = $state(data.accountData);
   const form = superForm(data.form, {
     validators: zodClient(accountCreateFormSchema),
-    onResult: ({ result }) => {
-      // check if submission successful and close dialog
+    resetForm: true,
+    invalidateAll: "force",
+    onResult: async ({ result }) => {
+      console.log(result.type)
       if (result.type === "success") {
         open = false;
+        window.location.reload();
       }
     },
-    applyAction: true,
-    resetForm: true
   });
 
-  const {form: formData, enhance, reset} = form;
-  let accountData = data?.accountData;
+  const {form: formData, enhance} = form;
 </script>
 
-{#if accountData.length === 0}
-<Card.Root class="w-full">
-  <Card.Content class="flex flex-row justify-between items-center p-3 pl-5">
+{#if accounts.length === 0}
+  <Card.Root class="w-full">
+    <Card.Content class="flex flex-row justify-between items-center p-3 pl-5">
     <span class="text-muted-foreground text-sm"
     >You seem to be missing an account</span>
-    <Popover.Root bind:open>
-      <Popover.Trigger class={buttonVariants({ variant: "default" })}
-      >Add Account
-      </Popover.Trigger>
-      <Popover.Content class="sm:max-w-[425px]">
-        <form method="POST" use:enhance>
-          <Form.Field {form} name="name">
-            <Form.Control>
-              {#snippet children({ props })}
-                <Form.Label>Account name</Form.Label>
-                <Input {...props} bind:value={$formData.name} />
-              {/snippet}
-            </Form.Control>
-            <Form.Description />
-            <Form.FieldErrors />
-          </Form.Field>
-          <Form.Field {form} name="balance">
-            <Form.Control>
-              {#snippet children({ props })}
-                <Form.Label>Balenciaga</Form.Label>
-                <Input
-                  {...props}
-                  bind:value={$formData.balance}
-                  type="number"
-                />
-              {/snippet}
-            </Form.Control>
-            <Form.Description />
-            <Form.FieldErrors />
-          </Form.Field>
-          <Sheet.Footer>
-            <Button type="submit">Create</Button>
-          </Sheet.Footer>
-        </form>
-      </Popover.Content>
-    </Popover.Root>
-  </Card.Content>
-</Card.Root>
+      <Sheet.Root bind:open>
+        <Sheet.Trigger class={buttonVariants({ variant: "default" })}
+        >Add Account
+        </Sheet.Trigger>
+        <Sheet.Content class="sm:max-w-[425px]">
+          <form method="POST" action="?/create" use:enhance>
+            <Form.Field {form} name="name">
+              <Form.Control>
+                {#snippet children({ props })}
+                  <Form.Label>Account name</Form.Label>
+                  <Input {...props} bind:value={$formData.name} />
+                {/snippet}
+              </Form.Control>
+              <Form.Description />
+              <Form.FieldErrors />
+            </Form.Field>
+            <Form.Field {form} name="balance">
+              <Form.Control>
+                {#snippet children({ props })}
+                  <Form.Label>Initial Balance</Form.Label>
+                  <Input
+                    {...props}
+                    bind:value={$formData.balance}
+                    type="number"
+                  />
+                {/snippet}
+              </Form.Control>
+              <Form.Description />
+              <Form.FieldErrors />
+            </Form.Field>
+            <Sheet.Footer>
+              <Button type="submit">Create</Button>
+            </Sheet.Footer>
+          </form>
+        </Sheet.Content>
+      </Sheet.Root>
+    </Card.Content>
+  </Card.Root>
 
 {:else}
-<AccountSelect Accounts={accountData} />
+  <AccountSelect Accounts={accounts} />
 
-<Card.Root class="w-full">
-  <Card.Content class="flex flex-row justify-between items-center p-3 pl-5">
+  <Card.Root class="w-full">
+    <Card.Content class="flex flex-row justify-between items-center p-3 pl-5">
     <span class="text-muted-foreground text-sm"
     >Add new Account</span>
-    <Sheet.Root bind:open>
-      <Sheet.Trigger class={buttonVariants({ variant: "default" })}
-      >Add Account
-      </Sheet.Trigger>
-      <Sheet.Content class="sm:max-w-[425px]">
-        <Sheet.Header>
-          <Sheet.Title>Add Account</Sheet.Title>
-          <Sheet.Description>
-            Add a new account to manage your finances
-          </Sheet.Description>
-        </Sheet.Header>
-        <form method="POST" use:enhance>
-          <Form.Field {form} name="name">
-            <Form.Control>
-              {#snippet children({ props })}
-                <Form.Label>Account name</Form.Label>
-                <Input {...props} bind:value={$formData.name} />
-              {/snippet}
-            </Form.Control>
-            <Form.Description />
-            <Form.FieldErrors />
-          </Form.Field>
-          <Form.Field {form} name="balance">
-            <Form.Control>
-              {#snippet children({ props })}
-                <Form.Label>Balenciaga</Form.Label>
-                <Input
-                  {...props}
-                  bind:value={$formData.balance}
-                  type="number"
-                />
-              {/snippet}
-            </Form.Control>
-            <Form.Description />
-            <Form.FieldErrors />
-          </Form.Field>
-          <Dialog.Footer>
-            <Button type="submit">Create</Button>
-          </Dialog.Footer>
-        </form>
-      </Sheet.Content>
-    </Sheet.Root>
-  </Card.Content>
-</Card.Root>
+      <Sheet.Root bind:open>
+        <Sheet.Trigger class={buttonVariants({ variant: "default" })}
+        >Add Account
+        </Sheet.Trigger>
+        <Sheet.Content class="sm:max-w-[425px]">
+          <Sheet.Header>
+            <Sheet.Title>Add Account</Sheet.Title>
+            <Sheet.Description>
+              Add a new account to manage your finances
+            </Sheet.Description>
+          </Sheet.Header>
+          <form method="POST" action="?/create" use:enhance>
+            <Form.Field {form} name="name">
+              <Form.Control>
+                {#snippet children({ props })}
+                  <Form.Label>Account name</Form.Label>
+                  <Input {...props} bind:value={$formData.name} />
+                {/snippet}
+              </Form.Control>
+              <Form.Description />
+              <Form.FieldErrors />
+            </Form.Field>
+            <Form.Field {form} name="balance">
+              <Form.Control>
+                {#snippet children({ props })}
+                  <Form.Label>Initial Balance</Form.Label>
+                  <Input
+                    {...props}
+                    bind:value={$formData.balance}
+                    type="number"
+                  />
+                {/snippet}
+              </Form.Control>
+              <Form.Description />
+              <Form.FieldErrors />
+            </Form.Field>
+            <Sheet.Footer>
+              <Button type="submit">Create</Button>
+            </Sheet.Footer>
+          </form>
+        </Sheet.Content>
+      </Sheet.Root>
+    </Card.Content>
+  </Card.Root>
 {/if}
-

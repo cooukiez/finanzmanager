@@ -10,6 +10,7 @@ export const load: PageServerLoad = async (event) => {
       let data = {
         expenditures: await expenditureSumSortedByType(account),
         balance: await getAccountBalance(account),
+        name: account.name,
       };
 
       accountData.push(data);

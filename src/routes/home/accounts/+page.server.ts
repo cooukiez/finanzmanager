@@ -32,18 +32,27 @@ export const load: PageServerLoad = async (event) => {
 };
 
 export const actions: Actions = {
-  default: async (event) => {
+  create: async (event) => {
     const form = await superValidate(event, zod(accountCreateFormSchema));
     if (!form.valid) {
       return fail(400, { form });
     }
 
     if (event.locals.user) {
-      await createAccountWithInitialBalance(
-        form.data.name,
-        event.locals.user.id,
-        form.data.balance
-      );
+      try {
+        await createAccountWithInitialBalance(
+          form.data.name,
+          event.locals.user.id,
+          form.data.balance
+        );
+
+        // Return the form with a success flag
+        return { form, success: true };
+      } catch (error) {
+        // Handle any errors that might occur during account creation
+        setError(form, "", "Failed to create account: " + (error instanceof Error ? error.message : String(error)));
+        return fail(500, { form });
+      }
     } else {
       setError(form, "name", "Invalid user session");
       return fail(400, { form });

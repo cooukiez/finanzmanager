@@ -39,6 +39,7 @@ export const expenditureSumSortedByType = async (account: Account) => {
     },
     where: {
       accountId: account.id,
+      type: {not: "initial"},
       amount: {
         lt: 0, // filter for negative amounts (expenditures)
       },
