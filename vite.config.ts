@@ -12,4 +12,9 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
+  optimizeDeps: {
+    exclude: [
+      "@node-rs"
+    ]
+  }
 });

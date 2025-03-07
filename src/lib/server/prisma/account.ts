@@ -23,6 +23,14 @@ export const getAccountBalance = async (account: Account) => {
   return result._sum.amount || 0;
 };
 
+export const getTransactions = async (account: Account) => {
+ return prisma.transaction.findMany({
+    where: {
+      accountId: account.id,
+    },
+  });
+};
+
 export const expenditureSumSortedByType = async (account: Account) => {
   const groupedTransactions = await prisma.transaction.groupBy({
     by: ["type"],
@@ -62,7 +70,7 @@ export const createAccount = async (name: string, userId: string) => {
 export const createTransaction = async (
   accountId: string,
   amount: number,
-  type: string
+  type: string,
 ) => {
   const transactionId = generateId(15);
   return prisma.transaction.create({

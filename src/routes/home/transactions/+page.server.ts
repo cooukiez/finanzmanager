@@ -1,30 +1,59 @@
-type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
+import { transactionSchema, type TransactionType } from "./schema";
+
+import { superValidate } from "sveltekit-superforms";
+
+import { fail } from "@sveltejs/kit";
+import type { Actions, PageServerLoad } from "./$types";
+import { zod } from "sveltekit-superforms/adapters";
+
+const exampleTransactions: TransactionType[] = [
+  {
+    amount: 10,
+    type: "dubai croissant"
+  },
+  {
+    amount: 25.50,
+    type: "office supplies"
+  },
+  {
+    amount: 125,
+    type: "client lunch"
+  }
+]
+
+
+export const load: PageServerLoad = async () => {
+  const form = await superValidate(zod(transactionSchema));
+
+  const transactions = exampleTransactions;
+  return {
+    transactions,
+    form
+  };
 };
 
-const tableData: Payment[] = [
-  {
-    id: "728ed52f",
-    amount: 100,
-    status: "pending",
-    email: "m@example.com",
-  },
-  {
-    id: "489e1d42",
-    amount: 125,
-    status: "processing",
-    email: "example@gmail.com",
-  },
-  // ...
-];
+export const actions: Actions = {
+  updateTransaction: async ({ request }) => {
+    const form = await superValidate(request, zod(transactionSchema));
 
-export async function load() {
-  // logic to fetch payments data here
-  const payments = tableData;
-  return {
-    payments,
-  };
-}
+    if (!form.valid) {
+      return fail(400, { form });
+    }
+
+    // In a real app, you would update the transaction in the database here
+    // For this demo, we'll just return success
+    return { form };
+  },
+
+  addTransaction: async ({ request }) => {
+    const form = await superValidate(request, zod(transactionSchema));
+
+    if (!form.valid) {
+      return fail(400, { form });
+    }
+
+    // In a real app, you would add the transaction to the database here
+    // For this demo, we'll just return success
+    return { form };
+  }
+};

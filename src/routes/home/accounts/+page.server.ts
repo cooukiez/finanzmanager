@@ -5,11 +5,29 @@ import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 
 import { accountCreateFormSchema } from "./schema";
-import { createAccountWithInitialBalance } from "$lib/server/prisma/account";
+import {
+  createAccountWithInitialBalance,
+  expenditureSumSortedByType, getAccountBalance, getTransactions,
+  getUserAccounts
+} from "$lib/server/prisma/account";
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async (event) => {
+  let accountData = [];
+  if (event.locals.user) {
+    let accounts = await getUserAccounts(event.locals.user.id);
+
+    for (const account of accounts) {
+      let data = {
+        balance: await getAccountBalance(account),
+        transactions: await getTransactions(account),
+        name: account.name,
+      };
+      accountData.push(data);
+    }
+  }
   return {
     form: await superValidate(zod(accountCreateFormSchema)),
+    accountData: accountData,
   };
 };
 

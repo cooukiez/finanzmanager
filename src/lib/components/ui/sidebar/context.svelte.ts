@@ -8,7 +8,7 @@ export type SidebarStateProps = {
   /**
    * A getter function that returns the current open state of the sidebar.
    * We use a getter function here to support `bind:open` on the `Sidebar.Provider`
-   * component.
+   * AccountSelect.
    */
   open: Getter<boolean>;
 

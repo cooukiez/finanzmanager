@@ -1,8 +1,12 @@
 <script lang="ts">
   import DataTable from "./data-table.svelte";
-  import { columns } from "./columns.js";
+  import { columns } from "./column-def";
 
   let { data } = $props();
+
+  console.log(data.transactions);
 </script>
 
-<DataTable {columns} {data} />
+<div>
+  <DataTable columns={columns} data={data.transactions} form={data.form} />
+</div>
