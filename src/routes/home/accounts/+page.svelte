@@ -1,12 +1,9 @@
 <script lang="ts">
   import { Button, buttonVariants } from "$lib/components/ui/button/index.js";
-  import * as Dialog from "$lib/components/ui/dialog/index.js";
   import * as Card from "$lib/components/ui/card/index.js";
   import * as Form from "$lib/components/ui/form/index.js";
   import * as Sheet from "$lib/components/ui/sheet/index.js";
   import * as Popover from "$lib/components/ui/popover/index.js";
-  import * as Tabs from "$lib/components/ui/tabs/index.js";
-  import * as Table from "$lib/components/ui/table/index.js";
 
   import { Input } from "$lib/components/ui/input/index.js";
 
@@ -15,26 +12,22 @@
   import { accountCreateFormSchema, type AccountCreateFormSchema } from "./schema";
   import AccountSelect from "./components/AccountSelect.svelte";
 
-  let {
-    data
-  }: { data: { form: SuperValidated<Infer<AccountCreateFormSchema>>; accountData: any} } =
-          $props();
+  const { data } = $props();
 
   let open = $state(false);
+
   const form = superForm(data.form, {
     validators: zodClient(accountCreateFormSchema),
     onResult: ({ result }) => {
-      // check if submission successful and close dialog
       if (result.type === "success") {
         open = false;
       }
     },
-    applyAction: true,
-    resetForm: true
   });
 
-  const {form: formData, enhance, reset} = form;
-  let accountData = data?.accountData;
+  const {form: formData, enhance} = form;
+
+  const accountData = $derived(data.accountData);
 
 </script>
 
@@ -125,9 +118,9 @@
               <Form.Description />
               <Form.FieldErrors />
             </Form.Field>
-            <Dialog.Footer>
+            <Sheet.Footer>
               <Button type="submit">Create</Button>
-            </Dialog.Footer>
+            </Sheet.Footer>
           </form>
         </Sheet.Content>
       </Sheet.Root>

@@ -5,16 +5,12 @@
     import * as Command from "$lib/components/ui/command";
     import * as Popover from "$lib/components/ui/popover";
     import * as Card from "$lib/components/ui/card/index.js";
-    import * as Tabs from "$lib/components/ui/tabs/index.js";
-    import * as Table from "$lib/components/ui/table/index.js";
     import { Button } from "$lib/components/ui/button";
     import { cn } from "$lib/utils.js";
     import AccountInfo from "./AccountInfo.svelte";
 
     interface Account {
-        id: string;
         name: string;
-        ownerId: string;
         balance?: number;
         transactions?: any[];
     }

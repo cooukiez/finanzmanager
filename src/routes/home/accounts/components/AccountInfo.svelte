@@ -65,7 +65,6 @@
                             </Card.Root>
                         {/if}
 
-                        <!-- Account Information -->
                         <Card.Root class="col-span-2">
                             <Card.Header class="pb-2">
                                 <Card.Title class="text-sm font-medium">Account Information</Card.Title>
