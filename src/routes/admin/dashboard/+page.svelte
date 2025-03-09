@@ -4,24 +4,23 @@
   import Alert from "./components/Alert.svelte";
   import Users from "./components/Users.svelte";
 
-  // Import shadcn-svelte components
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
   import { Label } from "$lib/components/ui/label";
-  import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "$lib/components/ui/card";
+  import * as Card from "$lib/components/ui/card";
   import { Separator } from "$lib/components/ui/separator";
 
   let { data, form }: { data: PageData; form: ActionData } = $props();
 </script>
 
 <div class="container mx-auto py-10 space-y-8">
-  <Card class="w-full">
-    <CardHeader>
-      <CardTitle>Admin Dashboard</CardTitle>
-      <CardDescription>Manage users and their permissions</CardDescription>
-    </CardHeader>
+  <Card.Root class="w-full">
+    <Card.Header>
+      <Card.Title>Admin Dashboard</Card.Title>
+      <Card.Description>Manage users and their permissions</Card.Description>
+    </Card.Header>
 
-    <CardContent>
+    <Card.Content>
       <form
               action="?/create"
               method="POST"
@@ -94,18 +93,18 @@
           <Alert message={form?.message} />
         {/if}
       </form>
-    </CardContent>
-  </Card>
+    </Card.Content>
+  </Card.Root>
 
   <Separator />
 
-  <Card class="w-full">
-    <CardHeader>
-      <CardTitle>User Management</CardTitle>
-      <CardDescription>View and manage existing users</CardDescription>
-    </CardHeader>
-    <CardContent>
+  <Card.Root class="w-full">
+    <Card.Header>
+      <Card.Title>User Management</Card.Title>
+      <Card.Description>View and manage existing users</Card.Description>
+    </Card.Header>
+    <Card.Content>
       <Users users={data?.users} />
-    </CardContent>
-  </Card>
+    </Card.Content>
+  </Card.Root>
 </div>
