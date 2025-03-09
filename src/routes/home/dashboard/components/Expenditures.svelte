@@ -17,21 +17,21 @@
     <div>
       <Label>{accountName}</Label>
     </div>
-    <Card.Title>Deine Ausgaben für</Card.Title>
-    <Card.Description
-    >Hier siehst du eine Analyse der Ausgaben deines Kontos
+    <Card.Title>Your Expenditures</Card.Title>
+    <Card.Description>
+      Here you can see an analysis of all your expenditures.
     </Card.Description>
   </Card.Header>
   <Card.Content>
-    <div class=" w-[800px] h-[300px] p-4 rounded">
+    <div class="w-full h-[300px] p-4 rounded">
       <PieChart
         cRange={[
-                "hsl(var(--g1))",
-                "hsl(var(--g2))",
-                "hsl(var(--g3))",
-                "hsl(var(--g4))",
-                "hsl(var(--g5))",
-              ]}
+          "hsl(var(--g1))",
+          "hsl(var(--g2))",
+          "hsl(var(--g3))",
+          "hsl(var(--g4))",
+          "hsl(var(--g5))",
+        ]}
         cornerRadius={5}
         data={accountExpenditures}
         innerRadius={-30}

@@ -3,13 +3,13 @@ import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { Argon2id } from "oslo/password";
 
-import { getUserAccounts } from "$lib/server/prisma/account";
+import { getUser } from "$lib/server/prisma/user";
 
 export const load: PageServerLoad = async (event) => {
-  let account
+  let userId
   try {
     if (event.locals.user) {
-      account = await getUserAccounts(event.locals.user.id);
+      userId = await getUser(event.locals.user.id);
     }
   }
   catch (err) {
@@ -18,7 +18,7 @@ export const load: PageServerLoad = async (event) => {
   }
 
   return {
-    account: account,
+    userId: userId,
   };
 };
 

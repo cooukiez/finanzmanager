@@ -6,7 +6,7 @@ export const registerPage = "/auth/register";
 
 export const userHomepage = "/home/dashboard";
 export const userAccounts = "/home/accounts";
-export const userGroups = "/home/groups";
+export const userDebt = "/home/debt";
 export const userTransactions = "/home/transactions";
 
 export const adminDashboard = "/admin/dashboard";

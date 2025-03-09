@@ -1,5 +1,5 @@
 import type { IndexedRoute } from "$lib";
-import { userAccounts, userGroups, userHomepage, userTransactions } from "$lib/config/routes";
+import { userAccounts, userDebt, userHomepage, userTransactions } from "$lib/config/routes";
 
 export const userRoutes: IndexedRoute[] = [
   {
@@ -15,8 +15,8 @@ export const userRoutes: IndexedRoute[] = [
     index: 1
   },
   {
-    name: "Groups",
-    href: userGroups,
+    name: "Debt",
+    href: userDebt,
     label: "",
     index: 2
   },
