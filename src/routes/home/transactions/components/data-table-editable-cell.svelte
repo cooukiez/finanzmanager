@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cellEditStore } from "./stores";
+  import { cellEditStore } from "../stores";
 
   // Define props
   let {

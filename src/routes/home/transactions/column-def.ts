@@ -3,8 +3,8 @@ import type { ColumnDef } from "@tanstack/table-core";
 import { renderComponent } from "$lib/components/ui/data-table/index.js";
 import { Checkbox } from "$lib/components/ui/checkbox/index.js";
 
-import DataTableActions from "./data-table-actions.svelte";
-import DataTableEditableCell from "./data-table-editable-cell.svelte";
+import DataTableActions from "./components/data-table-actions.svelte";
+import DataTableEditableCell from "./components/data-table-editable-cell.svelte";
 
 import type { TransactionType } from "./schema";
 

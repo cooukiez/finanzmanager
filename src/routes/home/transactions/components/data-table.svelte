@@ -1,19 +1,19 @@
 <script generics="TData, TValue" lang="ts">
   import { type ColumnDef, getCoreRowModel, type RowSelectionState } from "@tanstack/table-core";
-  import { createSvelteTable, FlexRender } from "$lib/components/ui/data-table/index.js";
+  import { createSvelteTable, FlexRender } from "$lib/components/ui/data-table";
   import { superForm } from "sveltekit-superforms/client";
-  import { buttonVariants } from "$lib/components/ui/button/index.js";
-  import { cellEditStore } from "./stores";
+  import { buttonVariants } from "$lib/components/ui/button";
+  import { cellEditStore } from "../stores";
 
   // noinspection ES6UnusedImports
-  import * as Table from "$lib/components/ui/table/index.js";
+  import * as Table from "$lib/components/ui/table";
   // noinspection ES6UnusedImports
-  import * as Dialog from "$lib/components/ui/dialog/index.js";
+  import * as Dialog from "$lib/components/ui/dialog";
   // noinspection ES6UnusedImports
-  import * as Form from "$lib/components/ui/form/index.js";
+  import * as Form from "$lib/components/ui/form";
 
-  import { Input } from "$lib/components/ui/input/index.js";
-  import type { TransactionType } from "./schema";
+  import { Input } from "$lib/components/ui/input";
+  import type { TransactionType } from "../schema";
 
   import type { SuperValidated } from "sveltekit-superforms";
 
