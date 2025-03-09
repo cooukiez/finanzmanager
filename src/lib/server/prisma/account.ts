@@ -1,6 +1,6 @@
-import {prisma} from "$lib/server/prisma/user";
-import type {Account} from "@prisma/client";
-import {generateId} from "lucia";
+import { prisma } from "$lib/server/prisma/user";
+import type { Account } from "@prisma/client";
+import { generateId } from "lucia";
 
 export const getUserAccounts = async (userId: string) => {
   return prisma.account.findMany({
@@ -148,6 +148,22 @@ export const createTransaction = async (
       amount: amount,
       type: type,
     },
+  });
+};
+
+export const updateTransaction = async (
+  transactionId: string,
+  amount: Exclude<number, 0>,
+  type: string
+) => {
+  return prisma.transaction.update({
+    data: {
+      amount: amount,
+      type: type
+    },
+    where: {
+      id: transactionId
+    }
   });
 };
 
