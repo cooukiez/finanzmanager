@@ -5,7 +5,10 @@
   import { buttonVariants } from "$lib/components/ui/button/index.js";
   import { cellEditStore } from "./stores";
 
-  // Import UI components
+  // noinspection ES6UnusedImports
+  import * as Table from "$lib/components/ui/table/index.js";
+  // noinspection ES6UnusedImports
+  import * as Dialog from "$lib/components/ui/dialog/index.js";
 
   // Component props
   type DataTableProps<TData, TValue> = {

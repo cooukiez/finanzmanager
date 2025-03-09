@@ -1,8 +1,7 @@
 <script lang="ts">
   import Ellipsis from "lucide-svelte/icons/ellipsis";
   import { Button } from "$lib/components/ui/button/index.js";
-  // noinspection ES6UnusedImports
-  import * as Dialog from "$lib/components/ui/dialog/index.js";
+
   // noinspection ES6UnusedImports
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
 
@@ -30,12 +29,9 @@
           <DropdownMenu.Group>
             <DropdownMenu.GroupHeading>Actions</DropdownMenu.GroupHeading>
             <DropdownMenu.Item onclick={() => navigator.clipboard.writeText(id)}>
-              Copy payment ID
+              Copy Transaction ID
             </DropdownMenu.Item>
           </DropdownMenu.Group>
-          <DropdownMenu.Separator />
-          <DropdownMenu.Item>View customer</DropdownMenu.Item>
-          <DropdownMenu.Item>View payment details</DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Root>
     </div>
