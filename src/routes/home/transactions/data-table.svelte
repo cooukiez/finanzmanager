@@ -9,15 +9,23 @@
   import * as Table from "$lib/components/ui/table/index.js";
   // noinspection ES6UnusedImports
   import * as Dialog from "$lib/components/ui/dialog/index.js";
+  // noinspection ES6UnusedImports
+  import * as Form from "$lib/components/ui/form/index.js";
+
+  import { Input } from "$lib/components/ui/input/index.js";
+  import type { TransactionType } from "./schema";
+
+  import type { SuperValidated } from "sveltekit-superforms";
 
   // Component props
   type DataTableProps<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
-    form: any;
+    formInput: SuperValidated<TransactionType>;
+    accountId: string;
   };
 
-  let { columns, data, form }: DataTableProps<TData, TValue> = $props();
+  let { columns, data, formInput, accountId }: DataTableProps<TData, TValue> = $props();
 
   // State management
   let rowSelection = $state<RowSelectionState>({});
@@ -25,14 +33,19 @@
   let transactionData = $state<any[]>([...data.map(item => ({ ...item }))]);
 
   // Set up superform
-  const { form: addForm, enhance, reset } = superForm(form, {
+  const form = superForm(formInput, {
     resetForm: true,
     onResult: ({ result }) => {
+      console.log(result);
       if (result.type === "success") {
         addDialogOpen = false;
+
+        transactionData = [...transactionData, result.data?.form.data];
       }
     }
   });
+
+  const { form: formData, enhance } = form;
 
   // Subscribe to cell edit store
   const unsubscribe = cellEditStore.subscribe((editData) => {
@@ -171,7 +184,7 @@
 
   <div>
     <Dialog.Root bind:open={addDialogOpen}>
-      <Dialog.Trigger class="{buttonVariants({ variant: 'ghost' })} flex w-full rounded-t-none border-t">
+      <Dialog.Trigger class="{buttonVariants({ variant: 'ghost' })} flex h-[3rem] w-full rounded-t-none border-t">
         Add Transaction
       </Dialog.Trigger>
       <Dialog.Content>
@@ -181,7 +194,40 @@
             Add new Transaction to account
           </Dialog.Description>
         </Dialog.Header>
-        <!-- Form content would go here -->
+        <form method="POST" use:enhance>
+          <Form.Field {form} name="amount">
+            <Form.Control>
+              {#snippet children({ props })}
+                <Form.Label>Amount</Form.Label>
+                <Input
+                  {...props}
+                  bind:value={$formData.amount}
+                  type="number"
+                />
+              {/snippet}
+            </Form.Control>
+            <Form.Description />
+            <Form.FieldErrors />
+          </Form.Field>
+          <Form.Field {form} name="type">
+            <Form.Control>
+              {#snippet children({ props })}
+                <Form.Label>Transaction type</Form.Label>
+                <Input {...props} bind:value={$formData.type} />
+              {/snippet}
+            </Form.Control>
+            <Form.Description />
+            <Form.FieldErrors />
+          </Form.Field>
+          <Form.Field {form} name="accountId">
+            <Form.Control>
+              {#snippet children({ props })}
+                <Input type="hidden" name="accountId" value={accountId} />
+              {/snippet}
+            </Form.Control>
+          </Form.Field>
+          <Form.Button class="mt-4">Submit</Form.Button>
+        </form>
       </Dialog.Content>
     </Dialog.Root>
   </div>

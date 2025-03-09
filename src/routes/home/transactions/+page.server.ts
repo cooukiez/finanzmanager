@@ -1,12 +1,11 @@
 import { transactionSchema } from "./schema";
 
-import { superValidate } from "sveltekit-superforms";
+import { setError, superValidate } from "sveltekit-superforms";
 
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { zod } from "sveltekit-superforms/adapters";
-import { expenses, getAccountBalance, getTransactions, getUserAccounts, income } from "$lib/server/prisma/account";
-import { accountCreateFormSchema } from "../accounts/schema";
+import { createTransaction, getTransactions, getUserAccounts } from "$lib/server/prisma/account";
 
 export const load: PageServerLoad = async (event) => {
   const form = await superValidate(zod(transactionSchema));
@@ -17,11 +16,9 @@ export const load: PageServerLoad = async (event) => {
 
     for (const account of accounts) {
       let data = {
-        balance: await getAccountBalance(account),
-        transactions: await getTransactions(account),
+        id: account.id,
         name: account.name,
-        expenses: await expenses(account),
-        income: await income(account)
+        transactions: await getTransactions(account)
       };
 
       accountData.push(data);
@@ -29,33 +26,36 @@ export const load: PageServerLoad = async (event) => {
   }
 
   return {
-    form: await superValidate(zod(accountCreateFormSchema)),
+    form,
     accountData: accountData
   };
 };
 
 export const actions: Actions = {
-  updateTransaction: async ({ request }) => {
-    const form = await superValidate(request, zod(transactionSchema));
-
+  default: async (event) => {
+    const form = await superValidate(event, zod(transactionSchema));
     if (!form.valid) {
       return fail(400, { form });
     }
 
-    // In a real app, you would update the transaction in the database here
-    // For this demo, we'll just return success
-    return { form };
-  },
+    if (event.locals.user) {
+      try {
+        await createTransaction(
+          form.data.accountId,
+          form.data.amount,
+          form.data.type
+        );
 
-  addTransaction: async ({ request }) => {
-    const form = await superValidate(request, zod(transactionSchema));
-
-    if (!form.valid) {
+        // Return the form with a success flag
+        return { form, success: true };
+      } catch (error) {
+        // Handle any errors that might occur during account creation
+        setError(form, "", "Failed to create transaction: " + (error instanceof Error ? error.message : String(error)));
+        return fail(500, { form });
+      }
+    } else {
+      setError(form, "", "Invalid user session");
       return fail(400, { form });
     }
-
-    // In a real app, you would add the transaction to the database here
-    // For this demo, we'll just return success
-    return { form };
   }
 };

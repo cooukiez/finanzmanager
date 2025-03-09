@@ -4,6 +4,7 @@ export type TransactionSchema = typeof transactionSchema;
 export type TransactionType = z.infer<typeof transactionSchema>;
 
 export const transactionSchema = z.object({
+  accountId: z.string(),
   id: z.string(),
   amount: z
     .number()

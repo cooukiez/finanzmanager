@@ -4,6 +4,9 @@
 
   import AccountSelect from "../accounts/components/AccountSelect.svelte";
 
+  // noinspection ES6UnusedImports
+  import * as Card from "$lib/components/ui/card/index.js";
+
   let { data } = $props();
 
   let selectedAccountName = $state("All Accounts");
@@ -18,7 +21,17 @@
     <div class="flex flex-col gap-2 mt-4">
       {#each accountData as account}
         {#if selectedAccountName === "All Accounts" || account.name === selectedAccountName}
-          <DataTable columns={columns} data={account.transactions} form={data.form} />
+          <Card.Root class="w-full">
+            <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
+              <div>
+                <Card.Title>{account.name}</Card.Title>
+                <Card.Description>Account Transactions</Card.Description>
+              </div>
+            </Card.Header>
+            <Card.Content>
+              <DataTable columns={columns} data={account.transactions} formInput={data.form} accountId={account.id} />
+            </Card.Content>
+          </Card.Root>
         {/if}
       {/each}
     </div>
