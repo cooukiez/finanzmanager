@@ -6,6 +6,7 @@
 
   // noinspection ES6UnusedImports
   import * as Card from "$lib/components/ui/card/index.js";
+  import { userAccounts } from "$lib/config/routes";
 
   let { data } = $props();
 
@@ -34,6 +35,11 @@
           </Card.Root>
         {/if}
       {/each}
+    </div>
+  {:else}
+    <div class="m-3 my-2 text-muted-foreground">
+      <span>You seem to be missing an account. Create one on the <a href={userAccounts}
+                                                                    class="underline">accounts page</a>.</span>
     </div>
   {/if}
 </div>

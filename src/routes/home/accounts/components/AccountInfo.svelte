@@ -20,7 +20,7 @@
 
 </script>
 
-<div class="flex flex-col gap-4 mt-4">
+<div class="flex flex-col gap-4">
   <Card.Root class="w-full">
     <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
       <div>

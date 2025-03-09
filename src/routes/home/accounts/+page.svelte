@@ -38,7 +38,7 @@
 
 {#if accountData.length !== 0}
   <AccountSelect accounts={accountData} bind:selectedValue={selectedAccountName} />
-  <div class="flex flex-col gap-2">
+  <div class="flex flex-col mt-4 mb-2 gap-2">
     {#each accountData as account}
       {#if selectedAccountName === "All Accounts" || account.name === selectedAccountName}
         <AccountInfo account={account} />
@@ -47,7 +47,7 @@
   </div>
 {/if}
 
-<Card.Root class="w-full mt-4">
+<Card.Root class="w-full">
   <Card.Content class="flex flex-row justify-between items-center p-3 pl-5">
 
     {#if accountData.length === 0}
