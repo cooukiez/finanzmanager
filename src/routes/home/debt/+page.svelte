@@ -32,12 +32,11 @@
       </Card>
     </section>
 
-    <!-- Pending Debts Section -->
     {#if data.requestsAsDebtor.length > 0 || data.requestsAsCreditor.length > 0}
       <section class="flex-1">
         <h2 class="text-xl font-semibold mb-6">Pending Debts</h2>
         <div class="space-y-6">
-          <!-- Pending as Debtor -->
+
           {#if data.requestsAsDebtor.length > 0}
             <div>
               <h3 class="text-lg font-semibold">Debts You Owe</h3>
@@ -117,12 +116,11 @@
             <span class="text-gray-500 text-sm">
               Status: Accepted
             </span>
-                    <!-- Show the "Debt Payed" button only if the user is the creditor -->
                     {#if (debt.creditorId === data.user.id)}
                       <form method="POST" action="?/deleteDebt" use:enhance={() => ({ update }) => update({ reset: true })}>
                         <input type="hidden" name="debtId" value={debt.id} />
                         <Button
-                          class="bg-blue-500 hover:bg-blue-600 text-white"
+                          variant="default"
                           size="sm"
                           type="submit"
                         >
