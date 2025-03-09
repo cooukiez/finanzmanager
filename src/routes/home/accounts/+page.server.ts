@@ -7,8 +7,8 @@ import type { Actions, PageServerLoad } from "./$types";
 import { accountCreateFormSchema } from "./schema";
 import {
   createAccountWithInitialBalance,
-  expenditureSumSortedByType, getAccountBalance, getTransactions,
-  getUserAccounts, incomeSumSortedByType
+  getAccountBalance, getTransactions,
+  getUserAccounts, income, expenses, createTransaction
 } from "$lib/server/prisma/account";
 
 export const load: PageServerLoad = async (event) => {
@@ -17,13 +17,12 @@ export const load: PageServerLoad = async (event) => {
     let accounts = await getUserAccounts(event.locals.user.id);
 
     for (const account of accounts) {
-      const transactions = await getTransactions(account);
       let data = {
         balance: await getAccountBalance(account),
-        transactions: transactions,
+        transactions: await getTransactions(account),
         name: account.name,
-        expenses: await expenditureSumSortedByType(account),
-        income: await incomeSumSortedByType(account),
+        expenses: await expenses(account),
+        income: await income(account),
       };
       accountData.push(data);
     }

@@ -1,6 +1,6 @@
-import { prisma } from "$lib/server/prisma/user";
-import type { Account } from "@prisma/client";
-import { generateId } from "lucia";
+import {prisma} from "$lib/server/prisma/user";
+import type {Account} from "@prisma/client";
+import {generateId} from "lucia";
 
 export const getUserAccounts = async (userId: string) => {
   return prisma.account.findMany({
@@ -58,30 +58,38 @@ export const expenditureSumSortedByType = async (account: Account) => {
   }));
 };
 
-  export const incomeSumSortedByType = async (account: Account) => {
-    const groupedTransactions = await prisma.transaction.groupBy({
-      by: ["type"],
-      _sum: {
-        amount: true,
+export const income = async (account: Account) => {
+  const inc = await prisma.transaction.findMany({
+    where: {
+      accountId: account.id,
+      type: {not: "initial"},
+      amount: {
+        gt: 0,
       },
-      where: {
-        accountId: account.id,
-        type: {not: "initial"},
-        amount: {
-          gt: 0,
-        },
-      },
-      orderBy: {
-        _sum: {
-          amount: "asc",
-        },
-      },
-    });
+    },
+  });
+  let incAmount = 0;
+  inc.forEach((i:any) => {
+    incAmount += i.amount;
+  });
+  return incAmount;
+};
 
-  return groupedTransactions.map((group) => ({
-    incomeType: group.type,
-    incomeAmount: Math.abs(group._sum.amount ?? 0),
-  }));
+export const expenses = async (account: Account) => {
+  const ex = await prisma.transaction.findMany({
+    where: {
+      accountId: account.id,
+      type: {not: "initial"},
+      amount: {
+        lt: 0,
+      },
+    },
+  });
+  let exAmount = 0;
+  ex.forEach((e:any) => {
+    exAmount += e.amount;
+  });
+  return exAmount;
 };
 
 export const createAccount = async (name: string, userId: string) => {
