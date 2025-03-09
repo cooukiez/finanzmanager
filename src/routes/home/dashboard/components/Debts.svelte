@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Label } from "$lib/components/ui/label/index.js";
   // noinspection ES6UnusedImports
   import * as Card from "$lib/components/ui/card";
   import { PieChart, Text } from "layerchart";
