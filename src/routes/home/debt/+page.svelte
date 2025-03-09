@@ -130,6 +130,9 @@
                         </Button>
                       </form>
                     {/if}
+                    <Button class="invisible m-0 bg-gray-300 text-xs" type="submit" variant="default" size="sm" disabled>
+                      Placeholder
+                    </Button>
                   </CardFooter>
                 </Card>
               {/each}
