@@ -43,9 +43,6 @@
 
 <Card.Root class="w-full">
   <Card.Header>
-    <div>
-      <Label>Debt Overview</Label>
-    </div>
     <Card.Title>Your Debts</Card.Title>
     <Card.Description>
       Here you can see an analysis of your debt.
