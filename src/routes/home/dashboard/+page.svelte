@@ -11,12 +11,10 @@
 </script>
 
 <div class="flex flex-col max-w-screen-xl mx-auto">
-  {#each accountData as account}
     <div class="flex flex-row w-full gap-2">
       <div class="flex-[3]">
         <Expenditures
-          accountExpenditures={account.expenditures}
-          accountName={account.name}
+          Expenditures={accountData}
         />
       </div>
 
@@ -29,5 +27,4 @@
         </div>
       </div>
     </div>
-  {/each}
 </div>

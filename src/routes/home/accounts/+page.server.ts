@@ -15,7 +15,6 @@ export const load: PageServerLoad = async (event) => {
   let accountData = [];
   if (event.locals.user) {
     let accounts = await getUserAccounts(event.locals.user.id);
-
     for (const account of accounts) {
       let data = {
         balance: await getAccountBalance(account),

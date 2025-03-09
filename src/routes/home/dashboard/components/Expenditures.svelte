@@ -8,15 +8,13 @@
   import { sum } from "d3-array";
   import { format } from "@layerstack/utils";
 
-  export let accountExpenditures;
-  export let accountName;
+  export let Expenditures: { expenditureType: string; expenditureAmount: number }[];
+
+
 </script>
 
 <Card.Root class="w-full">
   <Card.Header>
-    <div>
-      <Label>{accountName}</Label>
-    </div>
     <Card.Title>Your Expenditures</Card.Title>
     <Card.Description>
       Here you can see an analysis of all your expenditures.
@@ -33,7 +31,7 @@
           "hsl(var(--g5))",
         ]}
         cornerRadius={5}
-        data={accountExpenditures}
+        data={Expenditures}
         innerRadius={-30}
         key="expenditureType"
         legend={{ placement: "top-left", orientation: "vertical" }}
@@ -45,7 +43,7 @@
             class="text-4xl"
             dy={4}
             textAnchor="middle"
-            value={format(sum(accountExpenditures, (d) => d.expenditureAmount)) + "€"}
+            value={"-" + format(sum(Expenditures, (d) => d.expenditureAmount)) + "€"}
             verticalAnchor="middle"
           />
           <Text

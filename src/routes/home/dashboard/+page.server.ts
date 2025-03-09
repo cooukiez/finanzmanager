@@ -1,13 +1,18 @@
 import type { PageServerLoad } from "./$types";
-import { expenditureSumSortedByType, getAccountBalance, getUserAccounts } from "$lib/server/prisma/account";
+import {
+  expenditureSumSortedByType,
+  expenditureSumSortedByTypeForUser,
+  getAccountBalance,
+  getUserAccounts
+} from "$lib/server/prisma/account";
 import { getDebtsForUser } from "$lib/server/prisma/debt";
 
 export const load: PageServerLoad = async ({ locals }) => {
   let accountData: {
     expenditures: { expenditureType: string; expenditureAmount: number }[];
-    balance: number;
-    name: string;
-  }[] = [];
+  } = {
+    expenditures: []
+  };
 
   let acceptedDebts: {
     debtorId: string;
@@ -19,14 +24,7 @@ export const load: PageServerLoad = async ({ locals }) => {
   if (locals.user) {
     const userId = locals.user.id;
 
-    const accounts = await getUserAccounts(userId);
-    for (const account of accounts) {
-      accountData.push({
-        expenditures: await expenditureSumSortedByType(account),
-        balance: await getAccountBalance(account),
-        name: account.name,
-      });
-    }
+    accountData.expenditures = await expenditureSumSortedByTypeForUser(userId);
 
     const allDebts = await getDebtsForUser(userId);
     acceptedDebts = allDebts
@@ -43,7 +41,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
   return {
     user: locals.user || null,
-    accountData,
+    accountData: accountData.expenditures,
     acceptedDebts,
   };
 };

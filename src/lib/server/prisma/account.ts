@@ -58,6 +58,38 @@ export const expenditureSumSortedByType = async (account: Account) => {
   }));
 };
 
+export const expenditureSumSortedByTypeForUser = async (userId: string) => {
+  const userAccounts = await getUserAccounts(userId);
+
+  const accountIds = userAccounts.map(account => account.id);
+
+  const groupedTransactions = await prisma.transaction.groupBy({
+    by: ["type"],
+    _sum: {
+      amount: true,
+    },
+    where: {
+      accountId: {
+        in: accountIds
+      },
+      type: { not: "initial" },
+      amount: {
+        lt: 0,
+      },
+    },
+    orderBy: {
+      _sum: {
+        amount: "asc",
+      },
+    },
+  });
+
+  return groupedTransactions.map((group) => ({
+    expenditureType: group.type,
+    expenditureAmount: Math.abs(group._sum.amount ?? 0),
+  }));
+};
+
 export const income = async (account: Account) => {
   const inc = await prisma.transaction.findMany({
     where: {
@@ -105,7 +137,7 @@ export const createAccount = async (name: string, userId: string) => {
 
 export const createTransaction = async (
   accountId: string,
-  amount: number,
+  amount: Exclude<number, 0>,
   type: string,
 ) => {
   const transactionId = generateId(15);

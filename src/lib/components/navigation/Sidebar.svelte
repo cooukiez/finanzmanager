@@ -7,8 +7,8 @@
   // noinspection ES6UnusedImports
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
 
-  import { Calendar, ChevronDown, House, Inbox, Menu, Search } from "lucide-svelte";
-  import { loremPage, userAccounts, userDebt, userHomepage } from "$lib/config/routes";
+  import { CreditCard, ChevronDown, House, ArrowLeftRight, Menu, HandCoins } from "lucide-svelte";
+  import {userAccounts, userDebt, userHomepage, userTransactions} from "$lib/config/routes";
 
   const sidebar = useSidebar();
 
@@ -19,19 +19,19 @@
       icon: House
     },
     {
-      title: "Lorem",
-      url: loremPage,
-      icon: Inbox
+      title: "Transactions",
+      url: userTransactions,
+      icon: ArrowLeftRight
     },
     {
       title: "Accounts",
       url: userAccounts,
-      icon: Calendar
+      icon: CreditCard
     },
     {
       title: "Debt",
       url: userDebt,
-      icon: Search
+      icon: HandCoins
     },
   ];
 </script>
