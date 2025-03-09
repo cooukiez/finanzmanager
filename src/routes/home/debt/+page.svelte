@@ -17,11 +17,11 @@
         <form method="POST" action="?/createDebt" use:enhance>
           <CardContent>
             <div class="mb-4">
-              <label for="username" class="block mb-2 font-semibold text-gray-700">Username</label>
+              <label for="username" class="block mb-2 font-semibold">Username</label>
               <Input id="username" name="username" placeholder="Enter a username" required />
             </div>
             <div class="mb-4">
-              <label class="block mb-2 font-semibold text-gray-700" for="amount">Amount</label>
+              <label class="block mb-2 font-semibold" for="amount">Amount</label>
               <Input id="amount" min="1" name="amount" placeholder="Enter amount" required step="0.01" type="number" />
             </div>
           </CardContent>
@@ -45,7 +45,7 @@
                     <CardHeader>
                       <p>You owe <strong>{debt.creditor.name}</strong></p>
                     </CardHeader>
-                    <CardContent class="text-gray-600">
+                    <CardContent>
                       <p>Amount: <strong>{debt.amount}€</strong></p>
                     </CardContent>
                     <CardFooter class="flex justify-between items-center">
@@ -101,7 +101,7 @@
             <div class="grid gap-4">
               {#each data.acceptedDebts as debt (debt.id)}
                 <Card class="bg-green-100">
-                  <CardHeader>
+                  <CardHeader class="text-black">
                     <p>
                       {#if debt.debtorId === data.user.id}
                         You owe <strong>{debt.creditor.name}</strong>
@@ -141,10 +141,10 @@
             <div class="grid gap-4">
               {#each data.declinedDebtsAsCreditor ?? [] as debt (debt.id)}
                 <Card class="bg-red-50">
-                  <CardHeader>
+                  <CardHeader class="text-black">
                     <p><strong>{debt.debtor.name}</strong> declined to pay</p>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent class="text-gray-600">
                     <p>Amount: <strong>{debt.amount}€</strong></p>
                   </CardContent>
                   <CardFooter>
