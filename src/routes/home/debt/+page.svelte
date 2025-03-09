@@ -114,9 +114,9 @@
                     <p>Amount: <strong>{debt.amount}€</strong></p>
                   </CardContent>
                   <CardFooter class="flex justify-between items-center">
-            <span class="text-gray-500 text-sm">
-              Status: Accepted
-            </span>
+                    <span class="text-gray-500 text-sm">
+                      Status: Accepted
+                    </span>
                     {#if (debt.creditorId === data.user.id)}
                       <form method="POST" action="?/deleteDebt" use:enhance={() => ({ update }) => update({ reset: true })}>
                         <input type="hidden" name="debtId" value={debt.id} />
@@ -124,6 +124,7 @@
                           variant="default"
                           size="sm"
                           type="submit"
+                          class="m-0"
                         >
                           Debt payed by {debt.debtor.name}
                         </Button>
@@ -140,15 +141,26 @@
           <div>
             <div class="grid gap-4">
               {#each data.declinedDebtsAsCreditor ?? [] as debt (debt.id)}
-                <Card class="bg-red-50">
+                <Card class="bg-red-50 relative">
                   <CardHeader class="text-black">
                     <p><strong>{debt.debtor.name}</strong> declined to pay</p>
                   </CardHeader>
                   <CardContent class="text-gray-600">
                     <p>Amount: <strong>{debt.amount}€</strong></p>
                   </CardContent>
-                  <CardFooter>
+                  <CardFooter class="flex justify-between items-center">
                     <p class="text-gray-500 text-sm">Status: Declined</p>
+                    <form method="POST" action="?/deleteDebt" use:enhance={() => ({ update }) => update({ reset: true })}>
+                      <input type="hidden" name="debtId" value={debt.id} />
+                      <Button
+                        variant="default"
+                        size="sm"
+                        type="submit"
+                        class="m-0"
+                      >
+                        Remove
+                      </Button>
+                    </form>
                   </CardFooter>
                 </Card>
               {/each}
