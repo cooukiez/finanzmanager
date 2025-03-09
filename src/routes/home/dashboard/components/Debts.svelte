@@ -57,7 +57,7 @@
         cornerRadius={5}
         data={debtData}
         innerRadius={-30}
-        padAngle={0.05}
+        padAngle={0.02}
         key="type"
         legend={{ placement: "top-left", orientation: "vertical" }}
         tooltip={true}
