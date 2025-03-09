@@ -67,6 +67,34 @@
     });
   }
 
+  // Function to send updates to the server
+  async function updateTransactionInDatabase(transactionId: string, fieldName: string, value: any) {
+    try {
+      const response = await fetch("/api/transactions/update", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          transactionId,
+          fieldName,
+          value
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log(errorData);
+      }
+
+      // Die Antwort ist nicht wirklich relevant
+      const _ = await response.json();
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const table = createSvelteTable({
     get data() {
       return transactionData;
