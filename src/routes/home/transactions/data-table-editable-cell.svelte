@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
+  import { cellEditStore } from "./stores";
 
   // Define props
   let {
@@ -15,18 +15,17 @@
   } = $props();
 
   // Local state
-  let editing = false;
-  let inputValue = isNumber ? Number(value) : String(value);
-  let inputElement: HTMLInputElement;
+  const state = $state({
+    editing: false,
+    inputValue: isNumber ? Number(value) : String(value)
+  });
 
-  // Event dispatcher
-  const dispatch = createEventDispatcher<{
-    change: { rowId: string, fieldName: string, value: string | number }
-  }>();
+  let inputElement: HTMLInputElement;
 
   // Enable editing
   function startEditing() {
-    editing = true;
+    state.editing = true;
+    console.log("startEditing");
     // Focus the input after the DOM updates
     setTimeout(() => {
       inputElement?.focus();
@@ -36,10 +35,10 @@
 
   // Save changes
   function saveChanges() {
-    editing = false;
+    state.editing = false;
     // Ensure numbers are stored as numbers
-    const finalValue = isNumber ? Number(inputValue) : inputValue;
-    dispatch("change", { rowId, fieldName, value: finalValue });
+    const finalValue = isNumber ? Number(state.inputValue) : state.inputValue;
+    cellEditStore.set({ rowId, fieldName, value: finalValue });
   }
 
   // Handle Enter key press
@@ -48,8 +47,8 @@
       saveChanges();
     } else if (event.key === "Escape") {
       // Reset value and cancel editing
-      inputValue = isNumber ? Number(value) : String(value);
-      editing = false;
+      state.inputValue = isNumber ? Number(value) : String(value);
+      state.editing = false;
     }
   }
 
@@ -59,21 +58,21 @@
   }
 </script>
 
-{#if editing}
+{#if state.editing}
   <input
     type={isNumber ? "number" : "text"}
-    bind:value={inputValue}
+    bind:value={state.inputValue}
     bind:this={inputElement}
-    on:keydown={handleKeyDown}
-    on:blur={handleBlur}
-    class="w-full p-1 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+    onkeydown={handleKeyDown}
+    onblur={handleBlur}
+    class="h-12 w-full p-1 border rounded focus:outline-none focus:ring-1 focus:ring-primary bg-secondary"
     step={isNumber ? "0.01" : undefined}
   />
 {:else}
-  <div
-    class="w-full cursor-pointer p-1 hover:bg-gray-100 rounded"
-    on:click={startEditing}
+  <button
+    class="h-12 w-full cursor-pointer p-1 hover:bg-secondary rounded text-left"
+    onclick={startEditing}
   >
     {value}
-  </div>
+  </button>
 {/if}

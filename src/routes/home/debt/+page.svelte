@@ -2,7 +2,7 @@
   import { enhance } from "$app/forms";
   import { Button } from "$lib/components/ui/button/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
-  import { Card, CardHeader, CardContent, CardFooter } from "$lib/components/ui/card/index.js";
+  import { Card, CardContent, CardFooter, CardHeader } from "$lib/components/ui/card/index.js";
   import { Check, X } from "lucide-svelte";
   import type { PageData } from "./$types";
 
@@ -21,8 +21,8 @@
               <Input id="username" name="username" placeholder="Enter a username" required />
             </div>
             <div class="mb-4">
-              <label for="amount" class="block mb-2 font-semibold text-gray-700">Amount(€)</label>
-              <Input id="amount" name="amount" type="number" step="0.01" min="1" required placeholder="Amount" />
+              <label class="block mb-2 font-semibold text-gray-700" for="amount">Amount</label>
+              <Input id="amount" min="1" name="amount" placeholder="Enter amount" required step="0.01" type="number" />
             </div>
           </CardContent>
           <CardFooter class="flex justify-end">

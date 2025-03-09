@@ -11,6 +11,8 @@
   // noinspection ES6UnusedImports
   import * as Dialog from "$lib/components/ui/dialog/index.js";
 
+  import { cellEditStore } from "./stores";
+
   type DataTableProps<TData, TValue> = {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
@@ -32,36 +34,42 @@
 
   let rowSelection = $state<RowSelectionState>({});
   let addDialogOpen = $state(false);
-  let transactionData = $state<any[]>(data);
+  let transactionData = $state<any[]>([...data.map(item => ({ ...item }))]);
+
+  // Subscribe to the cell edit store
+  const unsubscribe = cellEditStore.subscribe((editData) => {
+    if (editData) {
+      handleCellEdit(editData);
+    }
+  });
 
   // Function to handle cell edits
-  function handleCellEdit(event: CustomEvent<{ rowId: string, fieldName: string, value: any }>) {
-    const { rowId, fieldName, value } = event.detail;
+  function handleCellEdit(editData: { rowId: string, fieldName: string, value: any }) {
+    const { rowId, fieldName, value } = editData;
 
-    // Find the row in our data
+    // Extract row index from the rowId (assuming format "row_X")
     const rowIndex = parseInt(rowId.replace("row_", ""));
 
-    // Update the value
-    if (rowIndex >= 0 && rowIndex < transactionData.length) {
-      // Create a copy of the data
-      const newData = [...transactionData];
-      // Update the specific field
-      newData[rowIndex] = {
-        ...newData[rowIndex],
-        [fieldName]: value
-      };
-
-      // Update the data
-      transactionData = newData;
-
-      // Here you would typically send an API request to update the data
-      // For this demo, we're just updating the local state
+    // Validate row index to avoid issues
+    if (isNaN(rowIndex) || rowIndex < 0 || rowIndex >= transactionData.length) {
+      console.error("Invalid row index:", rowIndex);
+      return;
     }
+
+    // Update the state
+    transactionData = transactionData.map((row, index) => {
+      // Only update the row with the matching index
+      if (index === rowIndex) {
+        // Create a new object with the updated field
+        return { ...row, [fieldName]: value };
+      }
+      return row;
+    });
   }
 
   const table = createSvelteTable({
     get data() {
-      return data;
+      return transactionData;
     },
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -78,10 +86,6 @@
       }
     }
   });
-
-  function onCellChange(event) {
-    handleCellEdit(event);
-  }
 </script>
 
 <div class="rounded-md border">
@@ -107,12 +111,10 @@
         <Table.Row data-state={row.getIsSelected() && "selected"}>
           {#each row.getVisibleCells() as cell (cell.id)}
             <Table.Cell>
-              <div onchange={onCellChange}>
-                <FlexRender
-                  content={cell.column.columnDef.cell}
-                  context={cell.getContext()}
-                />
-              </div>
+              <FlexRender
+                content={cell.column.columnDef.cell}
+                context={cell.getContext()}
+              />
             </Table.Cell>
           {/each}
         </Table.Row>

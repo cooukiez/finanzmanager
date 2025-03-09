@@ -57,15 +57,15 @@
     type="text"
     bind:value={inputValue}
     bind:this={inputElement}
-    on:keydown={handleKeyDown}
-    on:blur={handleBlur}
+    onkeydown={handleKeyDown}
+    onblur={handleBlur}
     class="w-full p-1 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
   />
 {:else}
-  <div
-    class="w-full cursor-pointer p-1 hover:bg-gray-100 rounded"
-    on:click={startEditing}
+  <button
+    class="w-full cursor-pointer p-1 rounded"
+    onclick={startEditing}
   >
     {transactionType}
-  </div>
+  </button>
 {/if}
