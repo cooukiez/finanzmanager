@@ -17,62 +17,62 @@
 
   import type { SuperValidated } from "sveltekit-superforms";
 
-  // Component props
+  // Komponenteneigenschaften definieren
   type DataTableProps<TData, TValue> = {
-    columns: ColumnDef<TData, TValue>[];
-    data: TData[];
-    formInput: SuperValidated<TransactionType>;
-    accountId: string;
+    columns: ColumnDef<TData, TValue>[]; // Definiert die Spalten der Tabelle
+    data: TData[]; // Die Daten, die in der Tabelle angezeigt werden
+    formInput: SuperValidated<TransactionType>; // Das Superform-Objekt für die Validierung des Formulars
+    accountId: string; // Die ID des Kontos, das in der Tabelle bearbeitet wird
   };
 
+  // Zuweisung der Komponenteneigenschaften
   let { columns, data, formInput, accountId }: DataTableProps<TData, TValue> = $props();
 
-  // State management
-  let rowSelection = $state<RowSelectionState>({});
-  let addDialogOpen = $state(false);
-  let transactionData = $state<any[]>([...data.map(item => ({ ...item }))]);
+  // Zustandsverwaltung
+  let rowSelection = $state<RowSelectionState>({}); // Auswahl der Tabellenzeilen
+  let addDialogOpen = $state(false); // Steuerung des Dialogs zum Hinzufügen von Transaktionen
+  let transactionData = $state<any[]>([...data.map(item => ({ ...item }))]); // Kopie der Transaktionsdaten, um Änderungen lokal zu speichern
 
-  // Set up superform
+  // Superform einrichten
   const form = superForm(formInput, {
-    resetForm: true,
+    resetForm: true, // Setzt das Formular nach dem Absenden zurück
     onResult: ({ result }) => {
       console.log(result);
       if (result.type === "success") {
-        addDialogOpen = false;
-
-        transactionData = [...transactionData, result.data?.form.data];
+        addDialogOpen = false; // Schließt den Dialog, wenn die Transaktion erfolgreich hinzugefügt wurde
+        transactionData = [...transactionData, result.data?.form.data]; // Fügt die neue Transaktion zu den Daten hinzu
       }
     }
   });
 
-  const { form: formData, enhance } = form;
+  const { form: formData, enhance } = form; // Die Formulardaten und eine Funktion zur Verbesserung der Formularvalidierung
 
-  // Subscribe to cell edit store
+  // Abonnieren des cellEditStore, um auf Zellbearbeitungen zu reagieren
   const unsubscribe = cellEditStore.subscribe((editData) => {
     if (editData) {
-      handleCellEdit(editData);
+      handleCellEdit(editData); // Bearbeitet die Zelländerung
     }
   });
 
-  // Cell edit handler
+  // Handler für die Bearbeitung einer Zelle
   function handleCellEdit(editData: { rowId: string, fieldName: string, value: any }) {
     const { rowId, fieldName, value } = editData;
-    const rowIndex = parseInt(rowId.replace("row_", ""));
+    const rowIndex = parseInt(rowId.replace("row_", "")); // Extrahiert den Index der Zeile
 
-    // Validate row index
+    // Überprüft, ob der Index gültig ist
     if (isNaN(rowIndex) || rowIndex < 0 || rowIndex >= transactionData.length) {
-      console.error("Invalid row index:", rowIndex);
+      console.error("Ungültiger Zeilenindex:", rowIndex);
       return;
     }
 
     let transactionId = "";
     let updatedTransaction = { amount: 0, type: "" };
 
-    // Update the state
+    // Aktualisiert den Zustand der Transaktionsdaten
     transactionData = transactionData.map((row, index) => {
       if (index === rowIndex) {
         transactionId = row.id || "";
-        const updatedRow = { ...row, [fieldName]: value };
+        const updatedRow = { ...row, [fieldName]: value }; // Aktualisiert die spezifische Zelle in der Zeile
 
         updatedTransaction = {
           amount: updatedRow.amount || 0,
@@ -84,7 +84,7 @@
       return row;
     });
 
-    // Update in database
+    // Aktualisiert die Transaktion in der Datenbank
     updateTransactionInDatabase(
       transactionId,
       updatedTransaction.amount,
@@ -92,11 +92,11 @@
     );
   }
 
-  // Database update function
+  // Funktion, um die Transaktion in der Datenbank zu aktualisieren
   async function updateTransactionInDatabase(transactionId: string, amount: number, type: string) {
     try {
       const response = await fetch("/api/transactions/update", {
-        method: "PATCH",
+        method: "PATCH", // PATCH-Methode zum Aktualisieren
         headers: {
           "Content-Type": "application/json"
         },
@@ -109,34 +109,34 @@
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Error updating transaction:", errorData);
+        console.error("Fehler beim Aktualisieren der Transaktion:", errorData);
         return;
       }
 
-      // Response is not needed but consume it anyway
+      // Antwort wird nicht benötigt, aber trotzdem verarbeitet
       await response.json();
     } catch (error) {
-      console.error("Failed to update transaction:", error);
+      console.error("Fehler beim Aktualisieren der Transaktion:", error);
     }
   }
 
-  // Table configuration
+  // Tabellenkonfiguration
   const table = createSvelteTable({
     get data() {
-      return transactionData;
+      return transactionData; // Gibt die Transaktionsdaten für die Tabelle zurück
     },
-    columns,
-    getCoreRowModel: getCoreRowModel(),
+    columns, // Die Spalten für die Tabelle
+    getCoreRowModel: getCoreRowModel(), // Modell für die Zeilen
     onRowSelectionChange: (updater) => {
       if (typeof updater === "function") {
-        rowSelection = updater(rowSelection);
+        rowSelection = updater(rowSelection); // Aktualisiert die Auswahl der Zeilen
       } else {
-        rowSelection = updater;
+        rowSelection = updater; // Setzt die neue Auswahl
       }
     },
     state: {
       get rowSelection() {
-        return rowSelection;
+        return rowSelection; // Gibt den Zustand der Zeilenauswahl zurück
       }
     }
   });
@@ -175,7 +175,7 @@
       {:else}
         <Table.Row>
           <Table.Cell colspan={columns.length} class="h-24 text-center">
-            No results
+            Keine Ergebnisse
           </Table.Cell>
         </Table.Row>
       {/each}
@@ -185,20 +185,20 @@
   <div>
     <Dialog.Root bind:open={addDialogOpen}>
       <Dialog.Trigger class="{buttonVariants({ variant: 'ghost' })} flex h-[3rem] w-full rounded-t-none border-t">
-        Add Transaction
+        Transaktion hinzufügen
       </Dialog.Trigger>
       <Dialog.Content>
         <Dialog.Header>
-          <Dialog.Title>Add Transaction</Dialog.Title>
+          <Dialog.Title>Transaktion hinzufügen</Dialog.Title>
           <Dialog.Description>
-            Add new Transaction to account
+            Füge eine neue Transaktion zum Konto hinzu
           </Dialog.Description>
         </Dialog.Header>
         <form method="POST" use:enhance>
           <Form.Field {form} name="amount">
             <Form.Control>
               {#snippet children({ props })}
-                <Form.Label>Amount</Form.Label>
+                <Form.Label>Betrag</Form.Label>
                 <Input
                   {...props}
                   bind:value={$formData.amount}
@@ -212,7 +212,7 @@
           <Form.Field {form} name="type">
             <Form.Control>
               {#snippet children({ props })}
-                <Form.Label>Transaction type</Form.Label>
+                <Form.Label>Transaktionstyp</Form.Label>
                 <Input {...props} bind:value={$formData.type} />
               {/snippet}
             </Form.Control>
@@ -226,7 +226,7 @@
               {/snippet}
             </Form.Control>
           </Form.Field>
-          <Form.Button class="mt-4">Submit</Form.Button>
+          <Form.Button class="mt-4">Absenden</Form.Button>
         </form>
       </Dialog.Content>
     </Dialog.Root>
