@@ -25,11 +25,11 @@
 
   const debtData = [
     {
-      type: "Owed by others",
+      type: "Owed to you",
       amount: sum(acceptedDebts.filter(isCreditor), (d) => d.amount),
     },
     {
-      type: "Owed to others",
+      type: "Owed by you",
       amount: sum(acceptedDebts.filter(isDebtor), (d) => d.amount),
     },
   ];
@@ -52,8 +52,8 @@
     <div class="w-full h-[300px] p-4 rounded">
       <PieChart
         cRange={[
-          "hsl(120, 70%, 50%)", // Green for "Owed by others"
-          "hsl(0, 70%, 50%)", // Red for "Owed to others"
+          "hsl(120, 70%, 50%)",
+          "hsl(0, 70%, 50%)",
         ]}
         cornerRadius={5}
         data={debtData}
