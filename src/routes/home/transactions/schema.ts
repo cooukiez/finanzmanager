@@ -4,6 +4,7 @@ export type TransactionSchema = typeof transactionSchema;
 export type TransactionType = z.infer<typeof transactionSchema>;
 
 export const transactionSchema = z.object({
+  id: z.string(),
   amount: z
     .number()
     .safe({ message: "Transaction amount must be a number" })

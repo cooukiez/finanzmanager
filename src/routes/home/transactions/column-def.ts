@@ -1,9 +1,7 @@
 import type { ColumnDef } from "@tanstack/table-core";
 
-import { renderComponent, renderSnippet } from "$lib/components/ui/data-table/index.js";
+import { renderComponent } from "$lib/components/ui/data-table/index.js";
 import { Checkbox } from "$lib/components/ui/checkbox/index.js";
-
-import { createRawSnippet } from "svelte";
 
 import DataTableActions from "./data-table-actions.svelte";
 import DataTableEditableCell from "./data-table-editable-cell.svelte";
@@ -32,30 +30,26 @@ export const columns: ColumnDef<TransactionType>[] = [
     enableHiding: false
   },
   {
-    accessorKey: "amount",
-    header: () => {
-      const amountHeaderSnippet = createRawSnippet(() => ({
-        render: () => `<div>Amount</div>`
-      }));
-      return renderSnippet(amountHeaderSnippet, "");
-    },
+    accessorKey: "id",
+    header: "Transaction ID",
+    id: "id",
     cell: ({ row }) => {
-      const formatter = new Intl.NumberFormat("de-DE", {
-        style: "currency",
-        currency: "EUR"
-      });
+      return row.original.id;
+    }
+  },
+  {
+    accessorKey: "amount",
+    header: "Amount",
+    id: "amount",
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("amount"));
 
-      const amountCellSnippet = createRawSnippet<[string]>((getAmount) => {
-        const amount = getAmount();
-        return {
-          render: () => `<div class="font-medium">${amount}</div>`
-        };
+      return renderComponent(DataTableEditableCell, {
+        value: amount,
+        fieldName: "amount",
+        rowId: row.id,
+        isNumber: true
       });
-
-      return renderSnippet(
-        amountCellSnippet,
-        formatter.format(parseFloat(row.getValue("amount")))
-      );
     }
   },
   {
@@ -73,7 +67,7 @@ export const columns: ColumnDef<TransactionType>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      return renderComponent(DataTableActions, { id: row.original.type });
+      return renderComponent(DataTableActions, { id: row.original.id });
     }
   }
 ];

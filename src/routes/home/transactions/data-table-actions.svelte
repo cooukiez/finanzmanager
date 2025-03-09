@@ -1,6 +1,6 @@
 <script lang="ts">
   import Ellipsis from "lucide-svelte/icons/ellipsis";
-  import { Button, buttonVariants } from "$lib/components/ui/button/index.js";
+  import { Button } from "$lib/components/ui/button/index.js";
   // noinspection ES6UnusedImports
   import * as Dialog from "$lib/components/ui/dialog/index.js";
   // noinspection ES6UnusedImports
@@ -12,19 +12,6 @@
 <div class="flex justify-between">
   <div></div>
   <div class="flex gap-2 items-center">
-    <div>
-      <Dialog.Root>
-        <Dialog.Trigger class={buttonVariants({ variant: "outline" })}>Edit</Dialog.Trigger>
-        <Dialog.Content>
-          <Dialog.Header>
-            <Dialog.Title>Edit Transaction</Dialog.Title>
-            <Dialog.Description>
-              Edit the current transaction
-            </Dialog.Description>
-          </Dialog.Header>
-        </Dialog.Content>
-      </Dialog.Root>
-    </div>
     <div>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>

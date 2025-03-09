@@ -1,34 +1,36 @@
-import { transactionSchema, type TransactionType } from "./schema";
+import { transactionSchema } from "./schema";
 
 import { superValidate } from "sveltekit-superforms";
 
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { zod } from "sveltekit-superforms/adapters";
+import { expenses, getAccountBalance, getTransactions, getUserAccounts, income } from "$lib/server/prisma/account";
+import { accountCreateFormSchema } from "../accounts/schema";
 
-const exampleTransactions: TransactionType[] = [
-  {
-    amount: 10,
-    type: "dubai croissant"
-  },
-  {
-    amount: 25.50,
-    type: "office supplies"
-  },
-  {
-    amount: 125,
-    type: "client lunch"
-  }
-]
-
-
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async (event) => {
   const form = await superValidate(zod(transactionSchema));
 
-  const transactions = exampleTransactions;
+  let accountData = [];
+  if (event.locals.user) {
+    let accounts = await getUserAccounts(event.locals.user.id);
+
+    for (const account of accounts) {
+      let data = {
+        balance: await getAccountBalance(account),
+        transactions: await getTransactions(account),
+        name: account.name,
+        expenses: await expenses(account),
+        income: await income(account)
+      };
+
+      accountData.push(data);
+    }
+  }
+
   return {
-    transactions,
-    form
+    form: await superValidate(zod(accountCreateFormSchema)),
+    accountData: accountData
   };
 };
 
