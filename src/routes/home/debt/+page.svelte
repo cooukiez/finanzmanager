@@ -129,10 +129,11 @@
                           Debt payed by {debt.debtor.name}
                         </Button>
                       </form>
+                    {:else }
+                      <Button class="invisible m-0 bg-gray-300 text-xs" type="submit" variant="default" size="sm" disabled>
+                        Placeholder
+                      </Button>
                     {/if}
-                    <Button class="invisible m-0 bg-gray-300 text-xs" type="submit" variant="default" size="sm" disabled>
-                      Placeholder
-                    </Button>
                   </CardFooter>
                 </Card>
               {/each}
