@@ -10,30 +10,34 @@ import type { Actions, PageServerLoad } from "./$types";
 
 import { loginFormSchema } from "../schema";
 
+// Lädt die Formularvalidierung für das Login-Formular
 export const load: PageServerLoad = async () => {
   return {
     form: await superValidate(zod(loginFormSchema)),
   };
 };
 
+// Definiert die Aktionen für das Login
 export const actions: Actions = {
   default: async (event) => {
-    const form = await superValidate(event, zod(loginFormSchema));
+    const form = await superValidate(event, zod(loginFormSchema)); // Validiert das Formular mit dem Zod-Schema
     if (!form.valid) {
+      // Wenn das Formular ungültig ist, wird der Fehlerstatus 400 zurückgegeben
       return fail(400, {
         form,
       });
     }
 
-    // find user in database
+    // Sucht den Benutzer in der Datenbank anhand des Benutzernamens
     const user = await prisma.user.findUnique({
       where: {
-        name: form.data.username,
+        name: form.data.username // Benutzernamen aus dem Formular
       },
     });
 
-    // check if user exists
+    // Überprüft, ob der Benutzer existiert
     if (!user) {
+      // Wenn der Benutzer nicht gefunden wurde, werden Fehlermeldungen gesetzt
       setError(form, "username", "Incorrect username or password");
       setError(form, "password", "Incorrect username or password");
       return fail(400, {
@@ -41,12 +45,13 @@ export const actions: Actions = {
       });
     }
 
-    // check password
+    // Überprüft das Passwort des Benutzers
     const validPassword = await new Argon2id().verify(
-      user.password,
-      form.data.password
+      user.password, // Das gehashte Passwort des Benutzers aus der Datenbank
+      form.data.password // Das eingegebene Passwort aus dem Formular
     );
     if (!validPassword) {
+      // Wenn das Passwort ungültig ist, werden Fehlermeldungen gesetzt
       setError(form, "username", "Incorrect username or password");
       setError(form, "password", "Incorrect username or password");
       return fail(400, {
@@ -54,15 +59,17 @@ export const actions: Actions = {
       });
     }
 
-    // create session
+    // Wenn Benutzername und Passwort korrekt sind, wird eine Sitzung erstellt
     const session = await lucia.createSession(user.id, []);
     const sessionCookie = lucia.createSessionCookie(session.id);
+
+    // Setzt das Sitzungscookie im Browser des Benutzers
     event.cookies.set(sessionCookie.name, sessionCookie.value, {
       path: ".",
       ...sessionCookie.attributes,
     });
 
-    // redirect to root page
+    // Leitet den Benutzer nach erfolgreichem Login zur Startseite weiter
     redirect(302, "/");
   },
 };

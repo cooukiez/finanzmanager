@@ -11,22 +11,29 @@ import type { PageServerLoad } from "./$types";
 
 import { registerFormSchema } from "../schema";
 
+// Lädt das Formular mit der Validierung für die Registrierung
 export const load: PageServerLoad = async () => {
   return {
     form: await superValidate(zod(registerFormSchema)),
   };
 };
 
+// Definiert die Aktionen für die Benutzerregistrierung
 export const actions = {
   default: async (event) => {
+    // Validiert das Formular mit dem Zod-Register-Schema
     const form = await superValidate(event, zod(registerFormSchema));
+
+    // Wenn das Formular ungültig ist, wird der Fehlerstatus 400 zurückgegeben
     if (!form.valid) {
       return fail(400, {
         form,
       });
     }
 
+    // Überprüft, ob der Benutzername oder die E-Mail-Adresse bereits existieren
     if (await checkExistingUser(form.data.username, form.data.email)) {
+      // Wenn der Benutzername oder die E-Mail bereits verwendet werden, werden Fehlermeldungen gesetzt
       setError(form, "username", "Username or Email already used");
       setError(form, "email", "Username or Email already used");
       return fail(400, {
@@ -34,30 +41,34 @@ export const actions = {
       });
     }
 
-    // generate user id
+    // Generiert eine Benutzer-ID
     const userId = generateId(15);
-    // hash password
+
+    // Hashing des Passworts
     const hashedPassword = await new Argon2id().hash(form.data.password);
 
-    // create user in database
+    // Erstellt einen neuen Benutzer in der Datenbank
     const user = await prisma.user.create({
       data: {
-        id: userId,
-        email: form.data.email,
-        name: form.data.username,
-        password: hashedPassword,
+        id: userId, // Setzt die generierte Benutzer-ID
+        email: form.data.email, // Setzt die E-Mail-Adresse des Benutzers
+        name: form.data.username, // Setzt den Benutzernamen
+        password: hashedPassword // Setzt das gehashte Passwort
       },
     });
 
-    // create session
+    // Erstellt eine Sitzung für den Benutzer
     const session = await lucia.createSession(user.id, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
+
+    // Setzt das Sitzungscookie im Browser des Benutzers
     event.cookies.set(sessionCookie.name, sessionCookie.value, {
       path: ".",
       ...sessionCookie.attributes,
     });
 
-    // redirect to root page
+    // Leitet den Benutzer nach erfolgreicher Registrierung zur Startseite weiter
     redirect(302, "/");
   },
 };
+
