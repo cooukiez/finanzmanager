@@ -19,11 +19,6 @@
       icon: House
     },
     {
-      title: "Transactions",
-      url: userTransactions,
-      icon: ArrowLeftRight
-    },
-    {
       title: "Accounts",
       url: userAccounts,
       icon: CreditCard
@@ -32,6 +27,11 @@
       title: "Debt",
       url: userDebt,
       icon: HandCoins
+    },
+    {
+      title: "Transactions",
+      url: userTransactions,
+      icon: ArrowLeftRight
     },
   ];
 </script>

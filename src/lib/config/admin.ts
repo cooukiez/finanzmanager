@@ -8,10 +8,4 @@ export const adminRoutes: IndexedRoute[] = [
     label: "",
     index: 0,
   },
-  {
-    name: "Lorem",
-    href: loremPage,
-    label: "",
-    index: 1,
-  },
 ];
