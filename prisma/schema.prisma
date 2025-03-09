@@ -32,7 +32,7 @@ model Session {
 model Account {
   id           String            @id @unique
   name         String
-  owner        User              @relation(fields: [ownerId], references: [id])
+  owner        User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId      String
   transactions Transaction[]
   assocGr      AccountsGrouped[]
@@ -40,7 +40,7 @@ model Account {
 
 model Transaction {
   id        String   @id @unique
-  account   Account  @relation(fields: [accountId], references: [id])
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
   accountId String
   amount    Float    @default(0)
   type      String
