@@ -24,6 +24,7 @@ export const getDebtsForUser = async (userId: string) => {
   });
 };
 
+
 export const createDebt = async (
   debtorId: string,
   creditorId: string,

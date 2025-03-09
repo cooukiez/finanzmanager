@@ -1,9 +1,9 @@
-// src/lib/user.ts
 import { PrismaClient } from "@prisma/client";
 import "dotenv/config";
 
 import { generateId } from "lucia";
 import { Argon2id } from "oslo/password";
+
 
 export const prisma = new PrismaClient();
 
@@ -68,3 +68,61 @@ export const findUserByName = async (name: string) => {
     },
   });
 };
+
+export const updateUserSettings = async (
+  userId: string,
+  name: string,
+  email: string,
+) => {
+  return prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      name: name,
+      email: email,
+    },
+  });
+};
+
+export const updateUserPassword = async (
+  userId: string,
+  password: string,
+) => {
+  return prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      password: password,
+    },
+  });
+};
+
+
+export const checkExistingUsername = async (name: string) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      name: name
+    },
+  });
+  return user !== null;
+};
+
+export const checkExistingEmail = async (email: string) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      email: email
+    },
+  });
+  return user !== null;
+};
+
+export const getUser = async (userId: string) => {
+  return prisma.user.findFirst({
+    where: {
+      id: userId,
+    }
+  })
+}
+
