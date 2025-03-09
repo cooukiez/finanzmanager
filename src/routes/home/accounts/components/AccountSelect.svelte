@@ -93,11 +93,12 @@
     </Popover.Content>
 </Popover.Root>
 
+
 <div class="flex flex-col gap-2">
     {#each Accounts as account}
         {#if selectedValue === "All Accounts" || account.name === selectedValue}
              <AccountInfo account={account} />
+             <Separator />
         {/if}
-
     {/each}
 </div>
