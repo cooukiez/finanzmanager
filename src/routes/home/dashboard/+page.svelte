@@ -10,7 +10,7 @@
 
 </script>
 
-<div class="flex flex-col max-w-screen-xl mx-auto">
+<div class="flex flex-col max-w-screen-xl m-0">
     <div class="flex flex-row w-full gap-2">
       <div class="flex-[3]">
         <Expenditures

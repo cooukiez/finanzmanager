@@ -9,8 +9,8 @@
   let { data }: { data: PageData } = $props();
 </script>
 
-<div class="container mx-auto p-6 space-y-12">
-  <div class="flex flex-wrap gap-6">
+<div class="container m-0 p-6 space-y-12 w-full">
+  <div class="flex flex-wrap gap-6 w-full">
     <section class="flex-1 max-w-lg">
       <h2 class="text-xl font-semibold mb-6">Request Money</h2>
       <Card>
