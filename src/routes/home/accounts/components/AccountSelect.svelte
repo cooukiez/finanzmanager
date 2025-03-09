@@ -6,6 +6,7 @@
     import * as Popover from "$lib/components/ui/popover";
     import * as Card from "$lib/components/ui/card/index.js";
     import { Button } from "$lib/components/ui/button";
+    import { Separator } from "$lib/components/ui/separator";
     import { cn } from "$lib/utils.js";
     import AccountInfo from "./AccountInfo.svelte";
 
@@ -97,5 +98,6 @@
         {#if selectedValue === "All Accounts" || account.name === selectedValue}
              <AccountInfo account={account} />
         {/if}
+
     {/each}
 </div>
