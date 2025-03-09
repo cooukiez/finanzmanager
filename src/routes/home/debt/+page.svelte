@@ -9,8 +9,8 @@
   let { data }: { data: PageData } = $props();
 </script>
 
-<div class="container mx-auto p-6 space-y-12">
-  <div class="flex flex-wrap gap-6">
+<div class="container m-0 p-6 space-y-12 w-full">
+  <div class="flex flex-wrap gap-6 w-full">
     <section class="flex-1 max-w-lg">
       <h2 class="text-xl font-semibold mb-6">Request Money</h2>
       <Card>
@@ -39,7 +39,6 @@
 
           {#if data.requestsAsDebtor.length > 0}
             <div>
-              <h3 class="text-lg font-semibold">Debts You Owe</h3>
               <div class="grid gap-4">
                 {#each data.requestsAsDebtor as debt (debt.id)}
                   <Card>
@@ -49,7 +48,10 @@
                     <CardContent class="text-gray-600">
                       <p>Amount: <strong>{debt.amount}€</strong></p>
                     </CardContent>
-                    <CardFooter class="flex justify-end gap-2">
+                    <CardFooter class="flex justify-between items-center">
+                      <span class="text-gray-500 text-sm">
+                        Status: Pending
+                      </span>
                       <form method="POST" action="?/handleRequest" use:enhance={() => ({ update }) => update({ reset: true })}>
                         <input type="hidden" name="debtId" value={debt.id} />
                         <Button class="bg-green-500 hover:bg-green-600 text-white" size="sm" name="action" type="submit" value="accept">
@@ -68,7 +70,6 @@
 
           {#if data.requestsAsCreditor.length > 0}
             <div>
-              <h3 class="text-lg font-semibold">Debts Owed To You</h3>
               <div class="grid gap-4">
                 {#each data.requestsAsCreditor as debt (debt.id)}
                   <Card>
