@@ -1,8 +1,9 @@
 <script lang="ts">
   import { applyAction, enhance } from "$app/forms";
   import type { ActionData, PageData } from "./$types";
-  import Alert from "./components/Alert.svelte";
-  import Users from "./components/Users.svelte";
+  import Alert from "./Components/Alert.svelte";
+  import Users from "./Components/Users.svelte"
+
 
   import { Button } from "$lib/components/ui/button";
   import { Input } from "$lib/components/ui/input";
@@ -22,10 +23,10 @@
 
     <Card.Content>
       <form
-              action="?/create"
-              method="POST"
-              class="space-y-4"
-              use:enhance={({ formElement }) => {
+        action="?/create"
+        method="POST"
+        class="space-y-4"
+        use:enhance={({ formElement }) => {
           return async ({ result, update }) => {
             if (result.type === "success") {
               formElement.reset();
@@ -41,46 +42,46 @@
           <div class="space-y-2">
             <Label for="name">Username</Label>
             <Input
-                    id="name"
-                    name="name"
-                    placeholder="Enter username"
-                    required
-                    value={form?.name ?? ""}
+              id="name"
+              name="name"
+              placeholder="Enter username"
+              required
+              value={form?.name ?? ""}
             />
           </div>
 
           <div class="space-y-2">
             <Label for="email">Email</Label>
             <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Enter email address"
-                    required
-                    value={form?.email ?? ""}
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Enter email address"
+              required
+              value={form?.email ?? ""}
             />
           </div>
 
           <div class="space-y-2">
             <Label for="role">Role</Label>
             <Input
-                    id="role"
-                    name="role"
-                    placeholder="Enter user role"
-                    required
-                    value={form?.role ?? ""}
+              id="role"
+              name="role"
+              placeholder="Enter user role"
+              required
+              value={form?.role ?? ""}
             />
           </div>
 
           <div class="space-y-2">
             <Label for="password">Password</Label>
             <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="Enter password"
-                    required
-                    value={form?.password ?? ""}
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Enter password"
+              required
+              value={form?.password ?? ""}
             />
           </div>
         </div>
