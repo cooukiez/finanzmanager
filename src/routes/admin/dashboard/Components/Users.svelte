@@ -22,7 +22,7 @@
       <form
         method="POST"
         action="?/update"
-        class="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-md"
+        class="flex items-center space-x-4 p-4 rounded-lg shadow border border-gray-300"
         use:enhance={({ formElement }) => {
           return async () => {
             const data = new FormData(formElement);
@@ -81,5 +81,5 @@
     {/each}
   </div>
 {:else}
-  <div class="text-center text-gray-500 py-4">No users found</div>
+  <div class="text-center">No users found</div>
 {/if}
