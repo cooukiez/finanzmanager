@@ -63,7 +63,7 @@ Um dieses Projekt einzurichten, befolge die folgenden Schritte:
    ./setup.sh
    ```
 
-**Universelle Methode**
+##### Universelle Methode
 Unabhängig vom Betriebssystem kann das Skript mit folgendem Befehl ausgeführt werden:
 ```
 bash setup.sh
