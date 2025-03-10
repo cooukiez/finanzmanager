@@ -7,8 +7,20 @@
   // noinspection ES6UnusedImports
   import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
 
-  import { ArrowLeftRight, ChevronDown, CreditCard, HandCoins, House, Menu } from "lucide-svelte";
-  import { userAccounts, userDebt, userHomepage, userTransactions } from "$lib/config/routes";
+  import {
+    ArrowLeftRight,
+    ChevronDown,
+    CreditCard,
+    HandCoins,
+    House,
+    Menu
+  } from "lucide-svelte";
+  import {
+    userAccounts,
+    userDebt,
+    userHomepage,
+    userTransactions
+  } from "$lib/config/routes";
 
   // Sidebar-Status
   const sidebar = useSidebar();
@@ -97,4 +109,3 @@
     </Collapsible.Root>
   </Sidebar.Content>
 </Sidebar.Root>
-

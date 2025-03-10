@@ -15,7 +15,6 @@
   import { Separator } from "$lib/components/ui/separator/index.js";
   import { Button } from "$lib/components/ui/button";
 
-  // Import für die Seitennavigation, Benutzeroberfläche und Themenwechsel
   import AppSidebar from "$lib/components/navigation/Sidebar.svelte";
   import NavLinks from "$lib/components/navigation/navlinks/NavLinks.svelte";
   import Profile from "$lib/components/navigation/Profile.svelte";
@@ -26,7 +25,6 @@
   import { adminRoutes } from "$lib/config/admin";
   import { homepageRoutes } from "$lib/config/homepage";
 
-  // Login-, Register- und Homepage-Routen
   import { loginPage, publicHomepage, registerPage } from "$lib/config/routes";
 
   import { toast } from "svelte-sonner";
@@ -118,7 +116,6 @@
             <!-- Routen für die Homepage -->
             <NavLinks variant="minimal" routes={homepageRoutes} />
 
-
             <!-- Login- und Registrierungsoptionen -->
             <div class="flex flex-row items-baseline">
               <a
@@ -140,7 +137,7 @@
         </div>
       </div>
     {/if}
-  <!-- nicht implementierte Menüs -->
+    <!-- nicht implementierte Menüs -->
   </ContextMenu.Trigger>
   <ContextMenu.Content class="w-64">
     <ContextMenu.Item inset onclick={not_implemented}>

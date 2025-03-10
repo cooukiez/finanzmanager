@@ -14,7 +14,7 @@
       activeBackgroundClass: "bg-muted absolute inset-0 rounded-full",
 
       linkLabelClass:
-        "ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs font-medium leading-none text-[#000000] no-underline group-hover:no-underline"
+        "ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs font-medium leading-none text-[#000000] no-underline group-hover:no-underline",
     },
     minimal: {
       navLinksGroupClass: "flex items-center overflow-y-auto pb-3 md:pb-0",
@@ -27,8 +27,8 @@
       activeBackgroundClass: "",
 
       linkLabelClass:
-        "ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs font-medium leading-none text-[#000000] no-underline group-hover:no-underline"
-    }
+        "ml-2 rounded-md bg-[#adfa1d] px-1.5 py-0.5 text-xs font-medium leading-none text-[#000000] no-underline group-hover:no-underline",
+    },
   };
 
   export type NavLinksVariant = keyof typeof navLinksVariants;
@@ -54,12 +54,20 @@
   const [send, receive] = crossfade({ duration: 250, easing: cubicInOut });
 
   // Setzt Standardwerte für die Eigenschaften
-  let { class: className, variant = "default", routes, ...restProps }: NavLinksProps = $props();
+  let {
+    class: className,
+    variant = "default",
+    routes,
+    ...restProps
+  }: NavLinksProps = $props();
 </script>
 
 <ScrollArea>
   <!-- Erstellt die Navigationslinks basierend auf der Variante -->
-  <div {...restProps} class={cn(navLinksVariants[variant].navLinksGroupClass, className)}>
+  <div
+    {...restProps}
+    class={cn(navLinksVariants[variant].navLinksGroupClass, className)}
+  >
     {#each routes as route, index (index)}
       {@const isActive = page.url.pathname.startsWith(route.href)}
       <a
@@ -67,7 +75,9 @@
         data-sveltekit-noscroll
         class={cn(
           navLinksVariants[variant].navLinkClass,
-          isActive ? navLinksVariants[variant].activeLink : navLinksVariants[variant].inactiveLink,
+          isActive
+            ? navLinksVariants[variant].activeLink
+            : navLinksVariants[variant].inactiveLink,
         )}
       >
         {#if isActive}
@@ -82,7 +92,9 @@
           {route.name}
           {#if route.label}
             <!-- Zusätzlicher Label für Links -->
-            <span class={navLinksVariants[variant].linkLabelClass}>{route.label}</span>
+            <span class={navLinksVariants[variant].linkLabelClass}
+            >{route.label}</span
+            >
           {/if}
         </div>
       </a>

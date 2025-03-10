@@ -71,7 +71,7 @@
         <PieChart
           cRange={[
             "hsl(120, 70%, 50%)", // Grün: Schulden, die dem Benutzer zustehen
-            "hsl(0, 70%, 50%)",   // Rot: Schulden, die der Benutzer schuldet
+            "hsl(0, 70%, 50%)", // Rot: Schulden, die der Benutzer schuldet
           ]}
           cornerRadius={5}
           data={debtData}

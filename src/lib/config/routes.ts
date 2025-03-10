@@ -1,4 +1,4 @@
-// Seiten Ruten
+// Routen für die Navigation
 export const publicHomepage = "/public/home";
 export const loremPage = "/public/lorem";
 

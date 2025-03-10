@@ -7,7 +7,10 @@
   import { format } from "@layerstack/utils"; // Formatierungs-Hilfen, z.B. für Währungen
 
   // Expenditures enthält eine Liste von Ausgaben mit deren Typ und Betrag
-  export let Expenditures: { expenditureType: string; expenditureAmount: number }[];
+  export let Expenditures: {
+    expenditureType: string;
+    expenditureAmount: number;
+  }[];
 
   // Berechnet die Summe aller Ausgaben
   let expenditureSum = sum(Expenditures, (d) => d.expenditureAmount);
@@ -16,7 +19,8 @@
 <Card.Root class="w-full">
   <Card.Header>
     <!-- Überschrift und Beschreibung -->
-    <Card.Title>Your Expenditures</Card.Title> <!-- Titel der Karte -->
+    <Card.Title>Your Expenditures</Card.Title>
+    <!-- Titel der Karte -->
     <Card.Description>
       Here you can see an analysis of all your expenditures. <!-- Beschreibungstext -->
     </Card.Description>
@@ -32,12 +36,12 @@
         <!-- Erstelle ein Pie-Chart, wenn Ausgaben vorhanden sind -->
         <PieChart
           cRange={[
-          "hsl(var(--g1))", // Farbe 1
-          "hsl(var(--g2))", // Farbe 2
-          "hsl(var(--g3))", // Farbe 3
-          "hsl(var(--g4))", // Farbe 4
-          "hsl(var(--g5))", // Farbe 5
-        ]}
+            "hsl(var(--g1))", // Farbe 1
+            "hsl(var(--g2))", // Farbe 2
+            "hsl(var(--g3))", // Farbe 3
+            "hsl(var(--g4))", // Farbe 4
+            "hsl(var(--g5))", // Farbe 5
+          ]}
           cornerRadius={5}
           data={Expenditures}
           innerRadius={-30}
@@ -46,24 +50,24 @@
           padAngle={0.02}
           value="expenditureAmount"
         >
-        <svelte:fragment slot="aboveMarks">
-          <!-- Anzeige der Gesamtausgaben in der Mitte des Diagramms -->
-          <Text
-            class="text-4xl"
-            dy={4}
-            textAnchor="middle"
-            value={format(expenditureSum) + "€"}
-          verticalAnchor="middle"
-          />
-          <!-- Zeigt das Label "total" unterhalb des Betrags -->
-          <Text
-            class="text-sm fill-surface-content/50"
-            dy={26}
-            textAnchor="middle"
-            value="total"
-            verticalAnchor="middle"
-          />
-        </svelte:fragment>
+          <svelte:fragment slot="aboveMarks">
+            <!-- Anzeige der Gesamtausgaben in der Mitte des Diagramms -->
+            <Text
+              class="text-4xl"
+              dy={4}
+              textAnchor="middle"
+              value={format(expenditureSum) + "€"}
+              verticalAnchor="middle"
+            />
+            <!-- Zeigt das Label "total" unterhalb des Betrags -->
+            <Text
+              class="text-sm fill-surface-content/50"
+              dy={26}
+              textAnchor="middle"
+              value="total"
+              verticalAnchor="middle"
+            />
+          </svelte:fragment>
         </PieChart>
       {/if}
     </div>

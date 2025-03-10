@@ -1,6 +1,10 @@
 import { writable } from "svelte/store";
 
-export const cellEditStore = writable<{ transactionId: string, fieldName: string, value: any } | null>(null);
+export const cellEditStore = writable<{
+  transactionId: string;
+  fieldName: string;
+  value: any;
+} | null>(null);
 
 // Abonnieren des cellEditStore, um auf Zellbearbeitungen zu reagieren
 const unsubscribe = cellEditStore.subscribe((editData) => {
@@ -11,7 +15,11 @@ const unsubscribe = cellEditStore.subscribe((editData) => {
 });
 
 // Funktion, um die Transaktion in der Datenbank zu aktualisieren
-async function updateTransactionInDatabase(editData: { transactionId: string, fieldName: string, value: any }) {
+async function updateTransactionInDatabase(editData: {
+  transactionId: string;
+  fieldName: string;
+  value: any;
+}) {
   try {
     const { transactionId, fieldName, value } = editData;
 
@@ -24,7 +32,7 @@ async function updateTransactionInDatabase(editData: { transactionId: string, fi
         transactionId,
         fieldName,
         value
-      })
+      }),
     });
 
     if (!response.ok) {

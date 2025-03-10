@@ -1,5 +1,9 @@
 <script generics="TData, TValue" lang="ts">
-  import { type ColumnDef, getCoreRowModel, type RowSelectionState } from "@tanstack/table-core";
+  import {
+    type ColumnDef,
+    getCoreRowModel,
+    type RowSelectionState
+  } from "@tanstack/table-core";
   import { createSvelteTable, FlexRender } from "$lib/components/ui/data-table";
 
   import { superForm } from "sveltekit-superforms/client";
@@ -28,14 +32,15 @@
   };
 
   // Zuweisung der Komponenteneigenschaften
-  let { columns, data, formInput, accountId }: DataTableProps<TData, TValue> = $props();
+  let { columns, data, formInput, accountId }: DataTableProps<TData, TValue> =
+    $props();
 
   // Zustandsverwaltung
   let rowSelection = $state<RowSelectionState>({});
   let addDialogOpen = $state(false);
 
   // Create initial derived data
-  let transactionData = $derived<any[]>([...data.map(item => ({ ...item }))]);
+  let transactionData = $derived<any[]>([...data.map((item) => ({ ...item }))]);
 
   // Create a separate writable store for edits
   let editableTransactionData = $state<any[]>([]);
@@ -51,7 +56,7 @@
       if (result.type === "success") {
         addDialogOpen = false; // Schließt den Dialog, wenn die Transaktion erfolgreich hinzugefügt wurde
       }
-    }
+    },
   });
 
   const { form: formData, enhance } = form;
@@ -64,7 +69,11 @@
   });
 
   // Handler für die Bearbeitung einer Zelle
-  function handleCellEdit(editData: { transactionId: string, fieldName: string, value: any }) {
+  function handleCellEdit(editData: {
+    transactionId: string;
+    fieldName: string;
+    value: any;
+  }) {
     const { transactionId, fieldName, value } = editData;
 
     // Aktualisiert den Zustand der Transaktionsdaten
@@ -94,8 +103,8 @@
     state: {
       get rowSelection() {
         return rowSelection; // Gibt den Zustand der Zeilenauswahl zurück
-      }
-    }
+      },
+    },
   });
 </script>
 
@@ -141,7 +150,11 @@
 
   <div>
     <Dialog.Root bind:open={addDialogOpen}>
-      <Dialog.Trigger class="{buttonVariants({ variant: 'ghost' })} flex h-[3rem] w-full rounded-t-none border-t">
+      <Dialog.Trigger
+        class="{buttonVariants({
+          variant: 'ghost',
+        })} flex h-[3rem] w-full rounded-t-none border-t"
+      >
         Add Transaction
       </Dialog.Trigger>
       <Dialog.Content>
@@ -156,11 +169,7 @@
             <Form.Control>
               {#snippet children({ props })}
                 <Form.Label>Amount</Form.Label>
-                <Input
-                  {...props}
-                  bind:value={$formData.amount}
-                  type="number"
-                />
+                <Input {...props} bind:value={$formData.amount} type="number" />
               {/snippet}
             </Form.Control>
             <Form.Description />

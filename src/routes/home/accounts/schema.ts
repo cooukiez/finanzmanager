@@ -7,9 +7,9 @@ export type AccountCreateFormSchema = typeof accountCreateFormSchema;
 export const accountCreateFormSchema = z.object({
   // Validierung für den Accountnamen: muss ein String mit 3 bis 40 Zeichen sein
   name: z
-      .string()
-      .min(3, { message: "Account name must contain at least 3 characters" })
-      .max(40, { message: "Account name must be less than 40 characters" }),
+    .string()
+    .min(3, { message: "Account name must contain at least 3 characters" })
+    .max(40, { message: "Account name must be less than 40 characters" }),
   // Validierung für das Anfangsguthaben: muss eine gültige, endliche Zahl sein
   balance: z
     .number()

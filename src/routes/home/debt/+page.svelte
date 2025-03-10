@@ -2,7 +2,12 @@
   import { enhance } from "$app/forms";
   import { Button } from "$lib/components/ui/button/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
-  import { Card, CardContent, CardFooter, CardHeader } from "$lib/components/ui/card/index.js";
+  import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader
+  } from "$lib/components/ui/card/index.js";
   import { Textarea } from "$lib/components/ui/textarea/index.js";
   import { Check, X } from "lucide-svelte";
   import type { PageData } from "./$types";
@@ -11,7 +16,6 @@
   let { data }: { data: PageData } = $props();
   // Um später Länge der Description zu bestimmen
   let description = $state("");
-
 </script>
 
 <div class="container m-0 p-6 space-y-12 w-full">
@@ -23,15 +27,32 @@
         <form method="POST" action="?/createDebt" use:enhance>
           <CardContent>
             <div class="mb-4">
-              <label for="username" class="block mb-2 font-semibold">Username</label>
-              <Input id="username" name="username" placeholder="Enter a username" required />
+              <label class="block mb-2 font-semibold" for="username"
+              >Username</label
+              >
+              <Input
+                id="username"
+                name="username"
+                placeholder="Enter a username"
+                required
+              />
             </div>
             <div class="mb-4">
-              <label class="block mb-2 font-semibold" for="amount">Amount</label>
-              <Input id="amount" name="amount" placeholder="Enter amount" required step="0.10" type="number" />
+              <label class="block mb-2 font-semibold" for="amount">Amount</label
+              >
+              <Input
+                id="amount"
+                name="amount"
+                placeholder="Enter amount"
+                required
+                step="0.10"
+                type="number"
+              />
             </div>
             <div class="mb-4">
-              <label for="description" class="block mb-2 font-semibold">Description</label>
+              <label class="block mb-2 font-semibold" for="description"
+              >Description</label
+              >
               <Textarea
                 id="description"
                 name="description"
@@ -60,7 +81,6 @@
       <section class="flex-1">
         <h2 class="text-xl font-semibold mb-6">Pending Debts</h2>
         <div class="space-y-6">
-
           <!-- Schulden, die der Nutzer zu zahlen hat -->
           {#if data.requestsAsDebtor.length > 0}
             <div>
@@ -81,12 +101,30 @@
                         Status: Pending
                       </span>
                       <!-- Buttons zur Annahme oder Ablehnung der Schuld -->
-                      <form method="POST" action="?/handleRequest" use:enhance={() => ({ update }) => update({ reset: true })}>
+                      <form
+                        method="POST"
+                        action="?/handleRequest"
+                        use:enhance={() =>
+                          ({ update }) =>
+                            update({ reset: true })}
+                      >
                         <input type="hidden" name="debtId" value={debt.id} />
-                        <Button class="bg-green-500 hover:bg-green-600 text-white" size="sm" name="action" type="submit" value="accept">
+                        <Button
+                          class="bg-green-500 hover:bg-green-600 text-white"
+                          size="sm"
+                          name="action"
+                          type="submit"
+                          value="accept"
+                        >
                           <Check class="mr-1" /> Accept
                         </Button>
-                        <Button class="bg-red-500 hover:bg-red-600 text-white" size="sm" name="action" type="submit" value="decline">
+                        <Button
+                          class="bg-red-500 hover:bg-red-600 text-white"
+                          size="sm"
+                          name="action"
+                          type="submit"
+                          value="decline"
+                        >
                           <X class="mr-1" /> Decline
                         </Button>
                       </form>
@@ -155,8 +193,14 @@
                       Status: Accepted
                     </span>
                     <!-- Button zum Löschen einer beglichenen Schuld -->
-                    {#if (debt.creditorId === data.user.id)}
-                      <form method="POST" action="?/deleteDebt" use:enhance={() => ({ update }) => update({ reset: true })}>
+                    {#if debt.creditorId === data.user.id}
+                      <form
+                        method="POST"
+                        action="?/deleteDebt"
+                        use:enhance={() =>
+                          ({ update }) =>
+                            update({ reset: true })}
+                      >
                         <input type="hidden" name="debtId" value={debt.id} />
                         <Button
                           variant="default"
@@ -167,8 +211,14 @@
                           Debt payed by {debt.debtor.name}
                         </Button>
                       </form>
-                    {:else }
-                      <Button class="invisible m-0 bg-gray-300 text-xs" type="submit" variant="default" size="sm" disabled>
+                    {:else}
+                      <Button
+                        class="invisible m-0 bg-gray-300 text-xs"
+                        type="submit"
+                        variant="default"
+                        size="sm"
+                        disabled
+                      >
                         Placeholder
                       </Button>
                     {/if}
@@ -197,7 +247,13 @@
                   <CardFooter class="flex justify-between items-center">
                     <p class="text-gray-500 text-sm">Status: Declined</p>
                     <!-- Button zum löschen abgelehnter Schulden -->
-                    <form method="POST" action="?/deleteDebt" use:enhance={() => ({ update }) => update({ reset: true })}>
+                    <form
+                      method="POST"
+                      action="?/deleteDebt"
+                      use:enhance={() =>
+                        ({ update }) =>
+                          update({ reset: true })}
+                    >
                       <input type="hidden" name="debtId" value={debt.id} />
                       <Button
                         variant="default"

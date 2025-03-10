@@ -15,11 +15,7 @@
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
           {#snippet child({ props })}
-            <Button
-              {...props}
-              variant="outline"
-              size="icon"
-            >
+            <Button {...props} variant="outline" size="icon">
               <span class="sr-only">Open menu</span>
               <Ellipsis />
             </Button>
@@ -28,7 +24,9 @@
         <DropdownMenu.Content class="w-56 mx-1">
           <DropdownMenu.Group>
             <DropdownMenu.GroupHeading>Actions</DropdownMenu.GroupHeading>
-            <DropdownMenu.Item onclick={() => navigator.clipboard.writeText(id)}>
+            <DropdownMenu.Item
+              onclick={() => navigator.clipboard.writeText(id)}
+            >
               Copy Transaction ID
             </DropdownMenu.Item>
           </DropdownMenu.Group>

@@ -7,8 +7,11 @@ import type { Actions, PageServerLoad } from "./$types";
 import { accountCreateFormSchema } from "./schema";
 import {
   createAccountWithInitialBalance,
-  getAccountBalance, getTransactions,
-  getUserAccounts, income, expenses, createTransaction
+  getAccountBalance,
+  getTransactions,
+  getUserAccounts,
+  income,
+  expenses
 } from "$lib/server/prisma/account";
 
 // Server-seitiger Lade-Handler, der die notwendigen Daten für die Seite vorbereitet.
@@ -52,16 +55,21 @@ export const actions: Actions = {
       try {
         // Erstelle einen neuen Account mit dem angegebenen Namen und Startguthaben
         await createAccountWithInitialBalance(
-            form.data.name,
-            event.locals.user.id,
-            form.data.balance
+          form.data.name,
+          event.locals.user.id,
+          form.data.balance
         );
 
         // Rückgabe des Formulars mit einem Erfolgsflag
         return { form, success: true };
       } catch (error) {
         // Fehlerbehandlung: Setze einen Fehler im Formular und gebe Status 500 zurück
-        setError(form, "", "Failed to create account: " + (error instanceof Error ? error.message : String(error)));
+        setError(
+          form,
+          "",
+          "Failed to create account: " +
+          (error instanceof Error ? error.message : String(error))
+        );
         return fail(500, { form });
       }
     } else {

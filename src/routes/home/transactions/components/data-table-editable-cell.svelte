@@ -7,19 +7,19 @@
     value,
     isNumber = false
   }: {
-    transactionId: string,
-    fieldName: string,
-    value: string | number,
-    isNumber?: boolean
+    transactionId: string;
+    fieldName: string;
+    value: string | number;
+    isNumber?: boolean;
   } = $props();
 
   // Lokaler Zustand für die Bearbeitung
   const state = $state({
-    editing: false,  // Bearbeitungsmodus
+    editing: false, // Bearbeitungsmodus
     inputValue: isNumber ? Number(value) : String(value)
   });
 
-  let inputElement: HTMLInputElement;  // Referenz zum Input-Element
+  let inputElement: HTMLInputElement; // Referenz zum Input-Element
 
   // Funktion zum Starten der Bearbeitung
   function startEditing() {
@@ -27,8 +27,8 @@
 
     // Fokus auf das Eingabefeld setzen, nachdem der DOM aktualisiert wurde
     setTimeout(() => {
-      inputElement?.focus();  // Setzt den Fokus auf das Eingabefeld
-      inputElement?.select();  // Markiert den gesamten Text im Eingabefeld
+      inputElement?.focus(); // Setzt den Fokus auf das Eingabefeld
+      inputElement?.select(); // Markiert den gesamten Text im Eingabefeld
     }, 0);
   }
 
@@ -44,7 +44,7 @@
   // Event-Handler für das Drücken der Enter-Taste
   function handleKeyDown(event: KeyboardEvent) {
     if (event.key === "Enter") {
-      saveChanges();  // Speichern der Änderungen, wenn die Enter-Taste gedrückt wird
+      saveChanges(); // Speichern der Änderungen, wenn die Enter-Taste gedrückt wird
     } else if (event.key === "Escape") {
       // Wenn Escape gedrückt wird, zurücksetzen des Wertes und Beenden des Bearbeitungsmodus
       state.inputValue = isNumber ? Number(value) : String(value);

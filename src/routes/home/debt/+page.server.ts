@@ -1,4 +1,8 @@
-import { findUserByName, getDebtsForUser, createDebt } from "$lib/server/prisma/debt";
+import {
+  findUserByName,
+  getDebtsForUser,
+  createDebt
+} from "$lib/server/prisma/debt";
 import { fail, redirect } from "@sveltejs/kit";
 import type { PageServerLoad, Actions } from "./$types";
 import { prisma } from "$lib/server/prisma/user";
@@ -25,19 +29,24 @@ export const load: PageServerLoad = async ({ locals }) => {
     );
     // Schuldanfragen, bei denen der Benutzer der Gläubiger ist
     const requestsAsCreditor = serializableDebts.filter(
-      (debt) => debt.creditorId === locals.user!.id && debt.status === "pending"
+      (debt) =>
+        debt.creditorId === locals.user!.id && debt.status === "pending"
     );
 
     // Akzeptierte Schulden
     const acceptedDebts = serializableDebts.filter(
-      (debt) => debt.status === "accepted" &&
-        (debt.debtorId === locals.user!.id || debt.creditorId === locals.user!.id)
+      (debt) =>
+        debt.status === "accepted" &&
+        (debt.debtorId === locals.user!.id ||
+          debt.creditorId === locals.user!.id)
     );
 
     // Abgelehnte Schulden, bei denen der Benutzer der Gläubiger ist
-    const declinedDebtsAsCreditor = serializableDebts.filter(
-      (debt) => debt.status === "declined" && debt.creditorId === locals.user!.id
-    ) ?? [];
+    const declinedDebtsAsCreditor =
+      serializableDebts.filter(
+        (debt) =>
+          debt.status === "declined" && debt.creditorId === locals.user!.id
+      ) ?? [];
 
     return {
       debts: serializableDebts,
@@ -47,7 +56,6 @@ export const load: PageServerLoad = async ({ locals }) => {
       declinedDebtsAsCreditor,
       user: locals.user,
     };
-
   } catch (error) {
     return {
       debts: [],
@@ -78,7 +86,9 @@ export const actions: Actions = {
     }
     // Überprüfung Länge der Description
     if (description && description.length > 40) {
-      return fail(400, { message: "Description exceeds maximum length of 40 characters" });
+      return fail(400, {
+        message: "Description exceeds maximum length of 40 characters"
+      });
     }
 
     // Schuldner anhand des Benutzernamens finden
@@ -110,7 +120,9 @@ export const actions: Actions = {
     }
 
     // Prüfen, ob die Schuld existiert
-    const debt = await prisma.debt.findUnique({ where: { id: debtId as string } });
+    const debt = await prisma.debt.findUnique({
+      where: { id: debtId as string }
+    });
 
     if (!debt || debt.debtorId !== locals.user.id) {
       return fail(403, { message: "Unauthorized access or invalid debt" });
@@ -150,7 +162,7 @@ export const actions: Actions = {
         where: { id: debtId as string },
       });
 
-      if (!debt || debt.creditorId !== locals.user.id ) {
+      if (!debt || debt.creditorId !== locals.user.id) {
         return fail(403, { message: "Unauthorized access or invalid debt" });
       }
 

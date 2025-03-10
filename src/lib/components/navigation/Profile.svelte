@@ -14,8 +14,10 @@
   >
     <!-- Avatar als Trigger für das Dropdown-Menü -->
     <Avatar.Root class="h-9 w-9">
-      <Avatar.Image alt="profile" src="" /> <!-- Profilbild -->
-      <Avatar.Fallback>UP</Avatar.Fallback> <!-- Fallback, falls kein Bild geladen wird -->
+      <Avatar.Image alt="profile" src="" />
+      <!-- Profilbild -->
+      <Avatar.Fallback>UP</Avatar.Fallback>
+      <!-- Fallback, falls kein Bild geladen wird -->
     </Avatar.Root>
   </DropdownMenu.Trigger>
 
@@ -23,7 +25,8 @@
     <!-- Inhalt des Dropdown-Menüs -->
     <DropdownMenu.Group>
       <DropdownMenu.GroupHeading>My Account</DropdownMenu.GroupHeading>
-      <DropdownMenu.Separator /> <!-- Trennlinie -->
+      <DropdownMenu.Separator />
+      <!-- Trennlinie -->
 
       <DropdownMenu.Group>
         <DropdownMenu.Item>
@@ -72,4 +75,3 @@
     </DropdownMenu.Group>
   </DropdownMenu.Content>
 </DropdownMenu.Root>
-

@@ -9,4 +9,5 @@
   }: ComponentProps<typeof Checkbox> = $props();
 </script>
 
+<!--suppress CommaExpressionJS -->
 <Checkbox {...restProps} bind:checked={() => checked, onCheckedChange} />

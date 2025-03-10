@@ -28,7 +28,9 @@
 <div class="flex flex-col gap-4">
   <Card.Root class="w-full">
     <!-- Card-Kopfzeile mit Account-Namen und Beschreibung -->
-    <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
+    <Card.Header
+      class="flex flex-row items-center justify-between space-y-0 pb-2"
+    >
       <div>
         <Card.Title>{account.name}</Card.Title>
         <Card.Description>Account Overview</Card.Description>
@@ -43,7 +45,10 @@
         </div>
 
         <!-- Tabs zum Umschalten zwischen Übersicht und Transaktionen -->
-        <Tabs.Root onValueChange={(value) => selectedTabValue = value} value={selectedTabValue}>
+        <Tabs.Root
+          onValueChange={(value) => (selectedTabValue = value)}
+          value={selectedTabValue}
+        >
           <Tabs.List class="grid grid-cols-2">
             <Tabs.Trigger value="overview">Overview</Tabs.Trigger>
             <Tabs.Trigger value="transactions">Transactions</Tabs.Trigger>
@@ -69,7 +74,9 @@
                 <!-- Card für Ausgaben -->
                 <Card.Root>
                   <Card.Header class="pb-2">
-                    <Card.Title class="text-sm font-medium">Expenses</Card.Title>
+                    <Card.Title class="text-sm font-medium">Expenses
+                    </Card.Title
+                    >
                   </Card.Header>
                   <Card.Content>
                     <div class="flex items-center">
@@ -83,7 +90,10 @@
               <!-- Card mit allgemeinen Account-Informationen -->
               <Card.Root class="col-span-2">
                 <Card.Header class="pb-2">
-                  <Card.Title class="text-sm font-medium">Account Information</Card.Title>
+                  <Card.Title class="text-sm font-medium"
+                  >Account Information
+                  </Card.Title
+                  >
                 </Card.Header>
                 <Card.Content>
                   <div class="text-sm space-y-1">
@@ -92,11 +102,14 @@
                       <span>{account.name}</span>
                     </div>
                     <div class="flex justify-between">
-                      <span class="text-muted-foreground">Current Balance:</span>
+                      <span class="text-muted-foreground">Current Balance:</span
+                      >
                       <span>{account.balance}€</span>
                     </div>
                     <div class="flex justify-between">
-                      <span class="text-muted-foreground">Transaction Count:</span>
+                      <span class="text-muted-foreground"
+                      >Transaction Count:</span
+                      >
                       <span>{account.transactions?.length || 0}</span>
                     </div>
                   </div>
@@ -122,7 +135,9 @@
                       <Table.Row>
                         <Table.Cell>{formatDate(transaction.date)}</Table.Cell>
                         <Table.Cell>{transaction.type}</Table.Cell>
-                        <Table.Cell class={`text-right ${transaction.amount > 0 ? "text-green-600" : "text-red-600"}`}>
+                        <Table.Cell
+                          class={`text-right ${transaction.amount > 0 ? "text-green-600" : "text-red-600"}`}
+                        >
                           {transaction.amount}€
                         </Table.Cell>
                       </Table.Row>
@@ -142,7 +157,10 @@
     </Card.Content>
     <!-- Card-Fußzeile mit Button zum Hinzufügen einer Transaktion -->
     <Card.Footer class="flex justify-end">
-      <Button size="sm" variant="outline" href="/home/transactions">Add Transaction</Button>
+      <Button href="/home/transactions" size="sm" variant="outline"
+      >Add Transaction
+      </Button
+      >
     </Card.Footer>
   </Card.Root>
 </div>

@@ -13,5 +13,5 @@ export const transactionSchema = z.object({
   type: z
     .string()
     .min(3, { message: "Transaction type must contain at least 3 characters" })
-    .max(50, { message: "Transaction type must be less than 50 characters" })
+    .max(50, { message: "Transaction type must be less than 50 characters" }),
 });

@@ -1,5 +1,9 @@
 <script lang="ts">
-  import { type Infer, superForm, type SuperValidated } from "sveltekit-superforms";
+  import {
+    type Infer,
+    superForm,
+    type SuperValidated
+  } from "sveltekit-superforms";
   import { zodClient } from "sveltekit-superforms/adapters";
 
   // noinspection ES6UnusedImports
@@ -25,8 +29,10 @@
   <!-- Container für das Login-Formular -->
   <Card.Root class="w-96">
     <Card.Header>
-      <Card.Title>Login</Card.Title> <!-- Titel des Formulars -->
-      <Card.Description>Enter your account information</Card.Description> <!-- Beschreibung des Formulars -->
+      <Card.Title>Login</Card.Title>
+      <!-- Titel des Formulars -->
+      <Card.Description>Enter your account information</Card.Description>
+      <!-- Beschreibung des Formulars -->
     </Card.Header>
     <Card.Content>
       <!-- Formular wird mit der POST-Methode gesendet, und enhance wird verwendet, um das Formular zu verbessern -->
@@ -37,10 +43,12 @@
             {#snippet children({ props })}
               <!-- Label und Eingabefeld für den Benutzernamen -->
               <Form.Label>Username</Form.Label>
-              <Input {...props} bind:value={$formData.username} /> <!-- Bindet den Benutzernamen an das Formular -->
+              <Input {...props} bind:value={$formData.username} />
+              <!-- Bindet den Benutzernamen an das Formular -->
             {/snippet}
           </Form.Control>
-          <Form.FieldErrors /> <!-- Zeigt Fehlermeldungen für das Feld an -->
+          <Form.FieldErrors />
+          <!-- Zeigt Fehlermeldungen für das Feld an -->
         </Form.Field>
 
         <!-- Formularfeld für das Passwort -->
@@ -52,10 +60,13 @@
               <Input
                 {...props}
                 bind:value={$formData.password}
-                type="password" /> <!-- Bindet das Passwort an das Formular und setzt den Typ auf "password" -->
+                type="password"
+              />
+              <!-- Bindet das Passwort an das Formular und setzt den Typ auf "password" -->
             {/snippet}
           </Form.Control>
-          <Form.FieldErrors /> <!-- Zeigt Fehlermeldungen für das Passwortfeld an -->
+          <Form.FieldErrors />
+          <!-- Zeigt Fehlermeldungen für das Passwortfeld an -->
         </Form.Field>
 
         <!-- Absende-Button für das Formular -->

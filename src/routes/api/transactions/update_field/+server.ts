@@ -25,7 +25,11 @@ export const PATCH: RequestHandler = async ({ request }) => {
     }
 
     // Aktualisiert die Transaktion in der Datenbank
-    const updatedTransaction = updateTransactionField(transactionId, fieldName, value);
+    const updatedTransaction = updateTransactionField(
+      transactionId,
+      fieldName,
+      value
+    );
 
     // Gibt die aktualisierte Transaktion zurück
     return json(updatedTransaction);

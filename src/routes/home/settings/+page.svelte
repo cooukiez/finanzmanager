@@ -43,12 +43,17 @@
           <!-- Eingabefeld für den Benutzernamen -->
           <div class="space-y-1">
             <Label for="username">Username</Label>
-            <Input id="name" name="newname" value={data?.user?.name}/>
+            <Input id="name" name="newname" value={data?.user?.name} />
           </div>
           <!-- Eingabefeld für die E-Mail-Adresse -->
           <div class="space-y-1">
             <Label for="email">Email</Label>
-            <Input type="email" id="email" name="newemail" value={data?.user?.email}/>
+            <Input
+              id="email"
+              name="newemail"
+              type="email"
+              value={data?.user?.email}
+            />
           </div>
         </Card.Content>
         <Card.Footer>
@@ -78,7 +83,7 @@
           <!-- Eingabefeld für das aktuelle Passwort -->
           <div class="space-y-1">
             <Label for="current">Current password</Label>
-            <Input name="currentpassword" id="current" type="password"/>
+            <Input id="current" name="currentpassword" type="password" />
           </div>
           <!-- Eingabefeld für das neue Passwort -->
           <div class="space-y-1">

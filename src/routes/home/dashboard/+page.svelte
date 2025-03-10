@@ -16,18 +16,13 @@
   <div class="flex flex-row w-full gap-2">
     <div class="flex-[3]">
       <!-- Komponente zur Anzeige der Benutzerausgaben -->
-      <Expenditures
-        Expenditures={accountData}
-      />
+      <Expenditures Expenditures={accountData} />
     </div>
 
     <div class="flex-[3]">
       <div class="w-[100%] mx-auto">
         <!-- Komponente zur Anzeige der akzeptierten Schulden -->
-        <Debts
-          acceptedDebts={acceptedDebts}
-          user={user ?? { id: "", name: "", email: "" }}
-        />
+        <Debts {acceptedDebts} user={user ?? { id: "", name: "", email: "" }} />
       </div>
     </div>
   </div>

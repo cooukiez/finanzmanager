@@ -1,4 +1,10 @@
-import { checkExistingUsername, checkExistingEmail, prisma, updateUserPassword, updateUserSettings } from "$lib/server/prisma/user";
+import {
+  checkExistingUsername,
+  checkExistingEmail,
+  prisma,
+  updateUserPassword,
+  updateUserSettings
+} from "$lib/server/prisma/user";
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { Argon2id } from "oslo/password";
@@ -11,8 +17,7 @@ export const load: PageServerLoad = async (event) => {
     if (event.locals.user) {
       userId = await getUser(event.locals.user.id);
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err);
     throw fail(500, { message: "Failed to fetch user" });
   }
@@ -127,5 +132,4 @@ export const actions = {
       return fail(500, { message: "Failed to update user" });
     }
   },
-
 } satisfies Actions;

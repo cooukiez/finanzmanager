@@ -35,7 +35,7 @@
       if (result.type === "success") {
         open = false; // Schließt das Sheet bei erfolgreichem Submit
       }
-    }
+    },
   });
 
   // Destrukturiere das Formularobjekt und die Svelte-Enhance-Funktion
@@ -47,12 +47,15 @@
 
 {#if accountData.length !== 0}
   <!-- Zeige die Account-Auswahl, wenn Accounts vorhanden sind -->
-  <AccountSelect accounts={accountData} bind:selectedValue={selectedAccountName} />
+  <AccountSelect
+    accounts={accountData}
+    bind:selectedValue={selectedAccountName}
+  />
   <div class="flex flex-col mt-4 mb-2 gap-2">
     {#each accountData as account}
       <!-- Zeige Account-Informationen basierend auf der Auswahl -->
       {#if selectedAccountName === "All Accounts" || account.name === selectedAccountName}
-        <AccountInfo account={account} />
+        <AccountInfo {account} />
       {/if}
     {/each}
   </div>
@@ -63,7 +66,9 @@
   <Card.Content class="flex flex-row justify-between items-center p-3 pl-5">
     {#if accountData.length === 0}
       <!-- Nachricht, wenn keine Accounts existieren -->
-      <span class="text-muted-foreground text-sm">You seem to be missing an account</span>
+      <span class="text-muted-foreground text-sm"
+      >You seem to be missing an account</span
+      >
     {:else}
       <span class="text-muted-foreground text-sm">Add new Account</span>
     {/if}
@@ -99,9 +104,9 @@
               {#snippet children({ props })}
                 <Form.Label>Initial Balance</Form.Label>
                 <Input
-                        {...props}
-                        bind:value={$formData.balance}
-                        type="number"
+                  {...props}
+                  bind:value={$formData.balance}
+                  type="number"
                 />
               {/snippet}
             </Form.Control>

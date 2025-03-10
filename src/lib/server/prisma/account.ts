@@ -42,7 +42,7 @@ export const getTransactions = async (account: Account) => {
   return prisma.transaction.findMany({
     where: {
       accountId: account.id,
-      type: {not: "initial"},
+      type: { not: "initial" }
     },
   });
 };
@@ -60,7 +60,7 @@ export const expenditureSumSortedByType = async (account: Account) => {
     },
     where: {
       accountId: account.id,
-      type: {not: "initial"},
+      type: { not: "initial" },
       amount: {
         lt: 0,
       },
@@ -85,7 +85,7 @@ export const expenditureSumSortedByType = async (account: Account) => {
  */
 export const expenditureSumSortedByTypeForUser = async (userId: string) => {
   const userAccounts = await getUserAccounts(userId);
-  const accountIds = userAccounts.map(account => account.id);
+  const accountIds = userAccounts.map((account) => account.id);
 
   const groupedTransactions = await prisma.transaction.groupBy({
     by: ["type"],
@@ -123,14 +123,14 @@ export const income = async (account: Account) => {
   const inc = await prisma.transaction.findMany({
     where: {
       accountId: account.id,
-      type: {not: "initial"},
+      type: { not: "initial" },
       amount: {
         gt: 0,
       },
     },
   });
   let incAmount = 0;
-  inc.forEach((i:any) => {
+  inc.forEach((i: any) => {
     incAmount += i.amount;
   });
   return incAmount;
@@ -145,14 +145,14 @@ export const expenses = async (account: Account) => {
   const ex = await prisma.transaction.findMany({
     where: {
       accountId: account.id,
-      type: {not: "initial"},
+      type: { not: "initial" },
       amount: {
         lt: 0,
       },
     },
   });
   let exAmount = 0;
-  ex.forEach((e:any) => {
+  ex.forEach((e: any) => {
     exAmount += e.amount;
   });
   return exAmount;
@@ -217,7 +217,7 @@ export const updateTransaction = async (
     },
     where: {
       id: transactionId
-    }
+    },
   });
 };
 
@@ -238,7 +238,7 @@ export const updateTransactionField = async (
     },
     where: {
       id: transactionId
-    }
+    },
   });
 };
 

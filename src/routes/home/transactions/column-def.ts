@@ -39,7 +39,7 @@ export const columns: ColumnDef<TransactionType>[] = [
     cell: ({ row }) => {
       // Zeigt die Transaktions-ID in der Zelle an
       return row.original.id;
-    }
+    },
   },
   {
     accessorKey: "amount", // Schlüssel für den Zugriff auf den Betrag
@@ -55,7 +55,7 @@ export const columns: ColumnDef<TransactionType>[] = [
         value: amount,
         isNumber: true // Der Wert ist eine Zahl
       });
-    }
+    },
   },
   {
     accessorKey: "type", // Schlüssel für den Zugriff auf den Transaktionstyp
@@ -68,13 +68,13 @@ export const columns: ColumnDef<TransactionType>[] = [
         fieldName: "type",
         value: row.original.type
       });
-    }
+    },
   },
   {
     id: "actions", // Spalte für die Aktionen (z.B. bearbeiten, löschen)
     cell: ({ row }) => {
       // Rendert die Aktionskomponente für jede Zeile
       return renderComponent(DataTableActions, { id: row.original.id });
-    }
-  }
+    },
+  },
 ];

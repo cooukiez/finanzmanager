@@ -13,7 +13,12 @@ export const deleteUser = async (userId: string) => {
 };
 
 // Aktualisiert Benutzerinformationen
-export const updateUser = async (userId: string, name: string, email: string, role: string) => {
+export const updateUser = async (
+  userId: string,
+  name: string,
+  email: string,
+  role: string
+) => {
   return prisma.user.update({
     where: { id: userId },
     data: { name, email, role },
@@ -21,7 +26,12 @@ export const updateUser = async (userId: string, name: string, email: string, ro
 };
 
 // Erstellt einen neuen Benutzer
-export const createUser = async (name: string, email: string, role: string, password: string) => {
+export const createUser = async (
+  name: string,
+  email: string,
+  role: string,
+  password: string
+) => {
   const userId = generateId(15);
   const hashedPassword = await new Argon2id().hash(password);
   return prisma.user.create({
@@ -45,7 +55,11 @@ export const findUserByName = async (name: string) => {
 };
 
 // Aktualisiert Einstellungen eines Benutzers
-export const updateUserSettings = async (userId: string, name: string, email: string) => {
+export const updateUserSettings = async (
+  userId: string,
+  name: string,
+  email: string
+) => {
   return prisma.user.update({
     where: { id: userId },
     data: { name, email },

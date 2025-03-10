@@ -1,6 +1,11 @@
 // Benutzer Seiten Konfigurierung für Navigationsleiste
 import type { IndexedRoute } from "$lib";
-import { userAccounts, userDebt, userHomepage, userTransactions } from "$lib/config/routes";
+import {
+  userAccounts,
+  userDebt,
+  userHomepage,
+  userTransactions
+} from "$lib/config/routes";
 
 export const userRoutes: IndexedRoute[] = [
   {

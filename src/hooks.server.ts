@@ -10,7 +10,6 @@ import { sequence } from "@sveltejs/kit/hooks";
 
 // Authentifizierungs-Hook: Verarbeitet die Authentifizierung (Session-Handling)
 export const authentication: Handle = async ({ event, resolve }) => {
-
   // Ruft die Session-ID aus den Cookies ab
   const sessionId = event.cookies.get(lucia.sessionCookieName);
   if (!sessionId) {
@@ -50,7 +49,6 @@ export const authentication: Handle = async ({ event, resolve }) => {
   event.locals.session = session;
   return resolve(event);
 };
-
 
 // Autorisierungs-Hook: Verarbeitet den Zugriff auf geschützte Seiten basierend auf Benutzerrollen
 const authorization: Handle = async ({ event, resolve }) => {

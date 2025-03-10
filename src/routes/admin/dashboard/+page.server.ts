@@ -1,4 +1,10 @@
-import { checkExistingUser, createUser, deleteUser, prisma, updateUser } from "$lib/server/prisma/user";
+import {
+  checkExistingUser,
+  createUser,
+  deleteUser,
+  prisma,
+  updateUser
+} from "$lib/server/prisma/user";
 
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";

@@ -5,7 +5,11 @@ import { setError, superValidate } from "sveltekit-superforms";
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { zod } from "sveltekit-superforms/adapters";
-import { createTransaction, getTransactions, getUserAccounts } from "$lib/server/prisma/account";
+import {
+  createTransaction,
+  getTransactions,
+  getUserAccounts
+} from "$lib/server/prisma/account";
 
 // Die Funktion "load" wird aufgerufen, um die Daten für die Seite zu laden.
 export const load: PageServerLoad = async (event) => {
@@ -57,7 +61,12 @@ export const actions: Actions = {
         return { form, success: true };
       } catch (error) {
         // Fehlerbehandlung, falls beim Erstellen der Transaktion ein Fehler auftritt
-        setError(form, "", "Fehler beim Erstellen der Transaktion: " + (error instanceof Error ? error.message : String(error)));
+        setError(
+          form,
+          "",
+          "Fehler beim Erstellen der Transaktion: " +
+          (error instanceof Error ? error.message : String(error))
+        );
         return fail(500, { form });
       }
     } else {
@@ -65,5 +74,5 @@ export const actions: Actions = {
       setError(form, "", "Ungültige Benutzersitzung");
       return fail(400, { form });
     }
-  }
+  },
 };

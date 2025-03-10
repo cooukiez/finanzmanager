@@ -18,7 +18,10 @@
 <div>
   {#if accountData.length !== 0}
     <!-- Wenn Kontodaten vorhanden sind, wird das AccountSelect-Komponenten angezeigt -->
-    <AccountSelect accounts={accountData} bind:selectedValue={selectedAccountName} />
+    <AccountSelect
+      accounts={accountData}
+      bind:selectedValue={selectedAccountName}
+    />
 
     <div class="flex flex-col gap-2 mt-4">
       <!-- Durchlaufe die accountData und zeige für jedes Konto eine Card-Komponente an -->
@@ -26,7 +29,9 @@
         {#if selectedAccountName === "All Accounts" || account.name === selectedAccountName}
           <!-- Wenn "All Accounts" ausgewählt ist oder der Kontoname mit der Auswahl übereinstimmt, wird die Karte angezeigt -->
           <Card.Root class="w-full">
-            <Card.Header class="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Card.Header
+              class="flex flex-row items-center justify-between space-y-0 pb-2"
+            >
               <div>
                 <!-- Kontoinformationen anzeigen -->
                 <Card.Title>{account.name}</Card.Title>
@@ -35,7 +40,12 @@
             </Card.Header>
             <Card.Content>
               <!-- Zeige die Transaktionen des Kontos in einer DataTable an -->
-              <DataTable columns={columns} data={account.transactions} formInput={data.form} accountId={account.id} />
+              <DataTable
+                {columns}
+                data={account.transactions}
+                formInput={data.form}
+                accountId={account.id}
+              />
             </Card.Content>
           </Card.Root>
         {/if}
@@ -44,9 +54,12 @@
   {:else}
     <!-- Wenn keine Kontodaten vorhanden sind, wird eine Nachricht angezeigt -->
     <div class="m-3 my-2 text-muted-foreground">
-      <span>You seem to be missing an account. Create one on the <a href={userAccounts}
-                                                                    class="underline">account page</a>.</span>
+      <span
+      >You seem to be missing an account. Create one on the <a
+        href={userAccounts}
+        class="underline">account page</a
+      >.</span
+      >
     </div>
   {/if}
 </div>
-

@@ -73,7 +73,8 @@
 
         <!-- Button zum Speichern der Änderungen -->
         <Button type="submit" variant="default" size="sm">
-          <Save class="w-4 h-4 mr-1" /> Save
+          <Save class="w-4 h-4 mr-1" />
+          Save
         </Button>
 
         <!-- Button zum Löschen des Benutzers -->
@@ -83,7 +84,8 @@
           size="sm"
           variant="destructive"
         >
-          <Trash2 class="w-4 h-4 mr-1" /> Delete
+          <Trash2 class="w-4 h-4 mr-1" />
+          Delete
         </Button>
       </form>
     {/each}

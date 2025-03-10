@@ -31,7 +31,7 @@ export const load: PageServerLoad = async ({ locals }) => {
       .filter(
         (debt) =>
           debt.status === "accepted" &&
-          (debt.debtorId === userId || debt.creditorId === userId)
+          (debt.debtorId === userId || debt.creditorId === userId),
       )
       // Betrag von BigInt in eine Zahl umwandeln
       .map((debt) => ({
