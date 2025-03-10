@@ -1,3 +1,4 @@
+// Logt den Benutzer aus (API Call)
 export const handleLogout = async () => {
   try {
     const response = await fetch("/api/logout", {
@@ -5,7 +6,7 @@ export const handleLogout = async () => {
     });
 
     if (response.ok) {
-      // redirect user to root page
+      // leitet den Benutzer zu Startseite, nach Logout
       window.location.href = "/";
     } else {
       console.error("Logout failed:", await response.json());
