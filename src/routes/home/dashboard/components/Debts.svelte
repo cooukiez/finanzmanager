@@ -38,6 +38,8 @@
     if (isDebtor(debt)) return total - debt.amount;
     return total;
   }, 0);
+
+  const hasDebts = acceptedDebts.length > 0;
 </script>
 
 <Card.Root class="w-full">
@@ -49,37 +51,43 @@
   </Card.Header>
   <Card.Content>
     <div class="w-full h-[300px] p-4 rounded">
-      <PieChart
-        cRange={[
-          "hsl(120, 70%, 50%)",
-          "hsl(0, 70%, 50%)",
-        ]}
-        cornerRadius={5}
-        data={debtData}
-        innerRadius={-30}
-        padAngle={0.02}
-        key="type"
-        legend={{ placement: "top-left", orientation: "vertical" }}
-        tooltip={true}
-        value="amount"
-      >
-        <svelte:fragment slot="aboveMarks">
-          <Text
-            class="text-4xl"
-            dy={4}
-            textAnchor="middle"
-            value={format(Math.abs(overallBalance)) + "€"}
-            verticalAnchor="middle"
-          />
-          <Text
-            class="text-sm fill-surface-content/50"
-            dy={26}
-            textAnchor="middle"
-            value={overallBalance > 0 ? "Owed to you" : "Owed by you"}
-            verticalAnchor="middle"
-          />
-        </svelte:fragment>
-      </PieChart>
+      {#if !hasDebts}
+        <div class="flex items-center justify-center h-full">
+          <span class="text-muted-foreground">No outstanding debts</span>
+        </div>
+      {:else}
+        <PieChart
+          cRange={[
+            "hsl(120, 70%, 50%)",
+            "hsl(0, 70%, 50%)",
+          ]}
+          cornerRadius={5}
+          data={debtData}
+          innerRadius={-30}
+          padAngle={0.02}
+          key="type"
+          legend={{ placement: "top-left", orientation: "vertical" }}
+          tooltip={true}
+          value="amount"
+        >
+          <svelte:fragment slot="aboveMarks">
+            <Text
+              class="text-4xl"
+              dy={4}
+              textAnchor="middle"
+              value={format(Math.abs(overallBalance)) + "€"}
+              verticalAnchor="middle"
+            />
+            <Text
+              class="text-sm fill-surface-content/50"
+              dy={26}
+              textAnchor="middle"
+              value={overallBalance > 0 ? "Owed to you" : "Owed by you"}
+              verticalAnchor="middle"
+            />
+          </svelte:fragment>
+        </PieChart>
+      {/if}
     </div>
   </Card.Content>
 </Card.Root>
