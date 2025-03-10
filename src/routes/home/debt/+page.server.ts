@@ -17,7 +17,6 @@ export const load: PageServerLoad = async ({ locals }) => {
       amount: debt.amount.toNumber(),
     }));
 
-    // Filter debts based on status
     const requestsAsDebtor = serializableDebts.filter(
       (debt) => debt.debtorId === locals.user!.id && debt.status === "pending"
     );
@@ -146,7 +145,6 @@ export const actions: Actions = {
       await prisma.debt.delete({
         where: { id: debtId as string },
       });
-
       return { message: "Debt removed successfully" };
     } catch (error) {
       console.log("Error deleting debt:", error);
