@@ -76,7 +76,4 @@ npm run rsop
 ```
 Dadurch wird die Webseite im Standard-Webbrowser geladen.
 
----
-
-Alles erledigt! 🎉 Viel Spaß beim Programmieren!
 
