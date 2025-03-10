@@ -15,7 +15,7 @@
 
   // Lokaler Zustand für die Bearbeitung
   const state = $state({
-    editing: false,  // Ob Bearbeitungsmodus aktiv ist
+    editing: false,  // Bearbeitungsmodus
     inputValue: isNumber ? Number(value) : String(value)
   });
 
