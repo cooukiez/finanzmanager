@@ -1,8 +1,10 @@
 <script generics="TData, TValue" lang="ts">
   import { type ColumnDef, getCoreRowModel, type RowSelectionState } from "@tanstack/table-core";
   import { createSvelteTable, FlexRender } from "$lib/components/ui/data-table";
+
   import { superForm } from "sveltekit-superforms/client";
   import type { SuperValidated } from "sveltekit-superforms";
+
   import type { TransactionType } from "../schema";
 
   // noinspection ES6UnusedImports
@@ -14,7 +16,6 @@
 
   import { Input } from "$lib/components/ui/input";
   import { buttonVariants } from "$lib/components/ui/button";
-
 
   import { cellEditStore } from "../stores";
 
@@ -32,24 +33,31 @@
   // Zustandsverwaltung
   let rowSelection = $state<RowSelectionState>({});
   let addDialogOpen = $state(false);
-  let transactionData = $state<any[]>([...data.map(item => ({ ...item }))]);
 
-  // Superform einrichten
+  // Create initial derived data
+  let transactionData = $derived<any[]>([...data.map(item => ({ ...item }))]);
+
+  // Create a separate writable store for edits
+  let editableTransactionData = $state<any[]>([]);
+
+  // Update editable data whenever derived data changes
+  $effect(() => {
+    editableTransactionData = [...transactionData];
+  });
+
   const form = superForm(formInput, {
     resetForm: true,
     onResult: ({ result }) => {
-      console.log(result);
       if (result.type === "success") {
         addDialogOpen = false; // Schließt den Dialog, wenn die Transaktion erfolgreich hinzugefügt wurde
-        transactionData = [...transactionData, result.data?.form.data]; // Fügt die neue Transaktion zu den Daten hinzu
       }
     }
   });
 
-  const { form: formData, enhance } = form; // Die Formulardaten und eine Funktion zur Verbesserung der Formularvalidierung
+  const { form: formData, enhance } = form;
 
   // Abonnieren des cellEditStore, um auf Zellbearbeitungen zu reagieren
-  const unsubscribe = cellEditStore.subscribe((editData) => {
+  cellEditStore.subscribe((editData) => {
     if (editData) {
       handleCellEdit(editData); // Bearbeitet die Zelländerung
     }
@@ -59,21 +67,11 @@
   function handleCellEdit(editData: { transactionId: string, fieldName: string, value: any }) {
     const { transactionId, fieldName, value } = editData;
 
-    console.log(editData);
-
-    let updatedTransaction = { amount: 0, type: "" };
-
     // Aktualisiert den Zustand der Transaktionsdaten
-    transactionData = transactionData.map((row, index) => {
+    editableTransactionData = editableTransactionData.map((row, _) => {
       if (row.id === transactionId) {
-        const updatedRow = { ...row, [fieldName]: value }; // Aktualisiert die spezifische Zelle in der Zeile
-
-        updatedTransaction = {
-          amount: updatedRow.amount || 0,
-          type: updatedRow.type || ""
-        };
-
-        return updatedRow;
+        // Aktualisiert die spezifische Zelle in der Zeile
+        return { ...row, [fieldName]: value };
       }
       return row;
     });
@@ -82,10 +80,10 @@
   // Tabellenkonfiguration
   const table = createSvelteTable({
     get data() {
-      return transactionData; // Gibt die Transaktionsdaten für die Tabelle zurück
+      return editableTransactionData;
     },
-    columns, // Die Spalten für die Tabelle
-    getCoreRowModel: getCoreRowModel(), // Modell für die Zeilen
+    columns,
+    getCoreRowModel: getCoreRowModel(),
     onRowSelectionChange: (updater) => {
       if (typeof updater === "function") {
         rowSelection = updater(rowSelection); // Aktualisiert die Auswahl der Zeilen
