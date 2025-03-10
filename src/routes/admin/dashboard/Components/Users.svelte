@@ -24,14 +24,14 @@
         action="?/update"
         class="flex items-center space-x-4 p-4 rounded-lg shadow border border-gray-300"
         use:enhance={({ formElement }) => {
-          return async () => {
+          return async ({ update }) => {
             const data = new FormData(formElement);
             const response = await fetch(formElement.action, {
               method: formElement.method,
               body: data,
             });
             if (response.ok) {
-              location.reload();
+              update();
             }
           };
         }}
