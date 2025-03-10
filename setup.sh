@@ -67,6 +67,15 @@ else
   exit 1
 fi
 
+echo -e "${YELLOW}Prisma Client Seeding...${NC}"
+npm run prisma:seed
+if [ $? -eq 0 ]; then
+  echo -e "${GREEN}Prisma Client erfolgreich geseedet.${NC}"
+else
+  echo -e "${RED}Fehler beim Seeding des Prisma Clients.${NC}"
+  exit 1
+fi
+
 echo -e "${YELLOW}=== Einrichtung abgeschlossen ===${NC}"
 echo -e "${GREEN}Deine FinanzManager Anwendung ist bereit zum Ausführen!${NC}"
 echo -e "Starte den Webserver mit: ${YELLOW}npm run dvop${NC}"
