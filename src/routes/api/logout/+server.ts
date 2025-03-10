@@ -18,8 +18,8 @@ export const POST = async (event: RequestEvent) => {
 
   // Setzt das Sitzungscookie für den Benutzer
   event.cookies.set(sessionCookie.name, sessionCookie.value, {
-    path: "/", // Der Cookie ist auf dem gesamten Pfad verfügbar
-    ...sessionCookie.attributes // Setzt zusätzliche Attribute für das Cookie
+    path: "/",
+    ...sessionCookie.attributes
   });
 
   // Gibt eine Erfolgsmeldung zurück
