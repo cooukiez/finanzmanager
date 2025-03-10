@@ -41,7 +41,7 @@ else
 fi
 
 echo -e "${YELLOW}Installiere Abhängigkeiten...${NC}"
-npm install
+npm run setup:deps
 if [ $? -eq 0 ]; then
   echo -e "${GREEN}Abhängigkeiten erfolgreich installiert.${NC}"
 else
@@ -50,7 +50,7 @@ else
 fi
 
 echo -e "${YELLOW}Generiere Prisma Client...${NC}"
-npx prisma generate
+npm run prisma:generate
 if [ $? -eq 0 ]; then
   echo -e "${GREEN}Prisma Client erfolgreich generiert.${NC}"
 else
@@ -58,9 +58,18 @@ else
   exit 1
 fi
 
+echo -e "${YELLOW}Create Prisma Client Migration...${NC}"
+npm run prisma:migrate
+if [ $? -eq 0 ]; then
+  echo -e "${GREEN}Prisma Client erfolgreich migriert.${NC}"
+else
+  echo -e "${RED}Fehler bei Migration des Prisma Clients.${NC}"
+  exit 1
+fi
+
 echo -e "${YELLOW}=== Einrichtung abgeschlossen ===${NC}"
 echo -e "${GREEN}Deine FinanzManager Anwendung ist bereit zum Ausführen!${NC}"
-echo -e "Starte den Webserver mit: ${YELLOW}npm run rsop${NC}"
+echo -e "Starte den Webserver mit: ${YELLOW}npm run dvop${NC}"
 echo -e "Greife auf Prisma Studio mit: ${YELLOW}npm run prisma:studio${NC} zu, um die Datenbank zu visualisieren"
 
 echo -e "\n${YELLOW}=== Standard Login-Informationen ===${NC}"
