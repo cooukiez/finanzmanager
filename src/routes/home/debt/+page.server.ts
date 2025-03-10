@@ -123,6 +123,8 @@ export const actions: Actions = {
   deleteDebt: async ({ request, locals }) => {
     const data = await request.formData();
     const debtId = data.get("debtId");
+    console.log("deleteDebt triggered")
+    console.log(debtId)
 
     if (!debtId) {
       return fail(400, { message: "Debt ID is required" });
@@ -137,11 +139,10 @@ export const actions: Actions = {
         where: { id: debtId as string },
       });
 
-      if (!debt || debt.creditorId !== locals.user.id || debt.status !== "declined") {
+      if (!debt || debt.creditorId !== locals.user.id ) {
         return fail(403, { message: "Unauthorized access or invalid debt" });
       }
 
-      // Delete the debt
       await prisma.debt.delete({
         where: { id: debtId as string },
       });
