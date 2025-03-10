@@ -9,6 +9,9 @@
 
   // Zugriff auf die Daten, die an die Komponente übergeben werden
   let { data }: { data: PageData } = $props();
+
+  let description = $state("");
+
 </script>
 
 <div class="container m-0 p-6 space-y-12 w-full">
@@ -32,9 +35,17 @@
               <Textarea
                 id="description"
                 name="description"
-                placeholder="Add a short description (optional)"
+                bind:value={description}
+                placeholder="Add a short description (optional, max. 20 characters)"
                 class="w-full"
               ></Textarea>
+              <p
+                class="text-sm"
+                class:text-red-500={description.length > 20}
+                class:text-gray-500={description.length <= 20}
+              >
+                {description.length}/20 characters used
+              </p>
             </div>
           </CardContent>
           <CardFooter class="flex justify-end">

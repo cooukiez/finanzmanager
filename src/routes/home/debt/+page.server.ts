@@ -76,6 +76,10 @@ export const actions: Actions = {
     if (!username || isNaN(amount) || amount <= 0) {
       return fail(400, { message: "Invalid input values" });
     }
+    // Überprüfung Länge der Description
+    if (description && description.length > 20) {
+      return fail(400, { message: "Description exceeds maximum length of 20 characters" });
+    }
 
     // Schuldner anhand des Benutzernamens finden
     const debtor = await findUserByName(username as string);
