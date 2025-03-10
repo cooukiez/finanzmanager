@@ -7,9 +7,6 @@
   // noinspection ES6UnusedImports
   import * as Card from "$lib/components/ui/card/index.js";
   import { userAccounts } from "$lib/config/routes";
-  import {superForm} from "sveltekit-superforms";
-  import {zodClient} from "sveltekit-superforms/adapters";
-  import {accountCreateFormSchema} from "../accounts/schema";
 
   let { data } = $props();
 
@@ -47,8 +44,8 @@
   {:else}
     <!-- Wenn keine Kontodaten vorhanden sind, wird eine Nachricht angezeigt -->
     <div class="m-3 my-2 text-muted-foreground">
-      <span>Es scheint, dass du kein Konto hast. Erstelle eines auf der <a href={userAccounts}
-                                                                           class="underline">Kontoseite</a>.</span>
+      <span>You seem to be missing an account. Create one on the <a href={userAccounts}
+                                                                    class="underline">account page</a>.</span>
     </div>
   {/if}
 </div>

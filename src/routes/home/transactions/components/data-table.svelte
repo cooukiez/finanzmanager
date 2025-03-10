@@ -132,7 +132,7 @@
       {:else}
         <Table.Row>
           <Table.Cell colspan={columns.length} class="h-24 text-center">
-            Keine Ergebnisse
+            No results
           </Table.Cell>
         </Table.Row>
       {/each}
@@ -142,20 +142,20 @@
   <div>
     <Dialog.Root bind:open={addDialogOpen}>
       <Dialog.Trigger class="{buttonVariants({ variant: 'ghost' })} flex h-[3rem] w-full rounded-t-none border-t">
-        Transaktion hinzufügen
+        Add Transaction
       </Dialog.Trigger>
       <Dialog.Content>
         <Dialog.Header>
-          <Dialog.Title>Transaktion hinzufügen</Dialog.Title>
+          <Dialog.Title>Add Transaction</Dialog.Title>
           <Dialog.Description>
-            Füge eine neue Transaktion zum Konto hinzu
+            Add new transaction to account
           </Dialog.Description>
         </Dialog.Header>
         <form method="POST" use:enhance>
           <Form.Field {form} name="amount">
             <Form.Control>
               {#snippet children({ props })}
-                <Form.Label>Betrag</Form.Label>
+                <Form.Label>Amount</Form.Label>
                 <Input
                   {...props}
                   bind:value={$formData.amount}
@@ -169,7 +169,7 @@
           <Form.Field {form} name="type">
             <Form.Control>
               {#snippet children({ props })}
-                <Form.Label>Transaktionstyp</Form.Label>
+                <Form.Label>Transaction type</Form.Label>
                 <Input {...props} bind:value={$formData.type} />
               {/snippet}
             </Form.Control>
@@ -183,7 +183,7 @@
               {/snippet}
             </Form.Control>
           </Form.Field>
-          <Form.Button class="mt-4">Absenden</Form.Button>
+          <Form.Button class="mt-4">Create</Form.Button>
         </form>
       </Dialog.Content>
     </Dialog.Root>

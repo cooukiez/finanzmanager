@@ -1,7 +1,11 @@
 import { prisma } from "$lib/server/prisma/user"; // Prisma-Client für Datenbankoperationen
 import { generateId } from "lucia"; // Funktion zum Generieren von eindeutigen IDs
 
-// Sucht einen Benutzer anhand seines Namens
+/**
+ * Findet einen Benutzer anhand seines Namens.
+ * @param name Der Name des Benutzers.
+ * @returns Der gefundene Benutzer oder null, falls nicht vorhanden.
+ */
 export const findUserByName = async (name: string) => {
   return prisma.user.findUnique({
     where: {
@@ -10,7 +14,11 @@ export const findUserByName = async (name: string) => {
   });
 };
 
-// Holt alle Schulden für einen Benutzer (als Schuldner oder Gläubiger)
+/**
+ * Ruft alle Schulden eines Benutzers ab, sowohl als Schuldner als auch als Gläubiger.
+ * @param userId Die ID des Benutzers.
+ * @returns Eine Liste der zugehörigen Schulden mit Schuldner- und Gläubigerinformationen.
+ */
 export const getDebtsForUser = async (userId: string) => {
   return prisma.debt.findMany({
     where: {
@@ -28,7 +36,15 @@ export const getDebtsForUser = async (userId: string) => {
   });
 };
 
-// Erstellt eine neue Schuld zwischen einem Schuldner und Gläubiger
+/**
+ * Erstellt eine neue Schuld zwischen zwei Benutzern.
+ * @param debtorId Die ID des Schuldners.
+ * @param creditorId Die ID des Gläubigers.
+ * @param amount Der geschuldete Betrag.
+ * @param status Der Status der Schuld (z. B. "offen", "beglichen").
+ * @param description Beschreibung
+ * @returns Die erstellte Schuld.
+ */
 export const createDebt = async (
   debtorId: string,
   creditorId: string,
