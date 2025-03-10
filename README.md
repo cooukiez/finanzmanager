@@ -80,7 +80,7 @@ bash setup.sh
 Nachdem das Setup-Skript ausgeführt wurde, kann die Anwendung mit folgendem Befehl gestartet werden:
 
 ```sh
-npm run rsop
+npm run dvop
 ```
 
 Dadurch wird die Webseite im Standard-Webbrowser geladen.
