@@ -22,7 +22,7 @@
             </div>
             <div class="mb-4">
               <label class="block mb-2 font-semibold" for="amount">Amount</label>
-              <Input id="amount" min="1" name="amount" placeholder="Enter amount" required step="0.01" type="number" />
+              <Input id="amount" name="amount" placeholder="Enter amount" required step="0.10" type="number" />
             </div>
           </CardContent>
           <CardFooter class="flex justify-end">
