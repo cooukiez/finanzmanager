@@ -9,7 +9,7 @@
 
   // Zugriff auf die Daten, die an die Komponente übergeben werden
   let { data }: { data: PageData } = $props();
-
+  // Um später Länge der Description zu bestimmen
   let description = $state("");
 
 </script>
@@ -36,15 +36,15 @@
                 id="description"
                 name="description"
                 bind:value={description}
-                placeholder="Add a short description (optional, max. 20 characters)"
+                placeholder="Add a short description (optional)"
                 class="w-full"
               ></Textarea>
               <p
                 class="text-sm"
-                class:text-red-500={description.length > 20}
-                class:text-gray-500={description.length <= 20}
+                class:text-red-500={description.length > 40}
+                class:text-gray-500={description.length <= 40}
               >
-                {description.length}/20 characters used
+                {description.length}/40 characters used
               </p>
             </div>
           </CardContent>

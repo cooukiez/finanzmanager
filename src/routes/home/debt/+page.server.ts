@@ -77,8 +77,8 @@ export const actions: Actions = {
       return fail(400, { message: "Invalid input values" });
     }
     // Überprüfung Länge der Description
-    if (description && description.length > 20) {
-      return fail(400, { message: "Description exceeds maximum length of 20 characters" });
+    if (description && description.length > 40) {
+      return fail(400, { message: "Description exceeds maximum length of 40 characters" });
     }
 
     // Schuldner anhand des Benutzernamens finden

@@ -15,27 +15,33 @@
   import { Separator } from "$lib/components/ui/separator/index.js";
   import { Button } from "$lib/components/ui/button";
 
+  // Import für die Seitennavigation, Benutzeroberfläche und Themenwechsel
   import AppSidebar from "$lib/components/navigation/Sidebar.svelte";
   import NavLinks from "$lib/components/navigation/navlinks/NavLinks.svelte";
   import Profile from "$lib/components/navigation/Profile.svelte";
   import ThemeSwitcher from "$lib/components/navigation/ThemeSwitcher.svelte";
 
+  // Routen für verschiedene Benutzerrollen (z.B. Benutzer, Admin, Homepage)
   import { userRoutes } from "$lib/config/user";
   import { adminRoutes } from "$lib/config/admin";
   import { homepageRoutes } from "$lib/config/homepage";
 
+  // Login-, Register- und Homepage-Routen
   import { loginPage, publicHomepage, registerPage } from "$lib/config/routes";
 
   import { toast } from "svelte-sonner";
 
+  // Daten und untergeordnete Inhalte
   let { data, children }: { data: LayoutData; children: Snippet } = $props();
 
+  // CSS-Klassen für Navigation und Layout
   let navContainerClass =
     "top-0 sticky bg-background bg-opacity-75 backdrop-blur z-20";
   let navClass =
     "flex flex-row items-center justify-between px-4 py-2 gap-4 h-12";
   let navItemClass = "flex flex-row items-center";
 
+  // Funktion für nicht implementierte Features
   function not_implemented() {
     toast.error("This feature is not implemented.", {
       description: "Please contact support for further information."
@@ -43,13 +49,16 @@
   }
 </script>
 
+<!-- Überwacht den aktuellen Modus (Hell/Dunkel) -->
 <ModeWatcher />
 <Toaster />
 
 <ContextMenu.Root>
   <ContextMenu.Trigger>
+    <!-- Prüft, ob ein Benutzer eingeloggt ist -->
     {#if data.user}
       {#if data.user.role === "user"}
+        <!-- Layout für normale Benutzer -->
         <Sidebar.Provider open={false}>
           <AppSidebar />
           <main class="w-screen">
@@ -63,12 +72,14 @@
               <Separator orientation="horizontal" />
             </div>
             <div class="w-full h-full p-2">
+              <!-- Untergeordnete Inhalte rendern -->
               {@render children?.()}
             </div>
           </main>
         </Sidebar.Provider>
       {/if}
       {#if data.user.role === "admin"}
+        <!-- Layout für Admin-Benutzer -->
         <main class="w-screen">
           <div class={navContainerClass}>
             <div class={navClass}>
@@ -81,11 +92,13 @@
             <Separator orientation="horizontal" />
           </div>
           <div class="w-full h-full p-2">
+            <!-- Untergeordnete Inhalte rendern -->
             {@render children?.()}
           </div>
         </main>
       {/if}
     {:else}
+      <!-- Layout für nicht eingeloggte Benutzer -->
       <div class="w-screen">
         <div class={navContainerClass}>
           <div class={cn(navClass)}>
@@ -102,8 +115,11 @@
               </div>
             </a>
 
+            <!-- Routen für die Homepage -->
             <NavLinks variant="minimal" routes={homepageRoutes} />
 
+
+            <!-- Login- und Registrierungsoptionen -->
             <div class="flex flex-row items-baseline">
               <a
                 href={loginPage}
@@ -119,10 +135,12 @@
           {@render children?.()}
         </div>
         <div class="fixed bottom-4 right-4 z-20">
+          <!-- Mode Switcher(hell/dunkel) -->
           <ThemeSwitcher />
         </div>
       </div>
     {/if}
+  <!-- nicht implementierte Menüs -->
   </ContextMenu.Trigger>
   <ContextMenu.Content class="w-64">
     <ContextMenu.Item inset onclick={not_implemented}>
