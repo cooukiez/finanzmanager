@@ -24,7 +24,7 @@
         action="?/update"
         class="flex items-center space-x-4 p-4 rounded-lg shadow border border-gray-300"
         use:enhance={({ formElement }) => {
-          return async ({ update }) => {
+          return async ({ result, update }) => {
             const data = new FormData(formElement);
             const response = await fetch(formElement.action, {
               method: formElement.method,

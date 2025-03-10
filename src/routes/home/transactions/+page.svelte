@@ -7,6 +7,9 @@
   // noinspection ES6UnusedImports
   import * as Card from "$lib/components/ui/card/index.js";
   import { userAccounts } from "$lib/config/routes";
+  import {superForm} from "sveltekit-superforms";
+  import {zodClient} from "sveltekit-superforms/adapters";
+  import {accountCreateFormSchema} from "../accounts/schema";
 
   let { data } = $props();
 
