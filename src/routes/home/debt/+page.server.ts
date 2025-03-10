@@ -17,7 +17,6 @@ export const load: PageServerLoad = async ({ locals }) => {
       amount: debt.amount.toNumber(),
     }));
 
-    // Filter debts based on status
     const requestsAsDebtor = serializableDebts.filter(
       (debt) => debt.debtorId === locals.user!.id && debt.status === "pending"
     );
@@ -123,6 +122,8 @@ export const actions: Actions = {
   deleteDebt: async ({ request, locals }) => {
     const data = await request.formData();
     const debtId = data.get("debtId");
+    console.log("deleteDebt triggered")
+    console.log(debtId)
 
     if (!debtId) {
       return fail(400, { message: "Debt ID is required" });
@@ -137,20 +138,16 @@ export const actions: Actions = {
         where: { id: debtId as string },
       });
 
-      if (!debt || debt.status !== "accepted") {
-        return fail(400, { message: "Debt is not in an acceptable state to delete" });
-      }
-
-      if (debt.creditorId !== locals.user.id) {
-        return fail(403, { message: "Only creditors can mark debts as paid" });
+      if (!debt || debt.creditorId !== locals.user.id ) {
+        return fail(403, { message: "Unauthorized access or invalid debt" });
       }
 
       await prisma.debt.delete({
         where: { id: debtId as string },
       });
-
-      return { message: "Debt successfully marked as paid and deleted" };
+      return { message: "Debt removed successfully" };
     } catch (error) {
+      console.log("Error deleting debt:", error);
       return fail(500, { message: "Failed to delete debt" });
     }
   },
