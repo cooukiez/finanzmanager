@@ -2,6 +2,11 @@ import { prisma } from "$lib/server/prisma/user";
 import type { Account } from "@prisma/client";
 import { generateId } from "lucia";
 
+/**
+ * Holt alle Konten eines Benutzers aus der Datenbank.
+ * @param userId Die ID des Benutzers.
+ * @returns Eine Liste der Benutzerkonten.
+ */
 export const getUserAccounts = async (userId: string) => {
   return prisma.account.findMany({
     where: {
@@ -10,6 +15,11 @@ export const getUserAccounts = async (userId: string) => {
   });
 };
 
+/**
+ * Berechnet den aktuellen Kontostand eines Kontos.
+ * @param account Das Konto.
+ * @returns Der Kontostand.
+ */
 export const getAccountBalance = async (account: Account) => {
   let result = await prisma.transaction.aggregate({
     _sum: {
@@ -23,8 +33,13 @@ export const getAccountBalance = async (account: Account) => {
   return result._sum.amount || 0;
 };
 
+/**
+ * Holt alle Transaktionen eines Kontos, außer der initialen Transaktion.
+ * @param account Das Konto.
+ * @returns Eine Liste der Transaktionen.
+ */
 export const getTransactions = async (account: Account) => {
- return prisma.transaction.findMany({
+  return prisma.transaction.findMany({
     where: {
       accountId: account.id,
       type: {not: "initial"},
@@ -32,6 +47,11 @@ export const getTransactions = async (account: Account) => {
   });
 };
 
+/**
+ * Summiert die Ausgaben eines Kontos, gruppiert nach Typ und sortiert sie aufsteigend.
+ * @param account Das Konto.
+ * @returns Eine Liste mit den Ausgaben nach Typ.
+ */
 export const expenditureSumSortedByType = async (account: Account) => {
   const groupedTransactions = await prisma.transaction.groupBy({
     by: ["type"],
@@ -58,9 +78,13 @@ export const expenditureSumSortedByType = async (account: Account) => {
   }));
 };
 
+/**
+ * Summiert die Ausgaben eines Benutzers über alle Konten, gruppiert nach Typ.
+ * @param userId Die ID des Benutzers.
+ * @returns Eine Liste der Ausgaben nach Typ.
+ */
 export const expenditureSumSortedByTypeForUser = async (userId: string) => {
   const userAccounts = await getUserAccounts(userId);
-
   const accountIds = userAccounts.map(account => account.id);
 
   const groupedTransactions = await prisma.transaction.groupBy({
@@ -90,6 +114,11 @@ export const expenditureSumSortedByTypeForUser = async (userId: string) => {
   }));
 };
 
+/**
+ * Berechnet das Einkommen eines Kontos.
+ * @param account Das Konto.
+ * @returns Die gesamte Einnahmesumme.
+ */
 export const income = async (account: Account) => {
   const inc = await prisma.transaction.findMany({
     where: {
@@ -107,6 +136,11 @@ export const income = async (account: Account) => {
   return incAmount;
 };
 
+/**
+ * Berechnet die Ausgaben eines Kontos.
+ * @param account Das Konto.
+ * @returns Die gesamte Ausgabensumme.
+ */
 export const expenses = async (account: Account) => {
   const ex = await prisma.transaction.findMany({
     where: {
@@ -124,6 +158,12 @@ export const expenses = async (account: Account) => {
   return exAmount;
 };
 
+/**
+ * Erstellt ein neues Konto für einen Benutzer.
+ * @param name Der Name des Kontos.
+ * @param userId Die ID des Benutzers.
+ * @returns Das erstellte Konto.
+ */
 export const createAccount = async (name: string, userId: string) => {
   const accountId = generateId(15);
   return prisma.account.create({
@@ -135,6 +175,13 @@ export const createAccount = async (name: string, userId: string) => {
   });
 };
 
+/**
+ * Erstellt eine neue Transaktion für ein Konto.
+ * @param accountId Die ID des Kontos.
+ * @param amount Der Betrag der Transaktion.
+ * @param type Der Typ der Transaktion.
+ * @returns Die erstellte Transaktion.
+ */
 export const createTransaction = async (
   accountId: string,
   amount: Exclude<number, 0>,
@@ -151,6 +198,13 @@ export const createTransaction = async (
   });
 };
 
+/**
+ * Aktualisiert eine bestehende Transaktion.
+ * @param transactionId Die ID der Transaktion.
+ * @param amount Der neue Betrag.
+ * @param type Der neue Typ.
+ * @returns Die aktualisierte Transaktion.
+ */
 export const updateTransaction = async (
   transactionId: string,
   amount: Exclude<number, 0>,
@@ -167,6 +221,12 @@ export const updateTransaction = async (
   });
 };
 
+/**
+ * Aktualisiert ein einzelnes Feld einer Transaktion.
+ * @param transactionId Die ID der Transaktion.
+ * @param fieldName Der Name des Feldes.
+ * @param value Der neue Wert.
+ */
 export const updateTransactionField = async (
   transactionId: string,
   fieldName: string,
@@ -182,6 +242,13 @@ export const updateTransactionField = async (
   });
 };
 
+/**
+ * Erstellt ein Konto mit einem Startguthaben.
+ * @param name Der Name des Kontos.
+ * @param userId Die ID des Benutzers.
+ * @param balance Das Startguthaben.
+ * @returns Das erstellte Konto.
+ */
 export const createAccountWithInitialBalance = async (
   name: string,
   userId: string,
