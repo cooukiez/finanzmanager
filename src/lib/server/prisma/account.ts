@@ -167,6 +167,21 @@ export const updateTransaction = async (
   });
 };
 
+export const updateTransactionField = async (
+  transactionId: string,
+  fieldName: string,
+  value: any
+) => {
+  return prisma.transaction.update({
+    data: {
+      [fieldName]: value
+    },
+    where: {
+      id: transactionId
+    }
+  });
+};
+
 export const createAccountWithInitialBalance = async (
   name: string,
   userId: string,

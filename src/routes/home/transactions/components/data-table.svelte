@@ -2,8 +2,8 @@
   import { type ColumnDef, getCoreRowModel, type RowSelectionState } from "@tanstack/table-core";
   import { createSvelteTable, FlexRender } from "$lib/components/ui/data-table";
   import { superForm } from "sveltekit-superforms/client";
-  import { buttonVariants } from "$lib/components/ui/button";
-  import { cellEditStore } from "../stores";
+  import type { SuperValidated } from "sveltekit-superforms";
+  import type { TransactionType } from "../schema";
 
   // noinspection ES6UnusedImports
   import * as Table from "$lib/components/ui/table";
@@ -13,29 +13,30 @@
   import * as Form from "$lib/components/ui/form";
 
   import { Input } from "$lib/components/ui/input";
-  import type { TransactionType } from "../schema";
+  import { buttonVariants } from "$lib/components/ui/button";
 
-  import type { SuperValidated } from "sveltekit-superforms";
+
+  import { cellEditStore } from "../stores";
 
   // Komponenteneigenschaften definieren
   type DataTableProps<TData, TValue> = {
-    columns: ColumnDef<TData, TValue>[]; // Definiert die Spalten der Tabelle
-    data: TData[]; // Die Daten, die in der Tabelle angezeigt werden
-    formInput: SuperValidated<TransactionType>; // Das Superform-Objekt für die Validierung des Formulars
-    accountId: string; // Die ID des Kontos, das in der Tabelle bearbeitet wird
+    columns: ColumnDef<TData, TValue>[];
+    data: TData[];
+    formInput: SuperValidated<TransactionType>;
+    accountId: string;
   };
 
   // Zuweisung der Komponenteneigenschaften
   let { columns, data, formInput, accountId }: DataTableProps<TData, TValue> = $props();
 
   // Zustandsverwaltung
-  let rowSelection = $state<RowSelectionState>({}); // Auswahl der Tabellenzeilen
-  let addDialogOpen = $state(false); // Steuerung des Dialogs zum Hinzufügen von Transaktionen
-  let transactionData = $state<any[]>([...data.map(item => ({ ...item }))]); // Kopie der Transaktionsdaten, um Änderungen lokal zu speichern
+  let rowSelection = $state<RowSelectionState>({});
+  let addDialogOpen = $state(false);
+  let transactionData = $state<any[]>([...data.map(item => ({ ...item }))]);
 
   // Superform einrichten
   const form = superForm(formInput, {
-    resetForm: true, // Setzt das Formular nach dem Absenden zurück
+    resetForm: true,
     onResult: ({ result }) => {
       console.log(result);
       if (result.type === "success") {
@@ -55,23 +56,16 @@
   });
 
   // Handler für die Bearbeitung einer Zelle
-  function handleCellEdit(editData: { rowId: string, fieldName: string, value: any }) {
-    const { rowId, fieldName, value } = editData;
-    const rowIndex = parseInt(rowId.replace("row_", "")); // Extrahiert den Index der Zeile
+  function handleCellEdit(editData: { transactionId: string, fieldName: string, value: any }) {
+    const { transactionId, fieldName, value } = editData;
 
-    // Überprüft, ob der Index gültig ist
-    if (isNaN(rowIndex) || rowIndex < 0 || rowIndex >= transactionData.length) {
-      console.error("Ungültiger Zeilenindex:", rowIndex);
-      return;
-    }
+    console.log(editData);
 
-    let transactionId = "";
     let updatedTransaction = { amount: 0, type: "" };
 
     // Aktualisiert den Zustand der Transaktionsdaten
     transactionData = transactionData.map((row, index) => {
-      if (index === rowIndex) {
-        transactionId = row.id || "";
+      if (row.id === transactionId) {
         const updatedRow = { ...row, [fieldName]: value }; // Aktualisiert die spezifische Zelle in der Zeile
 
         updatedTransaction = {
@@ -83,41 +77,6 @@
       }
       return row;
     });
-
-    // Aktualisiert die Transaktion in der Datenbank
-    updateTransactionInDatabase(
-      transactionId,
-      updatedTransaction.amount,
-      updatedTransaction.type
-    );
-  }
-
-  // Funktion, um die Transaktion in der Datenbank zu aktualisieren
-  async function updateTransactionInDatabase(transactionId: string, amount: number, type: string) {
-    try {
-      const response = await fetch("/api/transactions/update", {
-        method: "PATCH", // PATCH-Methode zum Aktualisieren
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          transactionId,
-          amount,
-          type
-        })
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Fehler beim Aktualisieren der Transaktion:", errorData);
-        return;
-      }
-
-      // Antwort wird nicht benötigt, aber trotzdem verarbeitet
-      await response.json();
-    } catch (error) {
-      console.error("Fehler beim Aktualisieren der Transaktion:", error);
-    }
   }
 
   // Tabellenkonfiguration

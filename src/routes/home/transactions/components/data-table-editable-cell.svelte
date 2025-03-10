@@ -1,31 +1,29 @@
 <script lang="ts">
   import { cellEditStore } from "../stores";
 
-  // Definiere die Props
   let {
-    value,
+    transactionId,
     fieldName,
-    rowId,
+    value,
     isNumber = false
   }: {
-    value: string | number,
+    transactionId: string,
     fieldName: string,
-    rowId: string,
+    value: string | number,
     isNumber?: boolean
   } = $props();
 
   // Lokaler Zustand für die Bearbeitung
   const state = $state({
-    editing: false,  // Gibt an, ob sich das Feld im Bearbeitungsmodus befindet
-    inputValue: isNumber ? Number(value) : String(value)  // Initialwert des Eingabefeldes, je nach Typ
+    editing: false,  // Ob Bearbeitungsmodus aktiv ist
+    inputValue: isNumber ? Number(value) : String(value)
   });
 
   let inputElement: HTMLInputElement;  // Referenz zum Input-Element
 
   // Funktion zum Starten der Bearbeitung
   function startEditing() {
-    state.editing = true;  // Setze den Bearbeitungsmodus auf 'true'
-    console.log("startEditing");  // Ausgabe in der Konsole zu Debugging-Zwecken
+    state.editing = true;
 
     // Fokus auf das Eingabefeld setzen, nachdem der DOM aktualisiert wurde
     setTimeout(() => {
@@ -36,11 +34,12 @@
 
   // Funktion zum Speichern der Änderungen
   function saveChanges() {
-    state.editing = false;  // Beende den Bearbeitungsmodus
+    state.editing = false;
     // Stelle sicher, dass Zahlen als Zahlen gespeichert werden
     const finalValue = isNumber ? Number(state.inputValue) : state.inputValue;
-    // Setze den neuen Wert im globalen Zustand (cellEditStore)
-    cellEditStore.set({ rowId, fieldName, value: finalValue });
+
+    console.log(transactionId);
+    cellEditStore.set({ transactionId, fieldName, value: finalValue });
   }
 
   // Event-Handler für das Drücken der Enter-Taste
@@ -49,14 +48,14 @@
       saveChanges();  // Speichern der Änderungen, wenn die Enter-Taste gedrückt wird
     } else if (event.key === "Escape") {
       // Wenn Escape gedrückt wird, zurücksetzen des Wertes und Beenden des Bearbeitungsmodus
-      state.inputValue = isNumber ? Number(value) : String(value);  // Setzt den ursprünglichen Wert zurück
-      state.editing = false;  // Beende den Bearbeitungsmodus
+      state.inputValue = isNumber ? Number(value) : String(value);
+      state.editing = false;
     }
   }
 
   // Event-Handler für den Blur-Ereignis (Feld verliert den Fokus)
   function handleBlur() {
-    saveChanges();  // Speichern der Änderungen, wenn das Eingabefeld den Fokus verliert
+    saveChanges();
   }
 </script>
 

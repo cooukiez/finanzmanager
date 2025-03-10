@@ -50,10 +50,10 @@ export const columns: ColumnDef<TransactionType>[] = [
 
       // Rendert die Zelle als bearbeitbare Zelle für den Betrag
       return renderComponent(DataTableEditableCell, {
-        value: amount,
+        transactionId: row.original.id,
         fieldName: "amount",
-        rowId: row.id,
-        isNumber: true // Gibt an, dass der Wert eine Zahl ist
+        value: amount,
+        isNumber: true // Der Wert ist eine Zahl
       });
     }
   },
@@ -64,9 +64,9 @@ export const columns: ColumnDef<TransactionType>[] = [
     cell: ({ row }) => {
       // Rendert die Zelle als bearbeitbare Zelle für den Typ
       return renderComponent(DataTableEditableCell, {
-        value: row.original.type,
+        transactionId: row.original.id,
         fieldName: "type",
-        rowId: row.id
+        value: row.original.type
       });
     }
   },
