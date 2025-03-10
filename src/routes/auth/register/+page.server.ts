@@ -33,7 +33,6 @@ export const actions = {
 
     // Überprüft, ob der Benutzername oder die E-Mail-Adresse bereits existieren
     if (await checkExistingUser(form.data.username, form.data.email)) {
-      // Wenn der Benutzername oder die E-Mail bereits verwendet werden, werden Fehlermeldungen gesetzt
       setError(form, "username", "Username or Email already used");
       setError(form, "email", "Username or Email already used");
       return fail(400, {
@@ -50,10 +49,10 @@ export const actions = {
     // Erstellt einen neuen Benutzer in der Datenbank
     const user = await prisma.user.create({
       data: {
-        id: userId, // Setzt die generierte Benutzer-ID
-        email: form.data.email, // Setzt die E-Mail-Adresse des Benutzers
-        name: form.data.username, // Setzt den Benutzernamen
-        password: hashedPassword // Setzt das gehashte Passwort
+        id: userId,
+        email: form.data.email,
+        name: form.data.username,
+        password: hashedPassword
       },
     });
 
