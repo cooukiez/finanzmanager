@@ -83,4 +83,9 @@ Nachdem das Setup-Skript ausgeführt wurde, kann die Anwendung mit folgendem Bef
 npm run dvop
 ```
 
-Dadurch wird die Webseite im Standard-Webbrowser geladen.
+Dadurch wird die Webseite im Standard-Webbrowser geladen. Um die Datenbank bei Start zu resetten und neu zu seeden:
+
+```sh
+npm run rsop
+```
+
