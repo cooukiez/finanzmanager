@@ -58,7 +58,7 @@ else
   exit 1
 fi
 
-echo -e "${YELLOW}Create Prisma Client Migration...${NC}"
+echo -e "${YELLOW}Erstelle Prisma Client Migration...${NC}"
 npm run prisma:migrate
 if [ $? -eq 0 ]; then
   echo -e "${GREEN}Prisma Client erfolgreich migriert.${NC}"
