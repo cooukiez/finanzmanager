@@ -10,7 +10,7 @@
 
 </script>
 
-<div class="flex flex-col max-w-screen-xl m-0">
+<div class="flex flex-col w-full m-0">
     <div class="flex flex-row w-full gap-2">
       <div class="flex-[3]">
         <Expenditures
@@ -18,7 +18,7 @@
         />
       </div>
 
-      <div class="flex-[2] flex">
+      <div class="flex-[3]">
         <div class="w-[100%] mx-auto">
           <Debts
             acceptedDebts={acceptedDebts}
