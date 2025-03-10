@@ -37,7 +37,6 @@ export const actions: Actions = {
 
     // Überprüft, ob der Benutzer existiert
     if (!user) {
-      // Wenn der Benutzer nicht gefunden wurde, werden Fehlermeldungen gesetzt
       setError(form, "username", "Incorrect username or password");
       setError(form, "password", "Incorrect username or password");
       return fail(400, {
@@ -47,11 +46,11 @@ export const actions: Actions = {
 
     // Überprüft das Passwort des Benutzers
     const validPassword = await new Argon2id().verify(
-      user.password, // Das gehashte Passwort des Benutzers aus der Datenbank
-      form.data.password // Das eingegebene Passwort aus dem Formular
+      user.password,
+      form.data.password
     );
+
     if (!validPassword) {
-      // Wenn das Passwort ungültig ist, werden Fehlermeldungen gesetzt
       setError(form, "username", "Incorrect username or password");
       setError(form, "password", "Incorrect username or password");
       return fail(400, {
