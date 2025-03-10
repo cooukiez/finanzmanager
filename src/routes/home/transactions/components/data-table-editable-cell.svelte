@@ -38,7 +38,6 @@
     // Stelle sicher, dass Zahlen als Zahlen gespeichert werden
     const finalValue = isNumber ? Number(state.inputValue) : state.inputValue;
 
-    console.log(transactionId);
     cellEditStore.set({ transactionId, fieldName, value: finalValue });
   }
 
