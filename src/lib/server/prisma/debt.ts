@@ -29,7 +29,9 @@ export const createDebt = async (
   debtorId: string,
   creditorId: string,
   amount: number,
-  status: string
+  status: string,
+  description: string
+
 ) => {
   const debtId = generateId(15);
   return prisma.debt.create({
@@ -39,6 +41,7 @@ export const createDebt = async (
       creditorId: creditorId,
       amount: amount,
       status: status,
+      description: description,
     },
   });
 };

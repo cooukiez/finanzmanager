@@ -62,13 +62,14 @@ model AccountsGrouped {
 }
 
 model Debt {
-  id         String   @id @unique
-  debtorId   String
-  creditorId String
-  amount     Decimal
-  status     String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          String   @id @unique
+  debtorId    String
+  creditorId  String
+  amount      Decimal
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  description String?
 
   debtor   User @relation(fields: [debtorId], references: [id], name: "DebtDebtor")
   creditor User @relation(fields: [creditorId], references: [id], name: "DebtCreditor")

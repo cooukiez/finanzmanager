@@ -70,6 +70,7 @@ export const actions: Actions = {
     const data = await request.formData();
     const username = data.get("username");
     const amount = parseFloat(data.get("amount") as string);
+    const description = data.get("description") as string;
 
     // Überprüfung der Eingabewerte
     if (!username || isNaN(amount) || amount <= 0) {
@@ -89,7 +90,7 @@ export const actions: Actions = {
     }
 
     // Neue Schuld erstellen
-    await createDebt(debtor.id, locals.user.id, amount, "pending");
+    await createDebt(debtor.id, locals.user.id, amount, "pending", description);
 
     return { message: "Debt request sent successfully" };
   },

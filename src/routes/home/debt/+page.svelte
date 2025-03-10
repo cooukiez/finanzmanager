@@ -3,9 +3,11 @@
   import { Button } from "$lib/components/ui/button/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
   import { Card, CardContent, CardFooter, CardHeader } from "$lib/components/ui/card/index.js";
+  import { Textarea } from "$lib/components/ui/textarea/index.js";
   import { Check, X } from "lucide-svelte";
   import type { PageData } from "./$types";
 
+  // Zugriff auf die Daten, die an die Komponente übergeben werden
   let { data }: { data: PageData } = $props();
 </script>
 
@@ -14,6 +16,7 @@
     <section class="flex-1 max-w-lg">
       <h2 class="text-xl font-semibold mb-6">Request Money</h2>
       <Card>
+        <!-- Formular zum Anfordern einer Schuld -->
         <form method="POST" action="?/createDebt" use:enhance>
           <CardContent>
             <div class="mb-4">
@@ -24,6 +27,15 @@
               <label class="block mb-2 font-semibold" for="amount">Amount</label>
               <Input id="amount" name="amount" placeholder="Enter amount" required step="0.10" type="number" />
             </div>
+            <div class="mb-4">
+              <label for="description" class="block mb-2 font-semibold">Description</label>
+              <Textarea
+                id="description"
+                name="description"
+                placeholder="Add a short description (optional)"
+                class="w-full"
+              ></Textarea>
+            </div>
           </CardContent>
           <CardFooter class="flex justify-end">
             <Button type="submit" variant="default">Request Debt</Button>
@@ -32,11 +44,13 @@
       </Card>
     </section>
 
+    <!-- Anzeige ausstehender Schulden -->
     {#if data.requestsAsDebtor.length > 0 || data.requestsAsCreditor.length > 0}
       <section class="flex-1">
         <h2 class="text-xl font-semibold mb-6">Pending Debts</h2>
         <div class="space-y-6">
 
+          <!-- Schulden, die der Nutzer zu zahlen hat -->
           {#if data.requestsAsDebtor.length > 0}
             <div>
               <div class="grid gap-4">
@@ -47,11 +61,15 @@
                     </CardHeader>
                     <CardContent>
                       <p>Amount: <strong>{debt.amount}€</strong></p>
+                      {#if debt.description}
+                        <p>Description: <strong>{debt.description}</strong></p>
+                      {/if}
                     </CardContent>
                     <CardFooter class="flex justify-between items-center">
                       <span class="text-gray-500 text-sm">
                         Status: Pending
                       </span>
+                      <!-- Buttons zur Annahme oder Ablehnung der Schuld -->
                       <form method="POST" action="?/handleRequest" use:enhance={() => ({ update }) => update({ reset: true })}>
                         <input type="hidden" name="debtId" value={debt.id} />
                         <Button class="bg-green-500 hover:bg-green-600 text-white" size="sm" name="action" type="submit" value="accept">
@@ -68,6 +86,7 @@
             </div>
           {/if}
 
+          <!-- Schulden, die andere dem Nutzer schulden -->
           {#if data.requestsAsCreditor.length > 0}
             <div>
               <div class="grid gap-4">
@@ -78,6 +97,9 @@
                     </CardHeader>
                     <CardContent class="text-gray-600">
                       <p>Amount: <strong>{debt.amount}€</strong></p>
+                      {#if debt.description}
+                        <p>Description: <strong>{debt.description}</strong></p>
+                      {/if}
                     </CardContent>
                     <CardFooter class="text-gray-500 text-sm">
                       Status: Pending
@@ -92,6 +114,7 @@
     {/if}
   </div>
 
+  <!-- Anzeige akzeptierter oder abgelehnter Schulden -->
   {#if data.acceptedDebts.length > 0 || (data.declinedDebtsAsCreditor ?? []).length > 0}
     <h2 class="text-xl font-semibold mb-4">Debts</h2>
     <section class="mt-12">
@@ -112,11 +135,15 @@
                   </CardHeader>
                   <CardContent class="text-gray-600">
                     <p>Amount: <strong>{debt.amount}€</strong></p>
+                    {#if debt.description}
+                      <p>Description: <strong>{debt.description}</strong></p>
+                    {/if}
                   </CardContent>
                   <CardFooter class="flex justify-between items-center">
                     <span class="text-gray-500 text-sm">
                       Status: Accepted
                     </span>
+                    <!-- Button zum Löschen einer beglichenen Schuld -->
                     {#if (debt.creditorId === data.user.id)}
                       <form method="POST" action="?/deleteDebt" use:enhance={() => ({ update }) => update({ reset: true })}>
                         <input type="hidden" name="debtId" value={debt.id} />
@@ -141,6 +168,7 @@
           </section>
         {/if}
 
+        <!-- Liste der vom Schuldner abgelehnten Schulden -->
         {#if (data.declinedDebtsAsCreditor ?? []).length > 0}
           <div>
             <div class="grid gap-4">
@@ -151,9 +179,13 @@
                   </CardHeader>
                   <CardContent class="text-gray-600">
                     <p>Amount: <strong>{debt.amount}€</strong></p>
+                    {#if debt.description}
+                      <p>Description: <strong>{debt.description}</strong></p>
+                    {/if}
                   </CardContent>
                   <CardFooter class="flex justify-between items-center">
                     <p class="text-gray-500 text-sm">Status: Declined</p>
+                    <!-- Button zum löschen abgelehnter Schulden -->
                     <form method="POST" action="?/deleteDebt" use:enhance={() => ({ update }) => update({ reset: true })}>
                       <input type="hidden" name="debtId" value={debt.id} />
                       <Button
