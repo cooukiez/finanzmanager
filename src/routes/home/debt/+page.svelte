@@ -1,5 +1,4 @@
 <script lang="ts">
-  // Importiert benötigte Module und Komponenten
   import { enhance } from "$app/forms";
   import { Button } from "$lib/components/ui/button/index.js";
   import { Input } from "$lib/components/ui/input/index.js";
@@ -7,7 +6,6 @@
   import { Check, X } from "lucide-svelte";
   import type { PageData } from "./$types";
 
-  // Empfängt Daten als Property
   let { data }: { data: PageData } = $props();
 </script>
 
@@ -16,7 +14,6 @@
     <section class="flex-1 max-w-lg">
       <h2 class="text-xl font-semibold mb-6">Request Money</h2>
       <Card>
-        <!-- Formular zum Erstellen einer neuen Schuld -->
         <form method="POST" action="?/createDebt" use:enhance>
           <CardContent>
             <div class="mb-4">
@@ -25,7 +22,7 @@
             </div>
             <div class="mb-4">
               <label class="block mb-2 font-semibold" for="amount">Amount</label>
-              <Input id="amount" min="1" name="amount" placeholder="Enter amount" required step="0.01" type="number" />
+              <Input id="amount" name="amount" placeholder="Enter amount" required step="0.10" type="number" />
             </div>
           </CardContent>
           <CardFooter class="flex justify-end">
@@ -35,13 +32,11 @@
       </Card>
     </section>
 
-    <!-- Überprüfung, ob es ausstehende Schulden gibt -->
     {#if data.requestsAsDebtor.length > 0 || data.requestsAsCreditor.length > 0}
       <section class="flex-1">
         <h2 class="text-xl font-semibold mb-6">Pending Debts</h2>
         <div class="space-y-6">
 
-          <!-- Schulden, die der Nutzer begleichen muss -->
           {#if data.requestsAsDebtor.length > 0}
             <div>
               <div class="grid gap-4">
@@ -54,8 +49,9 @@
                       <p>Amount: <strong>{debt.amount}€</strong></p>
                     </CardContent>
                     <CardFooter class="flex justify-between items-center">
-                      <span class="text-gray-500 text-sm">Status: Pending</span>
-                      <!-- Formular zur Annahme oder Ablehnung der Schuld -->
+                      <span class="text-gray-500 text-sm">
+                        Status: Pending
+                      </span>
                       <form method="POST" action="?/handleRequest" use:enhance={() => ({ update }) => update({ reset: true })}>
                         <input type="hidden" name="debtId" value={debt.id} />
                         <Button class="bg-green-500 hover:bg-green-600 text-white" size="sm" name="action" type="submit" value="accept">
@@ -72,7 +68,6 @@
             </div>
           {/if}
 
-          <!-- Schulden, die der Nutzer vergeben hat -->
           {#if data.requestsAsCreditor.length > 0}
             <div>
               <div class="grid gap-4">
@@ -84,7 +79,9 @@
                     <CardContent class="text-gray-600">
                       <p>Amount: <strong>{debt.amount}€</strong></p>
                     </CardContent>
-                    <CardFooter class="text-gray-500 text-sm">Status: Pending</CardFooter>
+                    <CardFooter class="text-gray-500 text-sm">
+                      Status: Pending
+                    </CardFooter>
                   </Card>
                 {/each}
               </div>
@@ -95,12 +92,10 @@
     {/if}
   </div>
 
-  <!-- Abschnitt für akzeptierte oder abgelehnte Schulden -->
   {#if data.acceptedDebts.length > 0 || (data.declinedDebtsAsCreditor ?? []).length > 0}
     <h2 class="text-xl font-semibold mb-4">Debts</h2>
     <section class="mt-12">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Akzeptierte Schulden -->
         {#if data.acceptedDebts.length > 0}
           <section>
             <div class="grid gap-4">
@@ -119,21 +114,62 @@
                     <p>Amount: <strong>{debt.amount}€</strong></p>
                   </CardContent>
                   <CardFooter class="flex justify-between items-center">
-                    <span class="text-gray-500 text-sm">Status: Accepted</span>
-                    <!-- Möglichkeit, eine Schuld als bezahlt zu markieren(löscht Schuld) -->
+                    <span class="text-gray-500 text-sm">
+                      Status: Accepted
+                    </span>
                     {#if (debt.creditorId === data.user.id)}
                       <form method="POST" action="?/deleteDebt" use:enhance={() => ({ update }) => update({ reset: true })}>
                         <input type="hidden" name="debtId" value={debt.id} />
-                        <Button variant="default" size="sm" type="submit" class="m-0">
+                        <Button
+                          variant="default"
+                          size="sm"
+                          type="submit"
+                          class="m-0"
+                        >
                           Debt payed by {debt.debtor.name}
                         </Button>
                       </form>
+                    {:else }
+                      <Button class="invisible m-0 bg-gray-300 text-xs" type="submit" variant="default" size="sm" disabled>
+                        Placeholder
+                      </Button>
                     {/if}
                   </CardFooter>
                 </Card>
               {/each}
             </div>
           </section>
+        {/if}
+
+        {#if (data.declinedDebtsAsCreditor ?? []).length > 0}
+          <div>
+            <div class="grid gap-4">
+              {#each data.declinedDebtsAsCreditor ?? [] as debt (debt.id)}
+                <Card class="bg-red-50 relative">
+                  <CardHeader class="text-black">
+                    <p><strong>{debt.debtor.name}</strong> declined to pay</p>
+                  </CardHeader>
+                  <CardContent class="text-gray-600">
+                    <p>Amount: <strong>{debt.amount}€</strong></p>
+                  </CardContent>
+                  <CardFooter class="flex justify-between items-center">
+                    <p class="text-gray-500 text-sm">Status: Declined</p>
+                    <form method="POST" action="?/deleteDebt" use:enhance={() => ({ update }) => update({ reset: true })}>
+                      <input type="hidden" name="debtId" value={debt.id} />
+                      <Button
+                        variant="default"
+                        size="sm"
+                        type="submit"
+                        class="m-0"
+                      >
+                        Remove
+                      </Button>
+                    </form>
+                  </CardFooter>
+                </Card>
+              {/each}
+            </div>
+          </div>
         {/if}
       </div>
     </section>
