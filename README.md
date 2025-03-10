@@ -1,4 +1,4 @@
-# Projekt-Setup-Anleitung
+# Finanzmanager Setup-Anleitung
 
 ## Installation und Einrichtung
 
@@ -11,19 +11,19 @@ Um dieses Projekt einzurichten, befolge die folgenden Schritte:
 ##### macOS/Linux
 1. Terminal öffnen
 2. Zum Verzeichnis mit dem Skript navigieren:
-   ```sh
+   ```
    cd /pfad/zum/verzeichnis
    ```
 3. Das Skript ausführbar machen:
-   ```sh
+   ```
    chmod +x setup.sh
    ```
 4. Das Skript ausführen:
-   ```sh
+   ```
    ./setup.sh
    ```
    oder
-   ```sh
+   ```
    bash setup.sh
    ```
 
@@ -33,11 +33,11 @@ Um dieses Projekt einzurichten, befolge die folgenden Schritte:
 1. WSL über den Microsoft Store oder PowerShell installieren
 2. WSL-Terminal öffnen
 3. Zum Verzeichnis mit dem Skript navigieren:
-   ```sh
+   ```
    cd /pfad/zum/verzeichnis
    ```
 4. Das Skript ausführen:
-   ```sh
+   ```
    chmod +x setup.sh
    ./setup.sh
    ```
@@ -46,7 +46,7 @@ Um dieses Projekt einzurichten, befolge die folgenden Schritte:
 1. [Git für Windows](https://gitforwindows.org/) installieren
 2. Rechtsklick im Ordner mit dem Skript und **"Git Bash Here"** auswählen
 3. Das Skript ausführen:
-   ```sh
+   ```
    ./setup.sh
    ```
 
@@ -54,18 +54,18 @@ Um dieses Projekt einzurichten, befolge die folgenden Schritte:
 1. [Cygwin](https://www.cygwin.com/) installieren
 2. Cygwin-Terminal öffnen
 3. Zum Verzeichnis mit dem Skript navigieren:
-   ```sh
+   ```
    cd /pfad/zum/verzeichnis
    ```
 4. Das Skript ausführen:
-   ```sh
+   ```
    chmod +x setup.sh
    ./setup.sh
    ```
 
 **Universelle Methode**
 Unabhängig vom Betriebssystem kann das Skript mit folgendem Befehl ausgeführt werden:
-```sh
+```
 bash setup.sh
 ```
 
