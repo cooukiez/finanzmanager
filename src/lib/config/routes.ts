@@ -1,3 +1,4 @@
+// Seiten Ruten
 export const publicHomepage = "/public/home";
 export const loremPage = "/public/lorem";
 

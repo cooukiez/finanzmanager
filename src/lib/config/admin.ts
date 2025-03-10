@@ -1,6 +1,7 @@
 import type { IndexedRoute } from "$lib";
-import { adminDashboard, loremPage } from "$lib/config/routes";
+import { adminDashboard } from "$lib/config/routes";
 
+// Admin Dashboard konfigurierung für Navigationsleiste
 export const adminRoutes: IndexedRoute[] = [
   {
     name: "Dashboard",
