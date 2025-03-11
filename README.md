@@ -120,13 +120,15 @@ Hier siehst du alle Funktionen der jeweiligen Seiten.
 
 #### **Transactions**
 - Alle Details zu deinen Transaktionen anzeigen
+- Daten der Transaktionen verändern
 - Neue Transaktion erstellen
 
 #### **Settings (Auf das Profil klicken)**
 - Benutzer-Account aktualisieren
-- Passwort ändern  
+- Passwort ändern
 
 ### Beispielanmeldedaten
+mit default prisma seeding
 - Name: Admin, Password: 123456
 - Name: User, Password: 123456
 - Name: Example: Password: 123456
