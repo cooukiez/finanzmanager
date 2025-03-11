@@ -125,3 +125,8 @@ Hier siehst du alle Funktionen der jeweiligen Seiten.
 #### **Settings (Auf das Profil klicken)**
 - Benutzer-Account aktualisieren
 - Passwort ändern  
+
+### Beispielanmeldedaten
+- Name: Admin, Password: 123456
+- Name: User, Password: 123456
+- Name: Example: Password: 123456
