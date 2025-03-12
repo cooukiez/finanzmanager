@@ -83,4 +83,52 @@ Nachdem das Setup-Skript ausgeführt wurde, kann die Anwendung mit folgendem Bef
 npm run dvop
 ```
 
-Dadurch wird die Webseite im Standard-Webbrowser geladen.
+Dadurch wird die Webseite im Standard-Webbrowser geladen. Um die Datenbank bei Start zu resetten und neu zu seeden:
+
+```sh
+npm run rsop
+```
+
+### Schritt 3: Features
+Hier siehst du alle Funktionen der jeweiligen Seiten.
+
+#### **Admin (Mit dem Admin-Account einloggen)**
+- Benutzer-Accounts:
+   - Löschen
+   - Aktualisieren
+   - Erstellen
+
+#### **Login**
+- Einloggen
+- Neuen Benutzer-Account anlegen
+
+#### **Home**
+- Deine Ausgaben anzeigen
+- Eigene Schulden und ausstehende Beträge von anderen Nutzern einsehen
+
+#### **Accounts**
+- Ein "Bankkonto" hinzufügen
+- Detaillierte Informationen zu deinen Konten anzeigen:
+   - Ausgaben
+   - Einnahmen
+   - Transaktionen
+- Neue Transaktion für dein Konto erstellen
+
+#### **Debt**
+- Geld von anderen Nutzern anfordern
+- Deine aktuellen Schulden im Detail ansehen
+
+#### **Transactions**
+- Alle Details zu deinen Transaktionen anzeigen
+- Daten der Transaktionen verändern
+- Neue Transaktion erstellen
+
+#### **Settings (Auf das Profil klicken)**
+- Benutzer-Account aktualisieren
+- Passwort ändern
+
+### Beispielanmeldedaten
+mit default prisma seeding
+- Name: Admin, Password: 123456
+- Name: User, Password: 123456
+- Name: Example: Password: 123456
