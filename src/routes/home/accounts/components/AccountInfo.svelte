@@ -74,9 +74,9 @@
                 <!-- Card für Ausgaben -->
                 <Card.Root>
                   <Card.Header class="pb-2">
-                    <Card.Title class="text-sm font-medium">Expenses
-                    </Card.Title
-                    >
+                    <Card.Title class="text-sm font-medium"
+                    >Expenses
+                    </Card.Title>
                   </Card.Header>
                   <Card.Content>
                     <div class="flex items-center">
@@ -92,8 +92,7 @@
                 <Card.Header class="pb-2">
                   <Card.Title class="text-sm font-medium"
                   >Account Information
-                  </Card.Title
-                  >
+                  </Card.Title>
                 </Card.Header>
                 <Card.Content>
                   <div class="text-sm space-y-1">
@@ -159,8 +158,7 @@
     <Card.Footer class="flex justify-end">
       <Button href="/home/transactions" size="sm" variant="outline"
       >Add Transaction
-      </Button
-      >
+      </Button>
     </Card.Footer>
   </Card.Root>
 </div>

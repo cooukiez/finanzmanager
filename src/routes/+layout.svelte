@@ -49,6 +49,7 @@
 
 <!-- Überwacht den aktuellen Modus (Hell/Dunkel) -->
 <ModeWatcher />
+
 <Toaster />
 
 <ContextMenu.Root>

@@ -30,7 +30,7 @@ export const load: PageServerLoad = async ({ locals }) => {
     // Schuldanfragen, bei denen der Benutzer der Gläubiger ist
     const requestsAsCreditor = serializableDebts.filter(
       (debt) =>
-        debt.creditorId === locals.user!.id && debt.status === "pending"
+        debt.creditorId === locals.user!.id && debt.status === "pending",
     );
 
     // Akzeptierte Schulden
@@ -38,14 +38,14 @@ export const load: PageServerLoad = async ({ locals }) => {
       (debt) =>
         debt.status === "accepted" &&
         (debt.debtorId === locals.user!.id ||
-          debt.creditorId === locals.user!.id)
+          debt.creditorId === locals.user!.id),
     );
 
     // Abgelehnte Schulden, bei denen der Benutzer der Gläubiger ist
     const declinedDebtsAsCreditor =
       serializableDebts.filter(
         (debt) =>
-          debt.status === "declined" && debt.creditorId === locals.user!.id
+          debt.status === "declined" && debt.creditorId === locals.user!.id,
       ) ?? [];
 
     return {

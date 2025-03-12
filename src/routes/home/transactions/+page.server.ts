@@ -65,7 +65,7 @@ export const actions: Actions = {
           form,
           "",
           "Fehler beim Erstellen der Transaktion: " +
-          (error instanceof Error ? error.message : String(error))
+          (error instanceof Error ? error.message : String(error)),
         );
         return fail(500, { form });
       }
