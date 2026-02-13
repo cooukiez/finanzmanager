@@ -1,82 +1,108 @@
-import {checkExistingUser, createUser, deleteUser, prisma, updateUser} from '$lib/server/prisma/user';
+import {
+  checkExistingUser,
+  createUser,
+  deleteUser,
+  prisma,
+  updateUser
+} from "$lib/server/prisma/user";
 
-import {fail} from '@sveltejs/kit';
-import type {Actions, PageServerLoad} from './$types';
+import { fail } from "@sveltejs/kit";
+import type { Actions, PageServerLoad } from "./$types";
 
+// Lädt die Benutzer-Daten von der Datenbank
 export const load: PageServerLoad = async () => {
-    let users
-    try {
-        users = await prisma.user.findMany()
-    } catch (err) {
-        console.error(err);
-        throw fail(500, {message: 'Failed fetch users'});
-    }
-    return {
-        users: users
-    }
-}
+  let users;
+  try {
+    // Holt alle Benutzer aus der Datenbank
+    users = await prisma.user.findMany();
+  } catch (err) {
+    // Fehlerbehandlung: Falls das Abrufen der Benutzer fehlschlägt, wird der Fehler protokolliert
+    console.error(err);
+    // Wirft eine 500-Fehlermeldung, wenn das Abrufen der Benutzer fehlschlägt
+    throw fail(500, { message: "Failed fetch users" });
+  }
+  // Gibt die Benutzer zurück, wenn das Abrufen erfolgreich war
+  return {
+    users: users,
+  };
+};
 
+// Aktionen für Benutzerverwaltung: Erstellen, Löschen und Aktualisieren
 export const actions = {
-    create: async ({request}) => {
-        const formData = await request.formData();
+  // Erstellen eines neuen Benutzers
+  create: async ({ request }) => {
+    const formData = await request.formData();
 
-        const name = formData.get('name') as string;
-        const email = formData.get('email') as string;
-        const role = formData.get('role') as string;
-        const password = formData.get('password') as string;
+    // Holt die Formulardaten für Name, E-Mail, Rolle und Passwort
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const role = formData.get("role") as string;
+    const password = formData.get("password") as string;
 
-        if (await checkExistingUser(name, email)) {
-            return fail(400, {
-                error: true,
-                message: 'User Already Exists',
-                name,
-                email,
-                role,
-                password
-            })
-        }
-        await createUser(name, email, role, password);
-        return {
-            success: true,
-        }
-    },
+    // Überprüft, ob der Benutzer bereits existiert
+    if (await checkExistingUser(name, email)) {
+      return fail(400, {
+        error: true,
+        message: "User Already Exists",
+        name,
+        email,
+        role,
+        password,
+      });
+    }
 
-    delete: async ({request}) => {
-        const formData = await request.formData();
-        const id = formData.get('id') as string;
+    // Erstellt den Benutzer, wenn er noch nicht existiert
+    await createUser(name, email, role, password);
+    return {
+      success: true,
+    };
+  },
 
-        try {
-            await deleteUser(id)
-            return {
-                success: true,
-            }
-        } catch (err) {
-            console.error(err);
-            return fail(500, {message: 'Failed to delete user'});
-        }
+  // Löschen eines Benutzers
+  delete: async ({ request }) => {
+    const formData = await request.formData();
+    const id = formData.get("id") as string;
 
-    },
+    try {
+      // Löscht den Benutzer aus der Datenbank
+      await deleteUser(id);
+      return {
+        success: true,
+      };
+    } catch (err) {
+      // Fehlerbehandlung: Falls das Löschen des Benutzers fehlschlägt, wird der Fehler protokolliert
+      console.error(err);
+      // Wirft eine 500-Fehlermeldung, wenn das Löschen fehlschlägt
+      return fail(500, { message: "Failed to delete user" });
+    }
+  },
 
-    update: async ({request}) => {
-        const {id, newname, newemail, newrole} = Object.fromEntries(await request.formData()) as {
-            id: string,
-            newname: string,
-            newemail: string,
-            newrole: string
-        };
-        try {
-            await updateUser(id, newname, newemail, newrole);
-            return {
-                success: true,
-                id,
-                newname,
-                newemail,
-                newrole
-            };
-        } catch (error) {
-            console.error("Error updating user:", error);
-            return fail(500, {message: "Failed to update user"});
-        }
-    },
+  // Aktualisieren eines bestehenden Benutzers
+  update: async ({ request }) => {
+    const { id, newname, newemail, newrole } = Object.fromEntries(
+      await request.formData()
+    ) as {
+      id: string;
+      newname: string;
+      newemail: string;
+      newrole: string;
+    };
 
+    try {
+      // Aktualisiert den Benutzer in der Datenbank
+      await updateUser(id, newname, newemail, newrole);
+      return {
+        success: true,
+        id,
+        newname,
+        newemail,
+        newrole,
+      };
+    } catch (error) {
+      // Fehlerbehandlung: Falls das Aktualisieren des Benutzers fehlschlägt, wird der Fehler protokolliert
+      console.error("Error updating user:", error);
+      // Wirft eine 500-Fehlermeldung, wenn das Aktualisieren fehlschlägt
+      return fail(500, { message: "Failed to update user" });
+    }
+  },
 } satisfies Actions;

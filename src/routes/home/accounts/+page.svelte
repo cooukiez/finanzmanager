@@ -1,68 +1,124 @@
 <script lang="ts">
-    import {
-        Button,
-        buttonVariants
-    } from "$lib/components/ui/button/index.js";
+  // Importiere Button-Komponente und Varianten für Buttons
+  import { Button, buttonVariants } from "$lib/components/ui/button/index.js";
 
-    // noinspection ES6UnusedImports
-    import * as Dialog from "$lib/components/ui/dialog/index.js";
-    // noinspection ES6UnusedImports
-    import * as Card from "$lib/components/ui/card/index.js";
-    // noinspection ES6UnusedImports
-    import * as Form from "$lib/components/ui/form/index.js";
+  // noinspection ES6UnusedImports
+  import * as Card from "$lib/components/ui/card/index.js";
+  // noinspection ES6UnusedImports
+  import * as Form from "$lib/components/ui/form/index.js";
+  // noinspection ES6UnusedImports
+  import * as Sheet from "$lib/components/ui/sheet/index.js";
 
-    import { Input } from "$lib/components/ui/input/index.js";
-    import { Label } from "$lib/components/ui/label/index.js";
+  // Importiere Input-Komponente
+  import { Input } from "$lib/components/ui/input/index.js";
 
-    import {type Infer, superForm, type SuperValidated} from "sveltekit-superforms";
-    import {zodClient} from "sveltekit-superforms/adapters";
-    import {accountCreateFormSchema, type AccountCreateFormSchema} from "./schema";
+  // Importiere superForm-Funktion und Zod-Adapter für Formularvalidierung
+  import { superForm } from "sveltekit-superforms";
+  import { zodClient } from "sveltekit-superforms/adapters";
+  import { accountCreateFormSchema } from "./schema";
 
-    let {data}: { data: { form: SuperValidated<Infer<AccountCreateFormSchema>> } } = $props();
+  // Importiere Komponenten für Account-Auswahl und -Informationen
+  import AccountSelect from "./components/AccountSelect.svelte";
+  import AccountInfo from "./components/AccountInfo.svelte";
 
-    let open = $state(false);
-    const form = superForm(data.form, {
-        validators: zodClient(accountCreateFormSchema),
-        onResult: ({ result }) => {
-            // check if submission successful and close dialog
-            if (result.type === 'success') {
-                open = false;
-            }
-        }
-    });
+  // Hole übergebene Daten aus den Props
+  const { data } = $props();
 
-    const {form: formData, enhance} = form;
+  // Lokaler Zustand: ob das Sheet geöffnet ist und welcher Account ausgewählt wurde
+  let open = $state(false);
+  let selectedAccountName = $state("All Accounts");
+
+  // Initialisiere das Formular mit Validierung und Ergebnis-Callback
+  const form = superForm(data.form, {
+    validators: zodClient(accountCreateFormSchema),
+    onResult: ({ result }) => {
+      if (result.type === "success") {
+        open = false; // Schließt das Sheet bei erfolgreichem Submit
+      }
+    },
+  });
+
+  // Destrukturiere das Formularobjekt und die Svelte-Enhance-Funktion
+  const { form: formData, enhance } = form;
+
+  // Leite die Account-Daten aus den übergebenen Daten ab
+  const accountData = $derived(data.accountData);
 </script>
 
-<Card.Root class="w-full">
-    <Card.Content class="flex flex-row justify-between items-center p-3 pl-5">
-        <span class="text-muted-foreground text-sm">You seem to be missing an account</span>
-        <Dialog.Root bind:open>
-            <Dialog.Trigger class={buttonVariants({ variant: "default" })}>Add Account</Dialog.Trigger>
-            <Dialog.Content class="sm:max-w-[425px]">
-                <Dialog.Header>
-                    <Dialog.Title>Add Account</Dialog.Title>
-                    <Dialog.Description>
-                        Add an account to manage your finances
-                    </Dialog.Description>
-                </Dialog.Header>
-                <form method="POST" use:enhance>
+{#if accountData.length !== 0}
+  <!-- Zeige die Account-Auswahl, wenn Accounts vorhanden sind -->
+  <AccountSelect
+    accounts={accountData}
+    bind:selectedValue={selectedAccountName}
+  />
+  <div class="flex flex-col mt-4 mb-2 gap-2">
+    {#each accountData as account}
+      <!-- Zeige Account-Informationen basierend auf der Auswahl -->
+      {#if selectedAccountName === "All Accounts" || account.name === selectedAccountName}
+        <AccountInfo {account} />
+      {/if}
+    {/each}
+  </div>
+{/if}
 
-                <Form.Field {form} name="name">
-                        <Form.Control>
-                            {#snippet children({ props })}
-                                <Form.Label>Account name</Form.Label>
-                                <Input {...props} bind:value={$formData.name} />
-                            {/snippet}
-                        </Form.Control>
-                        <Form.Description />
-                        <Form.FieldErrors />
-                    </Form.Field>
-                    <Dialog.Footer>
-                        <Button type="submit">Create</Button>
-                    </Dialog.Footer>
-                </form>
-            </Dialog.Content>
-        </Dialog.Root>
-    </Card.Content>
+<!-- Card-Komponente für den "Add Account"-Bereich -->
+<Card.Root class="w-full">
+  <Card.Content class="flex flex-row justify-between items-center p-3 pl-5">
+    {#if accountData.length === 0}
+      <!-- Nachricht, wenn keine Accounts existieren -->
+      <span class="text-muted-foreground text-sm"
+      >You seem to be missing an account</span
+      >
+    {:else}
+      <span class="text-muted-foreground text-sm">Add new Account</span>
+    {/if}
+
+    <!-- Sheet-Komponente für das Formular zum Hinzufügen eines Accounts -->
+    <Sheet.Root bind:open>
+      <Sheet.Trigger class={buttonVariants({ variant: "default" })}>
+        Add Account
+      </Sheet.Trigger>
+      <Sheet.Content class="sm:max-w-[425px]">
+        <Sheet.Header>
+          <Sheet.Title>Add Account</Sheet.Title>
+          <Sheet.Description>
+            Add a new account to manage your finances
+          </Sheet.Description>
+        </Sheet.Header>
+        <!-- Formular zum Erstellen eines neuen Accounts mit SvelteKit Superforms -->
+        <form method="POST" use:enhance>
+          <!-- Formularfeld für den Accountnamen -->
+          <Form.Field {form} name="name">
+            <Form.Control>
+              {#snippet children({ props })}
+                <Form.Label>Account name</Form.Label>
+                <Input {...props} bind:value={$formData.name} />
+              {/snippet}
+            </Form.Control>
+            <Form.Description />
+            <Form.FieldErrors />
+          </Form.Field>
+          <!-- Formularfeld für den Initial Balance -->
+          <Form.Field {form} name="balance">
+            <Form.Control>
+              {#snippet children({ props })}
+                <Form.Label>Initial Balance</Form.Label>
+                <Input
+                  {...props}
+                  bind:value={$formData.balance}
+                  type="number"
+                />
+              {/snippet}
+            </Form.Control>
+            <Form.Description />
+            <Form.FieldErrors />
+          </Form.Field>
+          <!-- Footer des Sheets mit dem Submit-Button -->
+          <Sheet.Footer>
+            <Button type="submit">Create</Button>
+          </Sheet.Footer>
+        </form>
+      </Sheet.Content>
+    </Sheet.Root>
+  </Card.Content>
 </Card.Root>

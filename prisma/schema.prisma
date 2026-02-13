@@ -11,15 +11,15 @@ datasource db {
 }
 
 model User {
-  id       String    @id @unique
-  email    String    @unique
-  name     String    @unique
-  role     String    @default("user")
-  password String    @default("1234")
-  accounts Account[]
-  sessions Session[]
-  debts    Debt[]    @relation("Debtor")
-  credits  Debt[]    @relation("Believer")
+  id              String    @id @unique
+  email           String    @unique
+  name            String    @unique
+  role            String    @default("user")
+  password        String    @default("1234")
+  accounts        Account[]
+  sessions        Session[]
+  debtsAsDebtor   Debt[]    @relation("DebtDebtor")
+  debtsAsCreditor Debt[]    @relation("DebtCreditor")
 }
 
 model Session {
@@ -32,18 +32,19 @@ model Session {
 model Account {
   id           String            @id @unique
   name         String
-  owner        User              @relation(fields: [ownerId], references: [id])
+  owner        User              @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId      String
   transactions Transaction[]
   assocGr      AccountsGrouped[]
 }
 
 model Transaction {
-  id        String  @id @unique
-  account   Account @relation(fields: [accountId], references: [id])
+  id        String   @id @unique
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
   accountId String
-  amount    Float   @default(0)
+  amount    Float    @default(0)
   type      String
+  date      DateTime @default(now())
 }
 
 model Group {
@@ -61,9 +62,15 @@ model AccountsGrouped {
 }
 
 model Debt {
-  id         String @id @unique
-  debtor     User   @relation("Debtor", fields: [debtorId], references: [id])
-  debtorId   String
-  believer   User   @relation("Believer", fields: [believerId], references: [id])
-  believerId String
+  id          String   @id @unique
+  debtorId    String
+  creditorId  String
+  amount      Decimal
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  description String?
+
+  debtor   User @relation(fields: [debtorId], references: [id], name: "DebtDebtor")
+  creditor User @relation(fields: [creditorId], references: [id], name: "DebtCreditor")
 }

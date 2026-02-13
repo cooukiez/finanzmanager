@@ -1,74 +1,29 @@
 <script lang="ts">
-    // noinspection ES6UnusedImports
-    import * as Card from "$lib/components/ui/card";
-    // noinspection ES6UnusedImports
-    import {PieChart, Text} from "layerchart";
+  import type { PageData } from "./$types";
+  import Expenditures from "./components/Expenditures.svelte";
+  import Debts from "./components/Debts.svelte";
 
-    import type {PageData} from "./$types";
-    import {sum} from "d3-array";
-    import {format} from '@layerstack/utils';
+  // Die Daten aus dem Serverladen (`+page.server.ts`) werden als `props` übergeben.
+  let { data }: { data: PageData } = $props();
 
-    let {data}: { data: PageData } = $props();
-    let accountData = data.accountData;
+  // Extrahieren der relevanten Daten aus den Server-Ergebnissen.
+  let accountData = data.accountData; // Ausgaben des Benutzers
+  let acceptedDebts = data.acceptedDebts; // Akzeptierte Schulden des Benutzers
+  let user = data.user; // Informationen über den eingeloggten Benutzer
 </script>
 
-<div class="flex flex-col gap-2">
-    {#each accountData as account}
-    <div class="flex flex-row w-full gap-2">
-
-            <Card.Root class="w-full">
-                <Card.Header>
-                    <Card.Title>Dein Ausgaben</Card.Title>
-                    <Card.Description>Hier siehst du eine Analyse der Ausgaben deines Kontos</Card.Description>
-                </Card.Header>
-                <Card.Content>
-                    <div class=" w-[800px] h-[300px] p-4 rounded">
-                        <PieChart
-                                data={account}
-
-                                key="expenditureType"
-                                legend={{ placement: "top-left", orientation: "vertical" }}
-
-                                cRange={["hsl(var(--g1))", "hsl(var(--g2))", "hsl(var(--g3))", "hsl(var(--g4))", "hsl(var(--g5))"]}
-
-                                cornerRadius={5}
-                                innerRadius={-30}
-                                padAngle={0.02}
-
-                                value="expenditureAmount"
-                        >
-                            <svelte:fragment slot="aboveMarks">
-                                <Text
-                                        class="text-4xl"
-                                        dy={4}
-                                        textAnchor="middle"
-                                        value={format(sum(account, (d) => d.expenditureAmount)) +  "€"}
-                                        verticalAnchor="middle"
-                                />
-                                <Text
-                                        class="text-sm fill-surface-content/50"
-                                        dy={26}
-                                        textAnchor="middle"
-                                        value="total"
-                                        verticalAnchor="middle"
-                                />
-                            </svelte:fragment>
-                        </PieChart>
-                    </div>
-                </Card.Content>
-            </Card.Root>
-
-            <Card.Root class="w-full">
-                <Card.Header>
-                    <Card.Title>Schulden</Card.Title>
-                    <Card.Description>Deine Schulden</Card.Description>
-                </Card.Header>
-                <Card.Content>
-
-                </Card.Content>
-
-            </Card.Root>
-
+<div class="flex flex-col w-full m-0">
+  <div class="flex flex-row w-full gap-2">
+    <div class="flex-[3]">
+      <!-- Komponente zur Anzeige der Benutzerausgaben -->
+      <Expenditures Expenditures={accountData} />
     </div>
-    {/each}
+
+    <div class="flex-[3]">
+      <div class="w-[100%] mx-auto">
+        <!-- Komponente zur Anzeige der akzeptierten Schulden -->
+        <Debts {acceptedDebts} user={user ?? { id: "", name: "", email: "" }} />
+      </div>
+    </div>
+  </div>
 </div>
